@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - CodeAcademy LMS</title>
+    <link rel="stylesheet" href="styles/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <!-- Left Side - Branding -->
+        <div class="login-left">
+            <div class="branding">
+                <h1>CodeAcademy<span class="accent">LMS</span></h1>
+                <p class="tagline">Empowering the next generation of programmers</p>
+            </div>
+            <div class="illustration">
+                <div class="code-snippet">
+                    <div class="code-line">
+                        <span class="keyword">const</span> <span class="variable">success</span> = <span class="function">login</span>();
+                    </div>
+                    <div class="code-line">
+                        <span class="keyword">if</span> (success) {
+                    </div>
+                    <div class="code-line indent">
+                        <span class="function">startLearning</span>();
+                    </div>
+                    <div class="code-line">
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="features-list">
+                <div class="feature-item">
+                    <span class="check-icon">✓</span>
+                    <span>Access all your courses</span>
+                </div>
+                <div class="feature-item">
+                    <span class="check-icon">✓</span>
+                    <span>Track your progress</span>
+                </div>
+                <div class="feature-item">
+                    <span class="check-icon">✓</span>
+                    <span>Take online exams</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side - Login Form -->
+        <div class="login-right">
+            <div class="login-form-container">
+                <div class="form-header">
+                    <h2>Welcome Back!</h2>
+                    <p>Please login to access your account</p>
+                </div>
+
+                <form class="login-form" id="loginForm">
+                    <!-- Role Selection -->
+                    <div class="form-group">
+                        <label for="userRole">I am a:</label>
+                        <div class="role-selector">
+                            <input type="radio" id="student" name="role" value="student" checked>
+                            <label for="student" class="role-option">
+                                <span class="role-icon">👨‍🎓</span>
+                                <span class="role-text">Student</span>
+                            </label>
+
+                            <input type="radio" id="tutor" name="role" value="tutor">
+                            <label for="tutor" class="role-option">
+                                <span class="role-icon">👨‍🏫</span>
+                                <span class="role-text">Tutor</span>
+                            </label>
+
+                            <input type="radio" id="admin" name="role" value="admin">
+                            <label for="admin" class="role-option">
+                                <span class="role-icon">👨‍💼</span>
+                                <span class="role-text">Admin</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Email/Username -->
+                    <div class="form-group">
+                        <label for="email">Email Address or Username</label>
+                        <input 
+                            type="text" 
+                            id="email" 
+                            name="email" 
+                            placeholder="Enter your email or username"
+                            required
+                        >
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="password-input-wrapper">
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                placeholder="Enter your password"
+                                required
+                            >
+                            <button type="button" class="toggle-password" id="togglePassword">
+                                <span class="eye-icon">👁️</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Remember Me & Forgot Password -->
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="remember" id="remember">
+                            <span>Remember me</span>
+                        </label>
+                        <a href="#" class="forgot-password">Forgot Password?</a>
+                    </div>
+
+                    <!-- Info Notice for New Users -->
+                    <div class="info-notice" id="newUserNotice">
+                        <span class="info-icon">ℹ️</span>
+                        <div class="info-text">
+                            <strong>New User?</strong> Use the default password provided by your administrator. You'll be prompted to change it after first login.
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-login">
+                        <span>Login to Dashboard</span>
+                        <span class="arrow">→</span>
+                    </button>
+
+                    <!-- Additional Links -->
+                    <div class="form-footer">
+                        <p>Need help? <a href="#contact">Contact Support</a></p>
+                    </div>
+                </form>
+
+                <!-- Back to Home -->
+                <div class="back-home">
+                    <a href="index.html">← Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle password visibility
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.querySelector('.eye-icon').textContent = type === 'password' ? '👁️' : '🙈';
+        });
+
+        // Form submission (placeholder)
+        const loginForm = document.getElementById('loginForm');
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const role = document.querySelector('input[name="role"]:checked').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // This is where you would handle the login logic
+            console.log('Login attempt:', { role, email, password });
+            
+            // Redirect based on role (placeholder)
+            alert(`Logging in as ${role}...`);
+            // window.location.href = `${role}-dashboard.html`;
+        });
+
+        // Update notice based on role selection
+        const roleInputs = document.querySelectorAll('input[name="role"]');
+        roleInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                // You can customize the notice based on role if needed
+            });
+        });
+    </script>
+</body>
+</html>
