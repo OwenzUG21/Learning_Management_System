@@ -15,12 +15,12 @@
             </div>
             <nav class="navbar-nav">
                 <div class="nav-dropdown">
-                    <button class="nav-item dropdown-toggle" id="coursesDropdown">
-                        <span class="icon">�</span>
+                    <button class="dropdown-toggle active" id="coursesDropdownToggle">
+                        <span class="icon">📚</span>
                         <span>My Courses</span>
                         <span class="dropdown-arrow">▼</span>
                     </button>
-                    <div class="dropdown-menu courses-dropdown" id="coursesDropdownMenu">
+                    <div class="dropdown-menu courses-dropdown" id="coursesDropdown">
                         <a href="#courses" class="dropdown-item">
                             <span class="icon">📚</span>
                             <span>Courses</span>
@@ -79,293 +79,650 @@
 
     <!-- Main Content -->
     <main class="main-content">
-        <!-- Page Header -->
-        <div class="page-header">
-            <div class="page-title">
-                <h2>Tutor Dashboard</h2>
-                <p>Manage your courses and track student progress</p>
+        <!-- My Courses Section (Default Dashboard) -->
+        <div class="page-section active" id="courses-section">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="page-title">
+                    <h2>Tutor Dashboard</h2>
+                    <p>Manage your courses and track student progress</p>
+                </div>
             </div>
-        </div>
 
-        <!-- Dashboard Content -->
-        <div class="dashboard-content">
-            <!-- Quick Actions -->
-            <section class="quick-actions">
-                <button class="action-btn primary">
-                    <span class="action-icon">➕</span>
-                    <span>Create Unit</span>
-                </button>
-                <button class="action-btn secondary">
-                    <span class="action-icon">📝</span>
-                    <span>Create Exam</span>
-                </button>
-                <button class="action-btn tertiary">
-                    <span class="action-icon">📤</span>
-                    <span>Upload Resource</span>
-                </button>
-                <button class="action-btn quaternary">
-                    <span class="action-icon">👁️</span>
-                    <span>View Analytics</span>
-                </button>
-            </section>
+            <div class="dashboard-content">
+                <!-- Quick Actions -->
+                <section class="quick-actions">
+                    <button class="action-btn primary">
+                        <span class="action-icon">➕</span>
+                        <span>Create Unit</span>
+                    </button>
+                    <button class="action-btn secondary">
+                        <span class="action-icon">📝</span>
+                        <span>Create Exam</span>
+                    </button>
+                    <button class="action-btn tertiary">
+                        <span class="action-icon">📤</span>
+                        <span>Upload Resource</span>
+                    </button>
+                    <button class="action-btn quaternary">
+                        <span class="action-icon">👁️</span>
+                        <span>View Analytics</span>
+                    </button>
+                </section>
 
-            <!-- Stats Overview -->
-            <section class="stats-section">
-                <div class="stat-card">
-                    <div class="stat-icon blue">📚</div>
-                    <div class="stat-content">
-                        <h3>4</h3>
-                        <p>Active Courses</p>
-                    </div>
-                    <span class="stat-change positive">+1 this month</span>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon green">👥</div>
-                    <div class="stat-content">
-                        <h3>156</h3>
-                        <p>Total Students</p>
-                    </div>
-                    <span class="stat-change positive">+12 new</span>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon purple">📝</div>
-                    <div class="stat-content">
-                        <h3>8</h3>
-                        <p>Pending Grading</p>
-                    </div>
-                    <span class="stat-change neutral">2 urgent</span>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon orange">📈</div>
-                    <div class="stat-content">
-                        <h3>82%</h3>
-                        <p>Avg. Pass Rate</p>
-                    </div>
-                    <span class="stat-change positive">+3%</span>
-                </div>
-            </section>
-
-            <!-- Main Grid -->
-            <div class="content-grid">
-                <!-- My Courses -->
-                <section class="card large">
-                    <div class="card-header">
-                        <h3>My Courses</h3>
-                        <a href="#" class="view-all">View All →</a>
-                    </div>
-                    <div class="courses-grid">
-                        <div class="course-card">
-                            <div class="course-header">
-                                <div class="course-icon">🐍</div>
-                                <span class="course-badge">Active</span>
-                            </div>
-                            <h4>Python Programming</h4>
-                            <div class="course-stats">
-                                <div class="stat-item">
-                                    <span class="icon">👥</span>
-                                    <span>65 Students</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="icon">📖</span>
-                                    <span>12 Units</span>
-                                </div>
-                            </div>
-                            <button class="btn-manage">Manage Course</button>
+                <!-- Stats Overview -->
+                <section class="stats-section">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">📚</div>
+                        <div class="stat-content">
+                            <h3>4</h3>
+                            <p>Active Courses</p>
                         </div>
-                        <div class="course-card">
-                            <div class="course-header">
-                                <div class="course-icon">☕</div>
-                                <span class="course-badge">Active</span>
-                            </div>
-                            <h4>Java Fundamentals</h4>
-                            <div class="course-stats">
-                                <div class="stat-item">
-                                    <span class="icon">👥</span>
-                                    <span>48 Students</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="icon">📖</span>
-                                    <span>10 Units</span>
-                                </div>
-                            </div>
-                            <button class="btn-manage">Manage Course</button>
+                        <span class="stat-change positive">+1 this month</span>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">👥</div>
+                        <div class="stat-content">
+                            <h3>156</h3>
+                            <p>Total Students</p>
                         </div>
-                        <div class="course-card">
-                            <div class="course-header">
-                                <div class="course-icon">💾</div>
-                                <span class="course-badge active">Active</span>
-                            </div>
-                            <h4>Data Structures</h4>
-                            <div class="course-stats">
-                                <div class="stat-item">
-                                    <span class="icon">👥</span>
-                                    <span>43 Students</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="icon">📖</span>
-                                    <span>15 Units</span>
-                                </div>
-                            </div>
-                            <button class="btn-manage">Manage Course</button>
+                        <span class="stat-change positive">+12 new</span>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple">📝</div>
+                        <div class="stat-content">
+                            <h3>8</h3>
+                            <p>Pending Grading</p>
                         </div>
+                        <span class="stat-change neutral">2 urgent</span>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange">📈</div>
+                        <div class="stat-content">
+                            <h3>82%</h3>
+                            <p>Avg. Pass Rate</p>
+                        </div>
+                        <span class="stat-change positive">+3%</span>
                     </div>
                 </section>
 
-                <!-- Pending Tasks -->
+                <!-- Main Grid -->
+                <div class="content-grid">
+                    <!-- My Courses -->
+                    <section class="card large">
+                        <div class="card-header">
+                            <h3>My Courses</h3>
+                            <a href="#" class="view-all">View All →</a>
+                        </div>
+                        <div class="courses-grid">
+                            <div class="course-card">
+                                <div class="course-header">
+                                    <div class="course-icon">🐍</div>
+                                    <span class="course-badge">Active</span>
+                                </div>
+                                <h4>Python Programming</h4>
+                                <div class="course-stats">
+                                    <div class="stat-item">
+                                        <span class="icon">👥</span>
+                                        <span>65 Students</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="icon">📖</span>
+                                        <span>12 Units</span>
+                                    </div>
+                                </div>
+                                <button class="btn-manage">Manage Course</button>
+                            </div>
+                            <div class="course-card">
+                                <div class="course-header">
+                                    <div class="course-icon">☕</div>
+                                    <span class="course-badge">Active</span>
+                                </div>
+                                <h4>Java Fundamentals</h4>
+                                <div class="course-stats">
+                                    <div class="stat-item">
+                                        <span class="icon">👥</span>
+                                        <span>48 Students</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="icon">📖</span>
+                                        <span>10 Units</span>
+                                    </div>
+                                </div>
+                                <button class="btn-manage">Manage Course</button>
+                            </div>
+                            <div class="course-card">
+                                <div class="course-header">
+                                    <div class="course-icon">💾</div>
+                                    <span class="course-badge active">Active</span>
+                                </div>
+                                <h4>Data Structures</h4>
+                                <div class="course-stats">
+                                    <div class="stat-item">
+                                        <span class="icon">👥</span>
+                                        <span>43 Students</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="icon">📖</span>
+                                        <span>15 Units</span>
+                                    </div>
+                                </div>
+                                <button class="btn-manage">Manage Course</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Pending Tasks -->
+                    <section class="card">
+                        <div class="card-header">
+                            <h3>Pending Tasks</h3>
+                            <span class="task-count">8 items</span>
+                        </div>
+                        <div class="tasks-list">
+                            <div class="task-item urgent">
+                                <div class="task-icon">📝</div>
+                                <div class="task-info">
+                                    <h4>Grade Python Midterm</h4>
+                                    <p>15 submissions pending</p>
+                                    <span class="task-deadline">Due: Tomorrow</span>
+                                </div>
+                            </div>
+                            <div class="task-item">
+                                <div class="task-icon">📚</div>
+                                <div class="task-info">
+                                    <h4>Upload Java Unit 11</h4>
+                                    <p>Materials needed</p>
+                                    <span class="task-deadline">Due: 3 days</span>
+                                </div>
+                            </div>
+                            <div class="task-item">
+                                <div class="task-icon">✅</div>
+                                <div class="task-info">
+                                    <h4>Review Quiz Questions</h4>
+                                    <p>Data Structures Quiz #4</p>
+                                    <span class="task-deadline">Due: 5 days</span>
+                                </div>
+                            </div>
+                            <div class="task-item">
+                                <div class="task-icon">📊</div>
+                                <div class="task-info">
+                                    <h4>Submit Progress Report</h4>
+                                    <p>Monthly report pending</p>
+                                    <span class="task-deadline">Due: 1 week</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>    
+    <!-- Students Section -->
+        <div class="page-section" id="students-section">
+            <div class="page-header">
+                <div class="page-title">
+                    <h2>Student Management</h2>
+                    <p>Monitor and manage student performance</p>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <!-- Student Performance -->
+                <section class="card performance-card">
+                    <div class="card-header">
+                        <h3>Student Performance</h3>
+                        <div class="filter-buttons">
+                            <button class="filter-btn active">All Courses</button>
+                            <button class="filter-btn">Python</button>
+                            <button class="filter-btn">Java</button>
+                            <button class="filter-btn">Data Structures</button>
+                        </div>
+                    </div>
+                    <div class="performance-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Course</th>
+                                    <th>Exam</th>
+                                    <th>Score</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="student-cell">
+                                            <img src="https://via.placeholder.com/32" alt="Student">
+                                            <span>Alice Johnson</span>
+                                        </div>
+                                    </td>
+                                    <td>Python Programming</td>
+                                    <td>Midterm Exam</td>
+                                    <td><span class="score excellent">95%</span></td>
+                                    <td><span class="status-badge graded">Graded</span></td>
+                                    <td><button class="btn-view">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="student-cell">
+                                            <img src="https://via.placeholder.com/32" alt="Student">
+                                            <span>Bob Smith</span>
+                                        </div>
+                                    </td>
+                                    <td>Java Fundamentals</td>
+                                    <td>Quiz #3</td>
+                                    <td><span class="score good">78%</span></td>
+                                    <td><span class="status-badge graded">Graded</span></td>
+                                    <td><button class="btn-view">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="student-cell">
+                                            <img src="https://via.placeholder.com/32" alt="Student">
+                                            <span>Carol Williams</span>
+                                        </div>
+                                    </td>
+                                    <td>Data Structures</td>
+                                    <td>Assignment #2</td>
+                                    <td><span class="score pending">-</span></td>
+                                    <td><span class="status-badge pending">Pending</span></td>
+                                    <td><button class="btn-view">Grade</button></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="student-cell">
+                                            <img src="https://via.placeholder.com/32" alt="Student">
+                                            <span>David Brown</span>
+                                        </div>
+                                    </td>
+                                    <td>Python Programming</td>
+                                    <td>Final Project</td>
+                                    <td><span class="score excellent">92%</span></td>
+                                    <td><span class="status-badge graded">Graded</span></td>
+                                    <td><button class="btn-view">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="student-cell">
+                                            <img src="https://via.placeholder.com/32" alt="Student">
+                                            <span>Emma Davis</span>
+                                        </div>
+                                    </td>
+                                    <td>Java Fundamentals</td>
+                                    <td>Assignment #3</td>
+                                    <td><span class="score good">85%</span></td>
+                                    <td><span class="status-badge graded">Graded</span></td>
+                                    <td><button class="btn-view">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="student-cell">
+                                            <img src="https://via.placeholder.com/32" alt="Student">
+                                            <span>Frank Wilson</span>
+                                        </div>
+                                    </td>
+                                    <td>Data Structures</td>
+                                    <td>Quiz #2</td>
+                                    <td><span class="score needs-improvement">65%</span></td>
+                                    <td><span class="status-badge graded">Graded</span></td>
+                                    <td><button class="btn-view">View</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Resources Section -->
+        <div class="page-section" id="resources-section">
+            <div class="page-header">
+                <div class="page-title">
+                    <h2>Learning Resources</h2>
+                    <p>Manage and upload course materials</p>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <div class="resources-actions">
+                    <button class="action-btn primary">
+                        <span class="action-icon">📤</span>
+                        <span>Upload New Resource</span>
+                    </button>
+                    <button class="action-btn secondary">
+                        <span class="action-icon">📁</span>
+                        <span>Create Folder</span>
+                    </button>
+                </div>
+
                 <section class="card">
                     <div class="card-header">
-                        <h3>Pending Tasks</h3>
-                        <span class="task-count">8 items</span>
+                        <h3>Uploaded Resources</h3>
+                        <div class="resource-filters">
+                            <select class="filter-select">
+                                <option value="all">All Courses</option>
+                                <option value="python">Python Programming</option>
+                                <option value="java">Java Fundamentals</option>
+                                <option value="data-structures">Data Structures</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="tasks-list">
-                        <div class="task-item urgent">
-                            <div class="task-icon">📝</div>
-                            <div class="task-info">
-                                <h4>Grade Python Midterm</h4>
-                                <p>15 submissions pending</p>
-                                <span class="task-deadline">Due: Tomorrow</span>
+                    
+                    <div class="resources-grid">
+                        <div class="resource-item">
+                            <div class="resource-icon">📄</div>
+                            <div class="resource-info">
+                                <h4>Python Basics - Chapter 1</h4>
+                                <p>PDF Document • 2.5 MB</p>
+                                <span class="resource-course">Python Programming</span>
+                                <span class="resource-date">Uploaded: 2 days ago</span>
+                            </div>
+                            <div class="resource-actions">
+                                <button class="btn-resource-action">📥 Download</button>
+                                <button class="btn-resource-action">✏️ Edit</button>
+                                <button class="btn-resource-action danger">🗑️ Delete</button>
                             </div>
                         </div>
-                        <div class="task-item">
-                            <div class="task-icon">📚</div>
-                            <div class="task-info">
-                                <h4>Upload Java Unit 11</h4>
-                                <p>Materials needed</p>
-                                <span class="task-deadline">Due: 3 days</span>
+
+                        <div class="resource-item">
+                            <div class="resource-icon">🎥</div>
+                            <div class="resource-info">
+                                <h4>Java OOP Concepts</h4>
+                                <p>Video • 45 minutes</p>
+                                <span class="resource-course">Java Fundamentals</span>
+                                <span class="resource-date">Uploaded: 1 week ago</span>
+                            </div>
+                            <div class="resource-actions">
+                                <button class="btn-resource-action">▶️ Play</button>
+                                <button class="btn-resource-action">✏️ Edit</button>
+                                <button class="btn-resource-action danger">🗑️ Delete</button>
                             </div>
                         </div>
-                        <div class="task-item">
-                            <div class="task-icon">✅</div>
-                            <div class="task-info">
-                                <h4>Review Quiz Questions</h4>
-                                <p>Data Structures Quiz #4</p>
-                                <span class="task-deadline">Due: 5 days</span>
+
+                        <div class="resource-item">
+                            <div class="resource-icon">📊</div>
+                            <div class="resource-info">
+                                <h4>Data Structures Cheat Sheet</h4>
+                                <p>PDF Document • 1.8 MB</p>
+                                <span class="resource-course">Data Structures</span>
+                                <span class="resource-date">Uploaded: 3 days ago</span>
+                            </div>
+                            <div class="resource-actions">
+                                <button class="btn-resource-action">📥 Download</button>
+                                <button class="btn-resource-action">✏️ Edit</button>
+                                <button class="btn-resource-action danger">🗑️ Delete</button>
                             </div>
                         </div>
-                        <div class="task-item">
-                            <div class="task-icon">📊</div>
-                            <div class="task-info">
-                                <h4>Submit Progress Report</h4>
-                                <p>Monthly report pending</p>
-                                <span class="task-deadline">Due: 1 week</span>
+
+                        <div class="resource-item">
+                            <div class="resource-icon">💻</div>
+                            <div class="resource-info">
+                                <h4>Python Practice Exercises</h4>
+                                <p>ZIP Archive • 5.2 MB</p>
+                                <span class="resource-course">Python Programming</span>
+                                <span class="resource-date">Uploaded: 5 days ago</span>
+                            </div>
+                            <div class="resource-actions">
+                                <button class="btn-resource-action">📥 Download</button>
+                                <button class="btn-resource-action">✏️ Edit</button>
+                                <button class="btn-resource-action danger">🗑️ Delete</button>
                             </div>
                         </div>
                     </div>
                 </section>
             </div>
+        </div>        
+<!-- Reports Section -->
+        <div class="page-section" id="reports-section">
+            <div class="page-header">
+                <div class="page-title">
+                    <h2>Analytics & Reports</h2>
+                    <p>Track performance metrics and generate reports</p>
+                </div>
+            </div>
 
-            <!-- Student Performance -->
-            <section class="card performance-card">
-                <div class="card-header">
-                    <h3>Recent Student Performance</h3>
-                    <div class="filter-buttons">
-                        <button class="filter-btn active">All Courses</button>
-                        <button class="filter-btn">Python</button>
-                        <button class="filter-btn">Java</button>
-                    </div>
+            <div class="dashboard-content">
+                <!-- Performance Charts -->
+                <div class="charts-grid">
+                    <section class="card chart-card">
+                        <div class="card-header">
+                            <h3>Student Performance Trends</h3>
+                            <select class="chart-filter">
+                                <option value="3months">Last 3 Months</option>
+                                <option value="6months">Last 6 Months</option>
+                                <option value="1year">Last Year</option>
+                            </select>
+                        </div>
+                        <div class="chart-container">
+                            <div class="chart-placeholder">
+                                <div class="chart-line">
+                                    <div class="line-chart">
+                                        <div class="chart-point" style="left: 10%; bottom: 60%;">85%</div>
+                                        <div class="chart-point" style="left: 30%; bottom: 70%;">88%</div>
+                                        <div class="chart-point" style="left: 50%; bottom: 65%;">82%</div>
+                                        <div class="chart-point" style="left: 70%; bottom: 80%;">92%</div>
+                                        <div class="chart-point" style="left: 90%; bottom: 75%;">89%</div>
+                                    </div>
+                                </div>
+                                <div class="chart-labels">
+                                    <span>Jan</span>
+                                    <span>Feb</span>
+                                    <span>Mar</span>
+                                    <span>Apr</span>
+                                    <span>May</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="card chart-card">
+                        <div class="card-header">
+                            <h3>Course Completion Rates</h3>
+                        </div>
+                        <div class="chart-container">
+                            <div class="progress-charts">
+                                <div class="progress-item">
+                                    <div class="progress-info">
+                                        <span>Python Programming</span>
+                                        <span class="progress-value">92%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 92%;"></div>
+                                    </div>
+                                </div>
+                                <div class="progress-item">
+                                    <div class="progress-info">
+                                        <span>Java Fundamentals</span>
+                                        <span class="progress-value">87%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 87%;"></div>
+                                    </div>
+                                </div>
+                                <div class="progress-item">
+                                    <div class="progress-info">
+                                        <span>Data Structures</span>
+                                        <span class="progress-value">78%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 78%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="card chart-card">
+                        <div class="card-header">
+                            <h3>Tutor Rating Performance</h3>
+                        </div>
+                        <div class="chart-container">
+                            <div class="rating-display">
+                                <div class="overall-rating">
+                                    <div class="rating-score">4.8</div>
+                                    <div class="rating-stars">⭐⭐⭐⭐⭐</div>
+                                    <div class="rating-text">Excellent</div>
+                                </div>
+                                <div class="rating-breakdown">
+                                    <div class="rating-item">
+                                        <span>Teaching Quality</span>
+                                        <div class="rating-bar">
+                                            <div class="rating-fill" style="width: 96%;"></div>
+                                        </div>
+                                        <span>4.8</span>
+                                    </div>
+                                    <div class="rating-item">
+                                        <span>Course Content</span>
+                                        <div class="rating-bar">
+                                            <div class="rating-fill" style="width: 94%;"></div>
+                                        </div>
+                                        <span>4.7</span>
+                                    </div>
+                                    <div class="rating-item">
+                                        <span>Responsiveness</span>
+                                        <div class="rating-bar">
+                                            <div class="rating-fill" style="width: 98%;"></div>
+                                        </div>
+                                        <span>4.9</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="card chart-card">
+                        <div class="card-header">
+                            <h3>Exam Score Distribution</h3>
+                        </div>
+                        <div class="chart-container">
+                            <div class="bar-chart">
+                                <div class="bar-item">
+                                    <div class="bar" style="height: 60%;" data-value="12"></div>
+                                    <span class="bar-label">90-100%</span>
+                                </div>
+                                <div class="bar-item">
+                                    <div class="bar" style="height: 80%;" data-value="18"></div>
+                                    <span class="bar-label">80-89%</span>
+                                </div>
+                                <div class="bar-item">
+                                    <div class="bar" style="height: 45%;" data-value="8"></div>
+                                    <span class="bar-label">70-79%</span>
+                                </div>
+                                <div class="bar-item">
+                                    <div class="bar" style="height: 25%;" data-value="4"></div>
+                                    <span class="bar-label">60-69%</span>
+                                </div>
+                                <div class="bar-item">
+                                    <div class="bar" style="height: 15%;" data-value="2"></div>
+                                    <span class="bar-label">Below 60%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
-                <div class="performance-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Student</th>
-                                <th>Course</th>
-                                <th>Exam</th>
-                                <th>Score</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="student-cell">
-                                        <img src="https://via.placeholder.com/32" alt="Student">
-                                        <span>Alice Johnson</span>
-                                    </div>
-                                </td>
-                                <td>Python Programming</td>
-                                <td>Midterm Exam</td>
-                                <td><span class="score excellent">95%</span></td>
-                                <td><span class="status-badge graded">Graded</span></td>
-                                <td><button class="btn-view">View</button></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="student-cell">
-                                        <img src="https://via.placeholder.com/32" alt="Student">
-                                        <span>Bob Smith</span>
-                                    </div>
-                                </td>
-                                <td>Java Fundamentals</td>
-                                <td>Quiz #3</td>
-                                <td><span class="score good">78%</span></td>
-                                <td><span class="status-badge graded">Graded</span></td>
-                                <td><button class="btn-view">View</button></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="student-cell">
-                                        <img src="https://via.placeholder.com/32" alt="Student">
-                                        <span>Carol Williams</span>
-                                    </div>
-                                </td>
-                                <td>Data Structures</td>
-                                <td>Assignment #2</td>
-                                <td><span class="score pending">-</span></td>
-                                <td><span class="status-badge pending">Pending</span></td>
-                                <td><button class="btn-view">Grade</button></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="student-cell">
-                                        <img src="https://via.placeholder.com/32" alt="Student">
-                                        <span>David Brown</span>
-                                    </div>
-                                </td>
-                                <td>Python Programming</td>
-                                <td>Final Project</td>
-                                <td><span class="score excellent">92%</span></td>
-                                <td><span class="status-badge graded">Graded</span></td>
-                                <td><button class="btn-view">View</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+            </div>
         </div>
-    </main>
+    </main>    
+<script>
+        // SPA Navigation System
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show the selected section
+            const targetSection = document.getElementById(sectionId + '-section');
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+        }
 
-    <script>
-        // Navigation active state
-        const navItems = document.querySelectorAll('.nav-item, .dropdown-item');
+        // Navigation active state and SPA routing
+        const navItems = document.querySelectorAll('.nav-item');
+        const dropdownToggle = document.getElementById('coursesDropdownToggle');
+        
         navItems.forEach(item => {
             item.addEventListener('click', function(e) {
                 if (!this.classList.contains('logout')) {
                     e.preventDefault();
                     navItems.forEach(nav => nav.classList.remove('active'));
+                    if (dropdownToggle) dropdownToggle.classList.remove('active');
                     this.classList.add('active');
+                    
+                    // Get section from href
+                    const href = this.getAttribute('href');
+                    const sectionId = href.replace('#', '');
+                    
+                    // Show corresponding section
+                    showSection(sectionId);
+                    
+                    // Update URL hash
+                    window.location.hash = href;
                 }
             });
         });
 
+        // Handle browser back/forward buttons
+        window.addEventListener('hashchange', function() {
+            const hash = window.location.hash || '#courses';
+            const sectionId = hash.replace('#', '');
+            
+            // Update active nav item
+            navItems.forEach(nav => nav.classList.remove('active'));
+            if (dropdownToggle) dropdownToggle.classList.remove('active');
+            
+            const activeNav = document.querySelector(`.nav-item[href="${hash}"]`);
+            if (activeNav) {
+                activeNav.classList.add('active');
+            } else if (hash === '#courses' || hash === '#units' || hash === '#exams') {
+                // If it's a courses dropdown item, activate the dropdown
+                if (dropdownToggle) dropdownToggle.classList.add('active');
+            }
+            
+            // Show corresponding section
+            showSection(sectionId);
+        });
+
         // Courses dropdown toggle
         const coursesDropdown = document.getElementById('coursesDropdown');
-        const coursesDropdownMenu = document.getElementById('coursesDropdownMenu');
         
-        if (coursesDropdown && coursesDropdownMenu) {
-            coursesDropdown.addEventListener('click', function(e) {
+        if (dropdownToggle && coursesDropdown) {
+            dropdownToggle.addEventListener('click', function(e) {
                 e.stopPropagation();
-                coursesDropdownMenu.classList.toggle('show');
+                coursesDropdown.classList.toggle('show');
             });
 
             // Close dropdown when clicking outside
             document.addEventListener('click', function(e) {
-                if (!coursesDropdown.contains(e.target) && !coursesDropdownMenu.contains(e.target)) {
-                    coursesDropdownMenu.classList.remove('show');
+                if (!dropdownToggle.contains(e.target) && !coursesDropdown.contains(e.target)) {
+                    coursesDropdown.classList.remove('show');
                 }
             });
         }
+
+        // Handle courses dropdown items
+        const coursesDropdownItems = document.querySelectorAll('.courses-dropdown .dropdown-item');
+        coursesDropdownItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                // Remove active from nav items and add to dropdown toggle
+                navItems.forEach(nav => nav.classList.remove('active'));
+                if (dropdownToggle) dropdownToggle.classList.add('active');
+                
+                // Close the dropdown
+                if (coursesDropdown) coursesDropdown.classList.remove('show');
+                
+                // Handle navigation - show courses section for all dropdown items
+                showSection('courses');
+                
+                // Update URL hash
+                const href = this.getAttribute('href');
+                window.location.hash = href;
+            });
+        });
 
         // Filter buttons
         const filterButtons = document.querySelectorAll('.filter-btn');
@@ -393,6 +750,40 @@
                 }
             });
         }
+
+        // Handle dropdown item clicks (including logout)
+        const dropdownItems = document.querySelectorAll('.profile-dropdown .dropdown-item');
+        dropdownItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                if (this.classList.contains('logout')) {
+                    e.preventDefault();
+                    // Handle logout - redirect to home page
+                    window.location.href = 'Home.html';
+                }
+            });
+        });
+
+        // Initialize the application
+        function initApp() {
+            // Set initial section based on hash or default to courses
+            const hash = window.location.hash || '#courses';
+            const sectionId = hash.replace('#', '');
+            
+            // Set active nav item or dropdown
+            const activeNav = document.querySelector(`.nav-item[href="${hash}"]`);
+            if (activeNav) {
+                activeNav.classList.add('active');
+            } else if (hash === '#courses' || hash === '#units' || hash === '#exams') {
+                // If it's a courses dropdown item, activate the dropdown
+                if (dropdownToggle) dropdownToggle.classList.add('active');
+            }
+            
+            // Show initial section
+            showSection(sectionId);
+        }
+
+        // Start the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>

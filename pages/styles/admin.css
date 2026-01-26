@@ -866,4 +866,11 @@ td {
     .users-table {
         font-size: 0.85rem;
     }
+}/* SP
+A Section Management */
+.page-section {
+    display: none;
 }
+
+.page-section.active {
+  

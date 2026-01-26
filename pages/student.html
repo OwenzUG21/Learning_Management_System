@@ -14,10 +14,6 @@
                 <h1>CodeAcademy<span class="accent">LMS</span></h1>
             </div>
             <nav class="navbar-nav">
-                <a href="#dashboard" class="nav-item">
-                    <span class="icon">📊</span>
-                    <span>Dashboard</span>
-                </a>
                 <a href="#courses" class="nav-item active">
                     <span class="icon">📚</span>
                     <span>My Courses</span>
@@ -66,201 +62,414 @@
 
     <!-- Main Content -->
     <main class="main-content">
-
-        <!-- Dashboard Content -->
-        <div class="dashboard-content" id="dashboard">
-            <!-- Welcome Section -->
-            <section class="welcome-section">
-                <div class="welcome-card">
-                    <div class="welcome-text">
-                        <h2>Welcome back, John! 👋</h2>
-                        <p>You have 2 exams coming up this week. Keep up the great work!</p>
-                    </div>
-                    <div class="welcome-action">
-                        <button class="btn-primary">Continue Learning</button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Stats Overview -->
-            <section class="stats-section">
-                <div class="stat-card">
-                    <div class="stat-icon blue">📚</div>
-                    <div class="stat-content">
-                        <h3>1</h3>
-                        <p>Enrolled Courses</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon green">✅</div>
-                    <div class="stat-content">
-                        <h3>12</h3>
-                        <p>Completed Exams</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon purple">📈</div>
-                    <div class="stat-content">
-                        <h3>85%</h3>
-                        <p>Average Score</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon orange">🎯</div>
-                    <div class="stat-content">
-                        <h3>42</h3>
-                        <p>Study Hours</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- My Courses -->
-            <section class="card my-courses-card" id="courses">
-                <div class="card-header">
-                    <div class="card-title">
-                        <h3>My Courses</h3>
-                        <p class="muted">Enrollment will be connected later (before this page). For now this shows 1 enrolled course.</p>
-                    </div>
-
-                    <div class="selectors" aria-label="Course and unit selectors">
-                        <label class="field">
-                            <span class="field-label">Course</span>
-                            <select id="courseSelect" class="select">
-                                <optgroup label="Current">
-                                    <option value="python" selected>Python Programming (Current)</option>
-                                </optgroup>
-                                <optgroup label="Previous">
-                                    <option value="webdev">Web Development (Previous)</option>
-                                    <option value="dsa">Data Structures (Previous)</option>
-                                </optgroup>
-                            </select>
-                        </label>
-
-                        <label class="field">
-                            <span class="field-label">Unit</span>
-                            <select id="unitSelect" class="select"></select>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="my-course-body">
-                    <div class="course-summary">
-                        <div class="course-icon large" id="courseIcon">🐍</div>
-                        <div class="course-info">
-                            <h4 id="courseTitle">Python Programming</h4>
-                            <p id="courseTutor">Tutor: Dr. Sarah Johnson</p>
-                            <p class="course-meta" id="courseMeta">Duration: 6 weeks • Format: Part-time</p>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="courseProgressFill" style="width: 25%"></div>
-                            </div>
-                            <span class="progress-text" id="courseProgressText">25% Complete</span>
+        <!-- Courses Section -->
+        <div class="page-section" id="courses-section">
+            <div class="dashboard-content">
+                <!-- Welcome Section -->
+                <section class="welcome-section">
+                    <div class="welcome-card">
+                        <div class="welcome-text">
+                            <h2>Welcome back, John! 👋</h2>
+                            <p>You have 2 exams coming up this week. Keep up the great work!</p>
+                        </div>
+                        <div class="welcome-action">
+                            <button class="btn-primary">Continue Learning</button>
                         </div>
                     </div>
+                </section>
 
-                    <div class="unit-details">
-                        <div class="unit-details-header">
-                            <h4>Course Units (Modules)</h4>
-                            <span class="muted small">Select a unit to view details and start learning.</span>
-                        </div>
-
-                        <div class="units-list" id="unitsList" aria-label="Units list">
-                            <!-- populated by JS -->
-                        </div>
-
-                        <div id="unitDetails">
-                            <!-- populated by JS -->
+                <!-- Stats Overview -->
+                <section class="stats-section">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">📚</div>
+                        <div class="stat-content">
+                            <h3>1</h3>
+                            <p>Enrolled Courses</p>
                         </div>
                     </div>
-                </div>
-            </section>
+                    <div class="stat-card">
+                        <div class="stat-icon green">✅</div>
+                        <div class="stat-content">
+                            <h3>12</h3>
+                            <p>Completed Exams</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple">📈</div>
+                        <div class="stat-content">
+                            <h3>85%</h3>
+                            <p>Average Score</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange">🎯</div>
+                        <div class="stat-content">
+                            <h3>42</h3>
+                            <p>Study Hours</p>
+                        </div>
+                    </div>
+                </section>
 
-            <!-- Main Grid -->
-            <div class="content-grid">
-                <!-- Upcoming Exams -->
-                <section class="card" id="exams">
+                <section class="card my-courses-card">
                     <div class="card-header">
-                        <h3>Upcoming Exams</h3>
-                        <a href="#" class="view-all">View All →</a>
+                        <div class="card-title">
+                            <h3>My Courses</h3>
+                            <p class="muted">Enrollment will be connected later (before this page). For now this shows 1 enrolled course.</p>
+                        </div>
+
+                        <div class="selectors" aria-label="Course and unit selectors">
+                            <label class="field">
+                                <span class="field-label">Course</span>
+                                <select id="courseSelect" class="select">
+                                    <optgroup label="Current">
+                                        <option value="python" selected>Python Programming (Current)</option>
+                                    </optgroup>
+                                    <optgroup label="Previous">
+                                        <option value="webdev">Web Development (Previous)</option>
+                                        <option value="dsa">Data Structures (Previous)</option>
+                                    </optgroup>
+                                </select>
+                            </label>
+
+                            <label class="field">
+                                <span class="field-label">Unit</span>
+                                <select id="unitSelect" class="select"></select>
+                            </label>
+                        </div>
                     </div>
-                    <div class="exams-list">
-                        <div class="exam-item urgent">
-                            <div class="exam-info">
-                                <h4>Python Midterm Exam</h4>
-                                <p>📅 Tomorrow, 10:00 AM</p>
-                                <p>⏱️ Duration: 2 hours</p>
+
+                    <div class="my-course-body">
+                        <div class="course-summary">
+                            <div class="course-icon large" id="courseIcon">🐍</div>
+                            <div class="course-info">
+                                <h4 id="courseTitle">Python Programming</h4>
+                                <p id="courseTutor">Tutor: Dr. Sarah Johnson</p>
+                                <p class="course-meta" id="courseMeta">Duration: 6 weeks • Format: Part-time</p>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="courseProgressFill" style="width: 25%"></div>
+                                </div>
+                                <span class="progress-text" id="courseProgressText">25% Complete</span>
                             </div>
-                            <button class="btn-exam">Prepare</button>
                         </div>
-                        <div class="exam-item">
-                            <div class="exam-info">
-                                <h4>Web Dev Quiz #3</h4>
-                                <p>📅 Friday, 2:00 PM</p>
-                                <p>⏱️ Duration: 1 hour</p>
+
+                        <div class="unit-details">
+                            <div class="unit-details-header">
+                                <h4>Course Units (Modules)</h4>
+                                <span class="muted small">Select a unit to view details and start learning.</span>
                             </div>
-                            <button class="btn-exam">Prepare</button>
-                        </div>
-                        <div class="exam-item">
-                            <div class="exam-info">
-                                <h4>Data Structures Final</h4>
-                                <p>📅 Next Week Monday</p>
-                                <p>⏱️ Duration: 3 hours</p>
+
+                            <div class="units-list" id="unitsList" aria-label="Units list">
+                                <!-- populated by JS -->
                             </div>
-                            <button class="btn-exam">Prepare</button>
+
+                            <div id="unitDetails">
+                                <!-- populated by JS -->
+                            </div>
                         </div>
                     </div>
                 </section>
             </div>
+        </div>
 
-            <!-- Recent Activity -->
-            <section class="card activity-card" id="results">
-                <div class="card-header">
-                    <h3>Recent Activity</h3>
-                </div>
-                <div class="activity-list">
-                    <div class="activity-item">
-                        <div class="activity-icon green">✓</div>
-                        <div class="activity-content">
-                            <p><strong>Completed:</strong> Python Unit 5 - Functions</p>
-                            <span class="activity-time">2 hours ago</span>
+        <!-- Exams Section -->
+        <div class="page-section" id="exams-section">
+            <div class="dashboard-content">
+                <section class="card">
+                    <div class="card-header">
+                        <h3>Exams</h3>
+                        <p class="muted">Manage your upcoming and completed exams</p>
+                    </div>
+                    
+                    <div class="exam-tabs">
+                        <button class="tab-btn active" data-tab="upcoming">Upcoming Exams</button>
+                        <button class="tab-btn" data-tab="available">Available Exams</button>
+                        <button class="tab-btn" data-tab="completed">Completed Exams</button>
+                    </div>
+
+                    <div class="tab-content active" id="upcoming-tab">
+                        <div class="exams-list">
+                            <div class="exam-item urgent">
+                                <div class="exam-info">
+                                    <h4>Python Midterm Exam</h4>
+                                    <p>📅 Tomorrow, 10:00 AM</p>
+                                    <p>⏱️ Duration: 2 hours</p>
+                                    <p>📝 Questions: 50 MCQ + 5 Coding</p>
+                                </div>
+                                <div class="exam-actions">
+                                    <button class="btn-exam btn-primary">Start Exam</button>
+                                    <button class="btn-exam btn-secondary">Prepare</button>
+                                </div>
+                            </div>
+                            <div class="exam-item">
+                                <div class="exam-info">
+                                    <h4>Web Dev Quiz #3</h4>
+                                    <p>📅 Friday, 2:00 PM</p>
+                                    <p>⏱️ Duration: 1 hour</p>
+                                    <p>📝 Questions: 30 MCQ</p>
+                                </div>
+                                <div class="exam-actions">
+                                    <button class="btn-exam btn-primary">Start Exam</button>
+                                    <button class="btn-exam btn-secondary">Prepare</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="activity-item">
-                        <div class="activity-icon blue">📄</div>
-                        <div class="activity-content">
-                            <p><strong>Downloaded:</strong> Web Development Notes - CSS Grid</p>
-                            <span class="activity-time">5 hours ago</span>
+
+                    <div class="tab-content" id="available-tab">
+                        <div class="exams-list">
+                            <div class="exam-item">
+                                <div class="exam-info">
+                                    <h4>Python Practice Test</h4>
+                                    <p>📝 Questions: 25 MCQ</p>
+                                    <p>⏱️ Duration: 45 minutes</p>
+                                    <p>🎯 Practice exam for midterm preparation</p>
+                                </div>
+                                <div class="exam-actions">
+                                    <button class="btn-exam btn-primary">Start Practice</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="activity-item">
-                        <div class="activity-icon purple">📊</div>
-                        <div class="activity-content">
-                            <p><strong>Result Published:</strong> Python Quiz #2 - Score: 92%</p>
-                            <span class="activity-time">1 day ago</span>
+
+                    <div class="tab-content" id="completed-tab">
+                        <div class="exams-list">
+                            <div class="exam-item completed">
+                                <div class="exam-info">
+                                    <h4>Python Quiz #2</h4>
+                                    <p>📅 Completed: Last Week</p>
+                                    <p>📊 Score: 92%</p>
+                                    <p>⏱️ Time Taken: 35 minutes</p>
+                                </div>
+                                <div class="exam-actions">
+                                    <button class="btn-exam btn-secondary">View Results</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="activity-item">
-                        <div class="activity-icon orange">🎯</div>
-                        <div class="activity-content">
-                            <p><strong>Started:</strong> Data Structures Unit 3</p>
-                            <span class="activity-time">2 days ago</span>
+                </section>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="page-section" id="results-section">
+            <div class="dashboard-content">
+                <section class="card">
+                    <div class="card-header">
+                        <h3>Results & Performance</h3>
+                        <p class="muted">Track your academic progress and exam results</p>
+                    </div>
+
+                    <div class="results-overview">
+                        <div class="result-stat-card">
+                            <div class="result-stat-icon">📊</div>
+                            <div class="result-stat-content">
+                                <h3>85%</h3>
+                                <p>Overall Average</p>
+                            </div>
+                        </div>
+                        <div class="result-stat-card">
+                            <div class="result-stat-icon">🏆</div>
+                            <div class="result-stat-content">
+                                <h3>12</h3>
+                                <p>Exams Completed</p>
+                            </div>
+                        </div>
+                        <div class="result-stat-card">
+                            <div class="result-stat-icon">📈</div>
+                            <div class="result-stat-content">
+                                <h3>+5%</h3>
+                                <p>Improvement</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </section>
+
+                    <div class="results-list">
+                        <div class="result-item excellent">
+                            <div class="result-info">
+                                <h4>Python Quiz #2</h4>
+                                <p>📅 Completed: Last Week</p>
+                                <p>⏱️ Duration: 35 minutes</p>
+                            </div>
+                            <div class="result-score excellent">
+                                <span class="score">92%</span>
+                                <span class="grade">A</span>
+                            </div>
+                            <button class="btn-exam btn-secondary">View Details</button>
+                        </div>
+                        
+                        <div class="result-item good">
+                            <div class="result-info">
+                                <h4>Web Dev Assignment #1</h4>
+                                <p>📅 Completed: 2 weeks ago</p>
+                                <p>⏱️ Duration: 1 hour 20 minutes</p>
+                            </div>
+                            <div class="result-score good">
+                                <span class="score">78%</span>
+                                <span class="grade">B+</span>
+                            </div>
+                            <button class="btn-exam btn-secondary">View Details</button>
+                        </div>
+
+                        <div class="result-item excellent">
+                            <div class="result-info">
+                                <h4>Data Structures Quiz #1</h4>
+                                <p>📅 Completed: 3 weeks ago</p>
+                                <p>⏱️ Duration: 45 minutes</p>
+                            </div>
+                            <div class="result-score excellent">
+                                <span class="score">95%</span>
+                                <span class="grade">A+</span>
+                            </div>
+                            <button class="btn-exam btn-secondary">View Details</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Resources Section -->
+        <div class="page-section" id="resources-section">
+            <div class="dashboard-content">
+                <section class="card">
+                    <div class="card-header">
+                        <h3>Learning Resources</h3>
+                        <p class="muted">Access course materials, notes, and study guides</p>
+                    </div>
+
+                    <div class="resources-grid">
+                        <div class="resource-category">
+                            <h4>📚 Course Materials</h4>
+                            <div class="resource-list">
+                                <div class="resource-item">
+                                    <span class="resource-icon">📄</span>
+                                    <div class="resource-info">
+                                        <h5>Python Programming Guide</h5>
+                                        <p>Complete reference for Python basics</p>
+                                    </div>
+                                    <button class="btn-resource">Download</button>
+                                </div>
+                                <div class="resource-item">
+                                    <span class="resource-icon">🎥</span>
+                                    <div class="resource-info">
+                                        <h5>Video Lectures</h5>
+                                        <p>Recorded sessions from live classes</p>
+                                    </div>
+                                    <button class="btn-resource">Watch</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="resource-category">
+                            <h4>📝 Study Materials</h4>
+                            <div class="resource-list">
+                                <div class="resource-item">
+                                    <span class="resource-icon">📋</span>
+                                    <div class="resource-info">
+                                        <h5>Practice Exercises</h5>
+                                        <p>Additional coding challenges</p>
+                                    </div>
+                                    <button class="btn-resource">Access</button>
+                                </div>
+                                <div class="resource-item">
+                                    <span class="resource-icon">🔗</span>
+                                    <div class="resource-info">
+                                        <h5>External Resources</h5>
+                                        <p>Curated links and references</p>
+                                    </div>
+                                    <button class="btn-resource">View</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </div>
     </main>
 
     <script>
-        // Navigation active state
+        // SPA Navigation System
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Show the selected section
+            const targetSection = document.getElementById(sectionId + '-section');
+            if (targetSection) {
+                targetSection.style.display = 'block';
+            }
+        }
+
+        // Navigation active state and SPA routing
         const navItems = document.querySelectorAll('.nav-item');
         navItems.forEach(item => {
             item.addEventListener('click', function(e) {
-                if (!this.classList.contains('logout')) {
+                e.preventDefault();
+                
+                if (this.classList.contains('logout')) {
+                    // Handle logout - redirect to home page
+                    window.location.href = 'Home.html';
+                } else {
+                    // Update active nav item
                     navItems.forEach(nav => nav.classList.remove('active'));
                     this.classList.add('active');
+                    
+                    // Get section from href
+                    const href = this.getAttribute('href');
+                    const sectionId = href.replace('#', '');
+                    
+                    // Show corresponding section
+                    showSection(sectionId);
+                    
+                    // Update URL hash
+                    window.location.hash = href;
                 }
             });
         });
+
+        // Handle browser back/forward buttons
+        window.addEventListener('hashchange', function() {
+            const hash = window.location.hash || '#courses';
+            const sectionId = hash.replace('#', '');
+            
+            // Update active nav item
+            navItems.forEach(nav => nav.classList.remove('active'));
+            const activeNav = document.querySelector(`.nav-item[href="${hash}"]`);
+            if (activeNav) {
+                activeNav.classList.add('active');
+            }
+            
+            // Show corresponding section
+            showSection(sectionId);
+        });
+
+        // Exam tabs functionality
+        function initExamTabs() {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Update active tab button
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show corresponding tab content
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    const targetContent = document.getElementById(tabId + '-tab');
+                    if (targetContent) {
+                        targetContent.classList.add('active');
+                    }
+                });
+            });
+        }
 
         // Notification toggle
         const notificationBtn = document.querySelector('.notification-btn');
@@ -437,24 +646,11 @@
             renderUnitDetails(courseKey, unitSelect.value);
         }
 
-        function setActiveFromHash() {
-            const hash = window.location.hash || '#courses';
-            navItems.forEach(nav => nav.classList.remove('active'));
-            const active = document.querySelector(`.nav-item[href="${hash}"]`);
-            if (active) active.classList.add('active');
-        }
-
         courseSelect.addEventListener('change', () => renderCourse(courseSelect.value));
         unitSelect.addEventListener('change', () => {
             renderUnitsList(courseSelect.value);
             renderUnitDetails(courseSelect.value, unitSelect.value);
         });
-        window.addEventListener('hashchange', setActiveFromHash);
-
-        // default landing: My Courses
-        if (!window.location.hash) window.location.hash = '#courses';
-        setActiveFromHash();
-        renderCourse(courseSelect.value);
 
         // Profile dropdown toggle
         const profileToggle = document.getElementById('profileToggle');
@@ -473,6 +669,43 @@
                 }
             });
         }
+
+        // Handle dropdown item clicks (including logout)
+        const dropdownItems = document.querySelectorAll('.dropdown-item');
+        dropdownItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                if (this.classList.contains('logout')) {
+                    e.preventDefault();
+                    // Handle logout - redirect to home page
+                    window.location.href = 'Home.html';
+                }
+            });
+        });
+
+        // Initialize the application
+        function initApp() {
+            // Initialize exam tabs
+            initExamTabs();
+            
+            // Set initial section based on hash or default to courses
+            const hash = window.location.hash || '#courses';
+            const sectionId = hash.replace('#', '');
+            
+            // Set active nav item
+            const activeNav = document.querySelector(`.nav-item[href="${hash}"]`);
+            if (activeNav) {
+                activeNav.classList.add('active');
+            }
+            
+            // Show initial section
+            showSection(sectionId);
+            
+            // Initialize course data
+            renderCourse(courseSelect.value);
+        }
+
+        // Start the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
