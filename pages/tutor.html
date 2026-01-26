@@ -7,75 +7,85 @@
     <link rel="stylesheet" href="styles/tutor.css">
 </head>
 <body>
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <h1>CodeAcademy<span class="accent">LMS</span></h1>
-        </div>
-        <nav class="sidebar-nav">
-            <a href="#dashboard" class="nav-item active">
-                <span class="icon">📊</span>
-                <span>Dashboard</span>
-            </a>
-            <a href="#courses" class="nav-item">
-                <span class="icon">📚</span>
-                <span>My Courses</span>
-            </a>
-            <a href="#units" class="nav-item">
-                <span class="icon">📖</span>
-                <span>Units</span>
-            </a>
-            <a href="#exams" class="nav-item">
-                <span class="icon">📝</span>
-                <span>Exams</span>
-            </a>
-            <a href="#students" class="nav-item">
-                <span class="icon">👥</span>
-                <span>Students</span>
-            </a>
-            <a href="#resources" class="nav-item">
-                <span class="icon">📁</span>
-                <span>Resources</span>
-            </a>
-            <a href="#reports" class="nav-item">
-                <span class="icon">📈</span>
-                <span>Reports</span>
-            </a>
-            <a href="#profile" class="nav-item">
-                <span class="icon">👤</span>
-                <span>Profile</span>
-            </a>
-        </nav>
-        <div class="sidebar-footer">
-            <a href="#" class="nav-item logout">
-                <span class="icon">🚪</span>
-                <span>Logout</span>
-            </a>
-        </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Top Bar -->
-        <header class="top-bar">
-            <div class="page-title">
-                <h2>Tutor Dashboard</h2>
-                <p>Manage your courses and track student progress</p>
+    <!-- Main Navigation Bar -->
+    <header class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <h1>CodeAcademy<span class="accent">LMS</span></h1>
             </div>
-            <div class="top-bar-right">
+            <nav class="navbar-nav">
+                <div class="nav-dropdown">
+                    <button class="nav-item dropdown-toggle" id="coursesDropdown">
+                        <span class="icon">�</span>
+                        <span>My Courses</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div class="dropdown-menu courses-dropdown" id="coursesDropdownMenu">
+                        <a href="#courses" class="dropdown-item">
+                            <span class="icon">📚</span>
+                            <span>Courses</span>
+                        </a>
+                        <a href="#units" class="dropdown-item">
+                            <span class="icon">📖</span>
+                            <span>Units</span>
+                        </a>
+                        <a href="#exams" class="dropdown-item">
+                            <span class="icon">📝</span>
+                            <span>Exams</span>
+                        </a>
+                    </div>
+                </div>
+                <a href="#students" class="nav-item">
+                    <span class="icon">👥</span>
+                    <span>Students</span>
+                </a>
+                <a href="#resources" class="nav-item">
+                    <span class="icon">📁</span>
+                    <span>Resources</span>
+                </a>
+                <a href="#reports" class="nav-item">
+                    <span class="icon">📈</span>
+                    <span>Reports</span>
+                </a>
+            </nav>
+            <div class="navbar-right">
                 <button class="notification-btn">
                     <span class="icon">🔔</span>
                     <span class="badge">5</span>
                 </button>
-                <div class="user-profile">
-                    <img src="https://via.placeholder.com/40" alt="Profile">
-                    <div class="user-info">
-                        <span class="user-name">Dr. Sarah Johnson</span>
-                        <span class="user-role">Tutor</span>
+                <div class="user-profile-dropdown">
+                    <div class="user-profile" id="profileToggle">
+                        <img src="https://via.placeholder.com/40" alt="Profile">
+                        <div class="user-info">
+                            <span class="user-name">Dr. Sarah Johnson</span>
+                            <span class="user-role">Tutor</span>
+                        </div>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="dropdown-menu profile-dropdown" id="profileDropdown">
+                        <a href="#profile" class="dropdown-item">
+                            <span class="icon">👤</span>
+                            <span>Profile</span>
+                        </a>
+                        <a href="#" class="dropdown-item logout">
+                            <span class="icon">🚪</span>
+                            <span>Logout</span>
+                        </a>
                     </div>
                 </div>
             </div>
-        </header>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-title">
+                <h2>Tutor Dashboard</h2>
+                <p>Manage your courses and track student progress</p>
+            </div>
+        </div>
 
         <!-- Dashboard Content -->
         <div class="dashboard-content">
@@ -328,7 +338,7 @@
 
     <script>
         // Navigation active state
-        const navItems = document.querySelectorAll('.nav-item');
+        const navItems = document.querySelectorAll('.nav-item, .dropdown-item');
         navItems.forEach(item => {
             item.addEventListener('click', function(e) {
                 if (!this.classList.contains('logout')) {
@@ -339,6 +349,24 @@
             });
         });
 
+        // Courses dropdown toggle
+        const coursesDropdown = document.getElementById('coursesDropdown');
+        const coursesDropdownMenu = document.getElementById('coursesDropdownMenu');
+        
+        if (coursesDropdown && coursesDropdownMenu) {
+            coursesDropdown.addEventListener('click', function(e) {
+                e.stopPropagation();
+                coursesDropdownMenu.classList.toggle('show');
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!coursesDropdown.contains(e.target) && !coursesDropdownMenu.contains(e.target)) {
+                    coursesDropdownMenu.classList.remove('show');
+                }
+            });
+        }
+
         // Filter buttons
         const filterButtons = document.querySelectorAll('.filter-btn');
         filterButtons.forEach(btn => {
@@ -347,6 +375,24 @@
                 this.classList.add('active');
             });
         });
+
+        // Profile dropdown toggle
+        const profileToggle = document.getElementById('profileToggle');
+        const profileDropdown = document.getElementById('profileDropdown');
+        
+        if (profileToggle && profileDropdown) {
+            profileToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                profileDropdown.classList.toggle('show');
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!profileToggle.contains(e.target) && !profileDropdown.contains(e.target)) {
+                    profileDropdown.classList.remove('show');
+                }
+            });
+        }
     </script>
 </body>
 </html>
