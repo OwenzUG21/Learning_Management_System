@@ -13,11 +13,11 @@
             <h1>CodeAcademy<span class="accent">LMS</span></h1>
         </div>
         <nav class="sidebar-nav">
-            <a href="#dashboard" class="nav-item active">
+            <a href="#dashboard" class="nav-item">
                 <span class="icon">📊</span>
                 <span>Dashboard</span>
             </a>
-            <a href="#courses" class="nav-item">
+            <a href="#courses" class="nav-item active">
                 <span class="icon">📚</span>
                 <span>My Courses</span>
             </a>
@@ -70,7 +70,7 @@
         </header>
 
         <!-- Dashboard Content -->
-        <div class="dashboard-content">
+        <div class="dashboard-content" id="dashboard">
             <!-- Welcome Section -->
             <section class="welcome-section">
                 <div class="welcome-card">
@@ -89,7 +89,7 @@
                 <div class="stat-card">
                     <div class="stat-icon blue">📚</div>
                     <div class="stat-content">
-                        <h3>5</h3>
+                        <h3>1</h3>
                         <p>Enrolled Courses</p>
                     </div>
                 </div>
@@ -116,53 +116,70 @@
                 </div>
             </section>
 
+            <!-- My Courses -->
+            <section class="card my-courses-card" id="courses">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3>My Courses</h3>
+                        <p class="muted">Enrollment will be connected later (before this page). For now this shows 1 enrolled course.</p>
+                    </div>
+
+                    <div class="selectors" aria-label="Course and unit selectors">
+                        <label class="field">
+                            <span class="field-label">Course</span>
+                            <select id="courseSelect" class="select">
+                                <optgroup label="Current">
+                                    <option value="python" selected>Python Programming (Current)</option>
+                                </optgroup>
+                                <optgroup label="Previous">
+                                    <option value="webdev">Web Development (Previous)</option>
+                                    <option value="dsa">Data Structures (Previous)</option>
+                                </optgroup>
+                            </select>
+                        </label>
+
+                        <label class="field">
+                            <span class="field-label">Unit</span>
+                            <select id="unitSelect" class="select"></select>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="my-course-body">
+                    <div class="course-summary">
+                        <div class="course-icon large" id="courseIcon">🐍</div>
+                        <div class="course-info">
+                            <h4 id="courseTitle">Python Programming</h4>
+                            <p id="courseTutor">Tutor: Dr. Sarah Johnson</p>
+                            <p class="course-meta" id="courseMeta">Duration: 6 weeks • Format: Part-time</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="courseProgressFill" style="width: 25%"></div>
+                            </div>
+                            <span class="progress-text" id="courseProgressText">25% Complete</span>
+                        </div>
+                    </div>
+
+                    <div class="unit-details">
+                        <div class="unit-details-header">
+                            <h4>Course Units (Modules)</h4>
+                            <span class="muted small">Select a unit to view details and start learning.</span>
+                        </div>
+
+                        <div class="units-list" id="unitsList" aria-label="Units list">
+                            <!-- populated by JS -->
+                        </div>
+
+                        <div id="unitDetails">
+                            <!-- populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- Main Grid -->
             <div class="content-grid">
-                <!-- Current Courses -->
-                <section class="card">
-                    <div class="card-header">
-                        <h3>Current Courses</h3>
-                        <a href="#" class="view-all">View All →</a>
-                    </div>
-                    <div class="courses-list">
-                        <div class="course-item">
-                            <div class="course-icon">🐍</div>
-                            <div class="course-info">
-                                <h4>Python Programming</h4>
-                                <p>Tutor: Dr. Sarah Johnson</p>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 75%"></div>
-                                </div>
-                                <span class="progress-text">75% Complete</span>
-                            </div>
-                        </div>
-                        <div class="course-item">
-                            <div class="course-icon">🌐</div>
-                            <div class="course-info">
-                                <h4>Web Development</h4>
-                                <p>Tutor: Prof. Michael Chen</p>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 45%"></div>
-                                </div>
-                                <span class="progress-text">45% Complete</span>
-                            </div>
-                        </div>
-                        <div class="course-item">
-                            <div class="course-icon">💾</div>
-                            <div class="course-info">
-                                <h4>Data Structures</h4>
-                                <p>Tutor: Dr. Emily Davis</p>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 30%"></div>
-                                </div>
-                                <span class="progress-text">30% Complete</span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
                 <!-- Upcoming Exams -->
-                <section class="card">
+                <section class="card" id="exams">
                     <div class="card-header">
                         <h3>Upcoming Exams</h3>
                         <a href="#" class="view-all">View All →</a>
@@ -197,7 +214,7 @@
             </div>
 
             <!-- Recent Activity -->
-            <section class="card activity-card">
+            <section class="card activity-card" id="results">
                 <div class="card-header">
                     <h3>Recent Activity</h3>
                 </div>
@@ -241,7 +258,6 @@
         navItems.forEach(item => {
             item.addEventListener('click', function(e) {
                 if (!this.classList.contains('logout')) {
-                    e.preventDefault();
                     navItems.forEach(nav => nav.classList.remove('active'));
                     this.classList.add('active');
                 }
@@ -253,6 +269,194 @@
         notificationBtn.addEventListener('click', function() {
             alert('Notifications: \n- New exam scheduled\n- Result published\n- New resource uploaded');
         });
+
+        // Courses + units (static placeholder; enrollment will populate this later)
+        const courseData = {
+            python: {
+                title: 'Python Programming',
+                tutor: 'Tutor: Dr. Sarah Johnson',
+                icon: '🐍',
+                status: 'current',
+                duration: '6 weeks',
+                format: 'Part-time',
+                progress: 25,
+                units: [
+                    { id: 'intro', title: 'Introduction', status: 'completed', description: 'Setup, tools, and your first Python program.' },
+                    { id: 'basics', title: 'Python Basics', status: 'completed', description: 'Variables, data types, and simple I/O.' },
+                    { id: 'functions', title: 'Functions', status: 'completed', description: 'Write reusable functions and parameters.' },
+                    { id: 'dsa', title: 'Data Structures', status: 'current', description: 'Lists, tuples, sets, dictionaries, and when to use them.' },
+                    { id: 'oop', title: 'OOP', status: 'locked', description: 'Classes, objects, and inheritance.' }
+                ]
+            },
+            webdev: {
+                title: 'Web Development',
+                tutor: 'Tutor: Prof. Michael Chen',
+                icon: '🌐',
+                status: 'previous',
+                duration: '8 weeks',
+                format: 'Full cohort',
+                progress: 100,
+                units: [
+                    { id: 'html', title: 'HTML Fundamentals', status: 'completed', description: 'Structure pages with semantic HTML.' },
+                    { id: 'css', title: 'CSS Basics', status: 'completed', description: 'Style layouts with modern CSS.' },
+                    { id: 'js', title: 'JavaScript Basics', status: 'completed', description: 'Add interactivity with JS.' }
+                ]
+            },
+            dsa: {
+                title: 'Data Structures',
+                tutor: 'Tutor: Dr. Emily Davis',
+                icon: '💾',
+                status: 'previous',
+                duration: '10 weeks',
+                format: 'Part-time',
+                progress: 100,
+                units: [
+                    { id: 'arrays', title: 'Arrays & Lists', status: 'completed', description: 'Basics of sequential data.' },
+                    { id: 'stacks', title: 'Stacks & Queues', status: 'completed', description: 'Common linear structures.' },
+                    { id: 'trees', title: 'Trees', status: 'completed', description: 'Hierarchical data and traversals.' }
+                ]
+            }
+        };
+
+        const courseSelect = document.getElementById('courseSelect');
+        const unitSelect = document.getElementById('unitSelect');
+        const unitDetails = document.getElementById('unitDetails');
+        const courseTitle = document.getElementById('courseTitle');
+        const courseTutor = document.getElementById('courseTutor');
+        const courseMeta = document.getElementById('courseMeta');
+        const courseIcon = document.getElementById('courseIcon');
+        const courseProgressFill = document.getElementById('courseProgressFill');
+        const courseProgressText = document.getElementById('courseProgressText');
+        const unitsList = document.getElementById('unitsList');
+
+        function renderUnitOptions(courseKey) {
+            const course = courseData[courseKey];
+            unitSelect.innerHTML = '';
+
+            const completed = course.units.filter(u => u.status === 'completed');
+            const current = course.units.filter(u => u.status === 'current');
+            const locked = course.units.filter(u => u.status === 'locked');
+
+            function addGroup(label, items, disabled = false) {
+                if (!items.length) return;
+                const group = document.createElement('optgroup');
+                group.label = label;
+                items.forEach(u => {
+                    const opt = document.createElement('option');
+                    opt.value = u.id;
+                    opt.textContent = u.title + (u.status === 'locked' ? ' (Locked)' : '');
+                    opt.disabled = disabled || u.status === 'locked';
+                    group.appendChild(opt);
+                });
+                unitSelect.appendChild(group);
+            }
+
+            addGroup('Current Unit', current);
+            addGroup('Completed Units', completed);
+            addGroup('Locked Units', locked, true);
+
+            // default selection: current unit if present, else first completed
+            const firstValue = (current[0] || completed[0] || locked[0])?.id;
+            if (firstValue) unitSelect.value = firstValue;
+        }
+
+        function renderUnitsList(courseKey) {
+            const course = courseData[courseKey];
+            const selectedId = unitSelect.value;
+            unitsList.innerHTML = '';
+
+            course.units.forEach(u => {
+                const item = document.createElement('button');
+                item.type = 'button';
+                item.className = `unit-list-item ${u.status} ${u.id === selectedId ? 'selected' : ''}`;
+                item.disabled = course.status === 'previous' ? false : u.status === 'locked';
+                item.setAttribute('data-unit-id', u.id);
+
+                const statusLabel = u.status === 'locked' ? 'Locked' : u.status === 'current' ? 'Current' : 'Completed';
+                const actionLabel =
+                    course.status === 'previous'
+                        ? 'View'
+                        : u.status === 'completed'
+                            ? 'Review'
+                            : u.status === 'current'
+                                ? 'Continue'
+                                : 'Start';
+
+                item.innerHTML = `
+                    <div class="unit-list-left">
+                        <div class="unit-list-title">${u.title}</div>
+                        <div class="unit-list-sub">${statusLabel}</div>
+                    </div>
+                    <div class="unit-list-right">
+                        <span class="unit-pill ${u.status}">${actionLabel}</span>
+                    </div>
+                `;
+
+                item.addEventListener('click', () => {
+                    unitSelect.value = u.id;
+                    renderUnitsList(courseKey);
+                    renderUnitDetails(courseKey, u.id);
+                });
+
+                unitsList.appendChild(item);
+            });
+        }
+
+        function renderUnitDetails(courseKey, unitId) {
+            const course = courseData[courseKey];
+            const unit = course.units.find(u => u.id === unitId);
+            if (!unit) return;
+
+            const isPrevCourse = course.status === 'previous';
+            const canContinue = !isPrevCourse && unit.status !== 'locked';
+
+            unitDetails.innerHTML = `
+                <div class="unit-card">
+                    <div class="unit-header">
+                        <h4>${unit.title}</h4>
+                        <span class="unit-badge ${unit.status}">${unit.status}</span>
+                    </div>
+                    <p class="muted">${unit.description}</p>
+                    <div class="unit-actions">
+                        <button class="btn-exam" ${canContinue ? '' : 'disabled'}>${isPrevCourse ? 'View Unit' : 'Continue Unit'}</button>
+                        <span class="muted small">${isPrevCourse ? 'Previous course (read-only)' : 'Current course'}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCourse(courseKey) {
+            const course = courseData[courseKey];
+            courseTitle.textContent = course.title;
+            courseTutor.textContent = course.tutor;
+            courseMeta.textContent = `Duration: ${course.duration} • Format: ${course.format}`;
+            courseIcon.textContent = course.icon;
+            courseProgressFill.style.width = `${course.progress}%`;
+            courseProgressText.textContent = `${course.progress}% Complete`;
+
+            renderUnitOptions(courseKey);
+            renderUnitsList(courseKey);
+            renderUnitDetails(courseKey, unitSelect.value);
+        }
+
+        function setActiveFromHash() {
+            const hash = window.location.hash || '#courses';
+            navItems.forEach(nav => nav.classList.remove('active'));
+            const active = document.querySelector(`.nav-item[href="${hash}"]`);
+            if (active) active.classList.add('active');
+        }
+
+        courseSelect.addEventListener('change', () => renderCourse(courseSelect.value));
+        unitSelect.addEventListener('change', () => {
+            renderUnitsList(courseSelect.value);
+            renderUnitDetails(courseSelect.value, unitSelect.value);
+        });
+        window.addEventListener('hashchange', setActiveFromHash);
+
+        // default landing: My Courses
+        if (!window.location.hash) window.location.hash = '#courses';
+        setActiveFromHash();
+        renderCourse(courseSelect.value);
     </script>
 </body>
 </html>

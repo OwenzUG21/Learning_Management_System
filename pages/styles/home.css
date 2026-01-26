@@ -20,7 +20,7 @@ body {
 
 /* Navigation */
 .navbar {
-    background: #fff;
+    background: #0d6efd;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
@@ -36,7 +36,7 @@ body {
 
 .logo h1 {
     font-size: 1.8rem;
-    color: #2563eb;
+    color: #fff;
     font-weight: 700;
 }
 
@@ -52,14 +52,14 @@ body {
 
 .nav-menu a {
     text-decoration: none;
-    color: #4b5563;
+    color: rgba(255, 255, 255, 0.9);
     font-weight: 500;
     transition: color 0.3s;
 }
 
 .nav-menu a:hover,
 .nav-menu a.active {
-    color: #2563eb;
+    color: #fff;
 }
 
 .nav-buttons {
@@ -86,9 +86,9 @@ body {
 
 .btn-secondary {
     background: #fff;
-    color: #2563eb;
+    color: #0d6efd;
     padding: 0.75rem 1.5rem;
-    border: 2px solid #2563eb;
+    border: 2px solid #fff;
     border-radius: 8px;
     text-decoration: none;
     font-weight: 600;
@@ -97,8 +97,8 @@ body {
 }
 
 .btn-secondary:hover {
-    background: #2563eb;
-    color: #fff;
+    background: rgba(255, 255, 255, 0.9);
+    color: #0d6efd;
 }
 
 .btn-outline {
@@ -369,7 +369,7 @@ body {
 
 /* Footer */
 .footer {
-    background: #1e293b;
+    background: #6693ed;
     color: #e2e8f0;
     padding: 4rem 0 2rem;
 }
@@ -393,7 +393,7 @@ body {
 }
 
 .footer-section p {
-    color: #94a3b8;
+    color: rgba(255, 255, 255, 0.9);
     line-height: 1.8;
 }
 
@@ -406,20 +406,20 @@ body {
 }
 
 .footer-section a {
-    color: #94a3b8;
+    color: rgba(255, 255, 255, 0.85);
     text-decoration: none;
     transition: color 0.3s;
 }
 
 .footer-section a:hover {
-    color: #2563eb;
+    color: #fff;
 }
 
 .footer-bottom {
-    border-top: 1px solid #334155;
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
     padding-top: 2rem;
     text-align: center;
-    color: #94a3b8;
+    color: rgba(255, 255, 255, 0.85);
 }
 
 /* Responsive Design */
