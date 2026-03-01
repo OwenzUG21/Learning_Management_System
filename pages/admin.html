@@ -5,68 +5,111 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - CodeAcademy LMS</title>
     <link rel="stylesheet" href="styles/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script>
+        tailwind = {
+            config: {
+                darkMode: "class",
+                theme: {
+                    extend: {
+                        colors: {
+                            "primary": "#13a4ec",
+                            "primary-dark": "#0b7fb8",
+                            "background-light": "#f6f7f8",
+                            "background-dark": "#101c22",
+                            "surface-light": "#ffffff",
+                            "surface-dark": "#182830",
+                            "text-primary-light": "#111618",
+                            "text-primary-dark": "#e2e8f0",
+                            "text-secondary-light": "#617c89",
+                            "text-secondary-dark": "#94a3b8",
+                            "border-light": "#e2e8f0",
+                            "border-dark": "#2d3748"
+                        },
+                        fontFamily: {
+                            "display": ["Inter", "sans-serif"]
+                        },
+                        borderRadius: {
+                            "DEFAULT": "0.25rem",
+                            "lg": "0.5rem",
+                            "xl": "0.75rem",
+                            "full": "9999px"
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
 </head>
 <body>
     <!-- Main Navigation Bar -->
     <header class="navbar">
         <div class="navbar-container">
+            <button type="button" class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
             <div class="navbar-brand">
                 <h1>CodeAcademy<span class="accent">LMS</span></h1>
             </div>
             <nav class="navbar-nav">
                 <a href="#dashboard" class="nav-item active">
-                    <span class="icon">📊</span>
+                    <i class="fa-solid fa-chart-line icon"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="#users" class="nav-item">
-                    <span class="icon">👥</span>
+                <a href="users.html" class="nav-item">
+                    <i class="fa-solid fa-users icon"></i>
                     <span>Users</span>
                 </a>
-                <a href="#courses" class="nav-item">
-                    <span class="icon">📚</span>
+                <a href="courses.html" class="nav-item">
+                    <i class="fa-solid fa-book-open icon"></i>
                     <span>Courses</span>
                 </a>
-                <a href="#exams" class="nav-item">
-                    <span class="icon">📝</span>
+                <a href="exams.html" class="nav-item">
+                    <i class="fa-solid fa-clipboard-list icon"></i>
                     <span>Exams</span>
                 </a>
-                <a href="#reports" class="nav-item">
-                    <span class="icon">📈</span>
+                <a href="reports.html" class="nav-item">
+                    <i class="fa-solid fa-chart-pie icon"></i>
                     <span>Reports</span>
                 </a>
+                <a href="notifications.html" class="nav-item">
+                    <i class="fa-regular fa-bell icon"></i>
+                    <span>Notifications</span>
+                </a>
+                <button type="button" class="nav-item theme-toggle" id="themeToggle">
+                    <i class="fa-regular fa-moon icon" id="themeIcon"></i>
+                    <span id="themeLabel">Dark Mode</span>
+                </button>
             </nav>
             <div class="navbar-right">
-                <div class="notification-dropdown">
-                    <button class="notification-btn" id="notificationToggle">
-                        <span class="icon">🔔</span>
-                        <span class="badge">7</span>
-                    </button>
-                    <div class="dropdown-menu notification-dropdown-menu" id="notificationDropdown">
-                        <div class="dropdown-header">
-                            <h4>Notifications</h4>
-                            <span class="badge-small">7 new</span>
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <a href="#announcements" class="dropdown-item">
-                            <span class="icon">📢</span>
-                            <div class="dropdown-item-content">
-                                <span class="dropdown-item-title">Announcements</span>
-                                <span class="dropdown-item-desc">3 new announcements</span>
-                            </div>
-                        </a>
-                        <a href="#" class="dropdown-item">
-                            <span class="icon">🔔</span>
-                            <div class="dropdown-item-content">
-                                <span class="dropdown-item-title">System Notifications</span>
-                                <span class="dropdown-item-desc">4 new notifications</span>
-                            </div>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item view-all">
-                            <span>View All Notifications</span>
-                        </a>
-                    </div>
-                </div>
                 <div class="user-profile-dropdown">
                     <div class="user-profile" id="profileToggle">
                         <img src="https://via.placeholder.com/40" alt="Profile">
@@ -74,20 +117,20 @@
                             <span class="user-name">Admin User</span>
                             <span class="user-role">Administrator</span>
                         </div>
-                        <span class="dropdown-arrow">▼</span>
+                        <span class="dropdown-arrow"><i class="fa-solid fa-chevron-down"></i></span>
                     </div>
                     <div class="dropdown-menu profile-dropdown" id="profileDropdown">
                         <a href="#profile" class="dropdown-item">
-                            <span class="icon">👤</span>
+                            <i class="fa-regular fa-user icon"></i>
                             <span>Profile</span>
                         </a>
                         <a href="#settings" class="dropdown-item">
-                            <span class="icon">⚙️</span>
+                            <i class="fa-solid fa-gear icon"></i>
                             <span>Settings</span>
                         </a>
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item logout">
-                            <span class="icon">🚪</span>
+                            <i class="fa-solid fa-right-from-bracket icon"></i>
                             <span>Logout</span>
                         </a>
                     </div>
@@ -97,7 +140,7 @@
     </header>
 
     <!-- Main Content -->
-    <main class="main-content">
+    <main class="main-content" id="mainContent">
         <!-- Page Header -->
         <div class="page-header">
             <div class="page-title">
@@ -109,31 +152,31 @@
         <!-- Dashboard Content -->
         <div class="dashboard-content">
             <!-- Quick Actions -->
-            <section class="quick-actions">
-                <button class="action-btn primary">
-                    <span class="action-icon">➕</span>
+                                    <section class="quick-actions">
+                <button class="action-btn primary" type="button" data-open-user-modal>
+                    <i class="fa-solid fa-user-plus action-icon"></i>
                     <span>Add User</span>
                 </button>
-                <button class="action-btn secondary">
-                    <span class="action-icon">📚</span>
+                <button class="action-btn secondary" type="button" data-open-course-modal>
+                    <i class="fa-solid fa-book action-icon"></i>
                     <span>Create Course</span>
                 </button>
                 <button class="action-btn tertiary">
-                    <span class="action-icon">📢</span>
+                    <i class="fa-solid fa-bullhorn action-icon"></i>
                     <span>Send Announcement</span>
                 </button>
                 <button class="action-btn quaternary">
-                    <span class="action-icon">📊</span>
+                    <i class="fa-solid fa-chart-simple action-icon"></i>
                     <span>Generate Report</span>
                 </button>
             </section>
 
             <!-- System Stats -->
-            <section class="stats-section">
+                                    <section class="stats-section">
                 <div class="stat-card">
                     <div class="stat-header">
-                        <div class="stat-icon blue">👥</div>
-                        <span class="stat-trend up">↑ 12%</span>
+                        <div class="stat-icon blue"><i class="fa-solid fa-user-graduate"></i></div>
+                        <span class="stat-trend up">Up 12%</span>
                     </div>
                     <div class="stat-content">
                         <h3>1,248</h3>
@@ -143,8 +186,8 @@
                 </div>
                 <div class="stat-card">
                     <div class="stat-header">
-                        <div class="stat-icon green">👨‍🏫</div>
-                        <span class="stat-trend up">↑ 8%</span>
+                        <div class="stat-icon green"><i class="fa-solid fa-chalkboard-user"></i></div>
+                        <span class="stat-trend up">Up 8%</span>
                     </div>
                     <div class="stat-content">
                         <h3>38</h3>
@@ -154,8 +197,8 @@
                 </div>
                 <div class="stat-card">
                     <div class="stat-header">
-                        <div class="stat-icon purple">📚</div>
-                        <span class="stat-trend up">↑ 15%</span>
+                        <div class="stat-icon purple"><i class="fa-solid fa-book-open"></i></div>
+                        <span class="stat-trend up">Up 15%</span>
                     </div>
                     <div class="stat-content">
                         <h3>124</h3>
@@ -165,8 +208,8 @@
                 </div>
                 <div class="stat-card">
                     <div class="stat-header">
-                        <div class="stat-icon orange">📝</div>
-                        <span class="stat-trend neutral">→ 0%</span>
+                        <div class="stat-icon orange"><i class="fa-solid fa-clipboard-list"></i></div>
+                        <span class="stat-trend neutral">0%</span>
                     </div>
                     <div class="stat-content">
                         <h3>342</h3>
@@ -179,7 +222,7 @@
             <!-- Main Grid -->
             <div class="content-grid">
                 <!-- Recent Activities -->
-                <section class="card activity-card">
+                                                <section class="card activity-card">
                     <div class="card-header">
                         <h3>Recent System Activities</h3>
                         <select class="filter-select">
@@ -191,35 +234,35 @@
                     </div>
                     <div class="activities-list">
                         <div class="activity-item">
-                            <div class="activity-icon blue">👤</div>
+                            <div class="activity-icon blue"><i class="fa-regular fa-user"></i></div>
                             <div class="activity-content">
                                 <p><strong>New user registered:</strong> John Smith (Student)</p>
                                 <span class="activity-time">5 minutes ago</span>
                             </div>
                         </div>
                         <div class="activity-item">
-                            <div class="activity-icon green">📚</div>
+                            <div class="activity-icon green"><i class="fa-solid fa-book-open"></i></div>
                             <div class="activity-content">
                                 <p><strong>Course created:</strong> Advanced JavaScript by Dr. Brown</p>
                                 <span class="activity-time">1 hour ago</span>
                             </div>
                         </div>
                         <div class="activity-item">
-                            <div class="activity-icon purple">📝</div>
+                            <div class="activity-icon purple"><i class="fa-solid fa-clipboard-list"></i></div>
                             <div class="activity-content">
                                 <p><strong>Exam published:</strong> Python Final Exam</p>
                                 <span class="activity-time">2 hours ago</span>
                             </div>
                         </div>
                         <div class="activity-item">
-                            <div class="activity-icon orange">👨‍🏫</div>
+                            <div class="activity-icon orange"><i class="fa-solid fa-chalkboard-user"></i></div>
                             <div class="activity-content">
                                 <p><strong>Tutor assigned:</strong> Prof. Davis to Web Development</p>
                                 <span class="activity-time">3 hours ago</span>
                             </div>
                         </div>
                         <div class="activity-item">
-                            <div class="activity-icon red">🚫</div>
+                            <div class="activity-icon red"><i class="fa-solid fa-user-slash"></i></div>
                             <div class="activity-content">
                                 <p><strong>User deactivated:</strong> Test Account (Student)</p>
                                 <span class="activity-time">5 hours ago</span>
@@ -355,14 +398,14 @@
             </section>
 
             <!-- Pending Actions -->
-            <section class="card pending-card">
+                                    <section class="card pending-card">
                 <div class="card-header">
                     <h3>Pending Administrative Actions</h3>
                     <span class="pending-count">6 items</span>
                 </div>
                 <div class="pending-list">
                     <div class="pending-item urgent">
-                        <div class="pending-icon">⚠️</div>
+                        <div class="pending-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
                         <div class="pending-content">
                             <h4>Server Backup Overdue</h4>
                             <p>Last backup: 48 hours ago. Immediate action required.</p>
@@ -370,7 +413,7 @@
                         <button class="btn-resolve">Resolve</button>
                     </div>
                     <div class="pending-item">
-                        <div class="pending-icon">📝</div>
+                        <div class="pending-icon"><i class="fa-solid fa-clipboard-check"></i></div>
                         <div class="pending-content">
                             <h4>Course Approval Request</h4>
                             <p>3 new courses pending review and approval.</p>
@@ -378,7 +421,7 @@
                         <button class="btn-resolve">Review</button>
                     </div>
                     <div class="pending-item">
-                        <div class="pending-icon">👥</div>
+                        <div class="pending-icon"><i class="fa-solid fa-user-check"></i></div>
                         <div class="pending-content">
                             <h4>Tutor Applications</h4>
                             <p>5 tutor applications awaiting verification.</p>
@@ -390,15 +433,336 @@
         </div>
     </main>
 
+    <div id="userModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+        <div class="bg-surface-light dark:bg-surface-dark w-full max-w-md rounded-xl shadow-2xl border border-border-light dark:border-border-dark flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200">
+            <div class="px-6 py-4 border-b border-border-light dark:border-border-dark flex items-center justify-between">
+                <h3 class="text-xl font-bold text-text-primary-light dark:text-text-primary-dark">Add New User</h3>
+                <button class="text-text-secondary-light hover:text-text-primary-light dark:hover:text-text-primary-dark transition-colors" type="button" data-close-user-modal>
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="p-6 flex flex-col gap-4 bg-white">
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-sm font-semibold text-text-primary-light dark:text-text-primary-dark" for="modal-full-name">Full Name</label>
+                    <input class="w-full px-3 py-2 bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark rounded-lg text-sm focus:ring-primary focus:border-primary" id="modal-full-name" placeholder="e.g. John Doe" type="text">
+                </div>
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-sm font-semibold text-text-primary-light dark:text-text-primary-dark" for="modal-email">Email Address</label>
+                    <input class="w-full px-3 py-2 bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark rounded-lg text-sm focus:ring-primary focus:border-primary" id="modal-email" placeholder="john.doe@university.edu" type="email">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-sm font-semibold text-text-primary-light dark:text-text-primary-dark" for="modal-role">Role</label>
+                        <select class="w-full px-3 py-2 bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark rounded-lg text-sm focus:ring-primary focus:border-primary" id="modal-role">
+                            <option>Student</option>
+                            <option>Instructor</option>
+                            <option>Admin</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-sm font-semibold text-text-primary-light dark:text-text-primary-dark" for="modal-status">Initial Status</label>
+                        <select class="w-full px-3 py-2 bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark rounded-lg text-sm focus:ring-primary focus:border-primary" id="modal-status">
+                            <option>Active</option>
+                            <option>Inactive</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="px-6 py-4 bg-background-light/50 dark:bg-background-dark/50 border-t border-border-light dark:border-border-dark flex justify-end gap-3">
+                <button class="px-4 py-2 text-sm font-medium text-text-secondary-light hover:text-text-primary-light dark:hover:text-text-primary-dark transition-colors" type="button" data-close-user-modal>Cancel</button>
+                <button class="px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg text-sm font-medium transition-colors shadow-sm shadow-primary/20" type="button">Create User</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="courseModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+        <div class="bg-surface-light dark:bg-surface-dark w-full max-w-lg rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white">Create New Course</h3>
+                <button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors" type="button" data-close-course-modal>
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="p-6 flex flex-col gap-4 bg-white dark:bg-background-dark">
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-sm font-semibold text-slate-700 dark:text-slate-300" for="course-title">Course Title</label>
+                    <input class="w-full px-3 py-2 bg-white dark:bg-background-dark border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-primary focus:border-primary" id="course-title" placeholder="e.g. Advanced UI Design Patterns" type="text">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-sm font-semibold text-slate-700 dark:text-slate-300" for="course-category">Category</label>
+                        <select class="w-full px-3 py-2 bg-white dark:bg-background-dark border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-primary focus:border-primary" id="course-category">
+                            <option>Development</option>
+                            <option>Design</option>
+                            <option>Marketing</option>
+                            <option>Business</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-sm font-semibold text-slate-700 dark:text-slate-300" for="course-instructor">Instructor Name</label>
+                        <input class="w-full px-3 py-2 bg-white dark:bg-background-dark border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-primary focus:border-primary" id="course-instructor" placeholder="e.g. Jane Smith" type="text">
+                    </div>
+                </div>
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-sm font-semibold text-slate-700 dark:text-slate-300" for="course-description">Short Description</label>
+                    <textarea class="w-full px-3 py-2 bg-white dark:bg-background-dark border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-primary focus:border-primary min-h-[100px]" id="course-description" placeholder="Briefly describe what students will learn..."></textarea>
+                </div>
+            </div>
+            <div class="px-6 py-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-200 dark:border-slate-800 flex justify-end gap-3">
+                <button class="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors" type="button" data-close-course-modal>Cancel</button>
+                <button class="px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg text-sm font-bold transition-colors shadow-sm" type="button">Create Course</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="examModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
+        <div class="w-full max-w-xl bg-white dark:bg-background-dark rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-white dark:bg-slate-900">
+                <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100">Create New Exam</h3>
+                <button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors" type="button" data-close-exam-modal>
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="p-6 space-y-5">
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Exam Title</label>
+                    <input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white focus:border-primary focus:ring-1 focus:ring-primary text-sm h-11 px-4 transition-all" placeholder="e.g., Midterm Biology" type="text">
+                </div>
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Associated Course</label>
+                    <div class="relative">
+                        <select class="w-full appearance-none rounded-lg border-slate-200 dark:border-slate-700 bg-white focus:border-primary focus:ring-1 focus:ring-primary text-sm h-11 px-4 transition-all">
+                            <option disabled selected value="">Select a course</option>
+                            <option value="bio101">Biology 101</option>
+                            <option value="chem202">Chemistry 202</option>
+                            <option value="math301">Calculus III</option>
+                            <option value="phys101">Physics 101</option>
+                        </select>
+                        <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                            <span class="material-symbols-outlined text-xl">expand_more</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Exam Date</label>
+                        <div class="relative">
+                            <input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white focus:border-primary focus:ring-1 focus:ring-primary text-sm h-11 px-4 transition-all" type="date">
+                            <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                                <span class="material-symbols-outlined text-lg">calendar_today</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Start Time</label>
+                        <div class="relative">
+                            <input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-white focus:border-primary focus:ring-1 focus:ring-primary text-sm h-11 px-4 transition-all" type="time">
+                            <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                                <span class="material-symbols-outlined text-lg">schedule</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Duration (minutes)</label>
+                    <div class="flex items-center gap-3">
+                        <input class="flex-1 rounded-lg border-slate-200 dark:border-slate-700 bg-white focus:border-primary focus:ring-1 focus:ring-primary text-sm h-11 px-4 transition-all" placeholder="120" type="number">
+                        <span class="text-sm text-slate-500 font-medium">mins</span>
+                    </div>
+                </div>
+            </div>
+            <div class="px-6 py-4 bg-slate-50 dark:bg-slate-800/50 flex flex-col sm:flex-row justify-end gap-3 mt-4">
+                <button class="px-6 py-2.5 rounded-lg text-sm font-semibold text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors" type="button" data-close-exam-modal>Cancel</button>
+                <button class="px-6 py-2.5 rounded-lg text-sm font-semibold text-white bg-primary hover:bg-primary/90 shadow-md shadow-primary/20 transition-all flex items-center justify-center gap-2" type="button">Create Exam</button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        const mainContent = document.getElementById('mainContent');
+        const dashboardContent = mainContent ? mainContent.innerHTML : '';
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeLabel = document.getElementById('themeLabel');
+        const userModal = document.getElementById('userModal');
+        const courseModal = document.getElementById('courseModal');
+        const examModal = document.getElementById('examModal');
+        const menuToggle = document.getElementById('menuToggle');
+        const navbar = document.querySelector('.navbar');
+
+        const setTheme = (mode) => {
+            const root = document.documentElement;
+            if (mode === 'dark') {
+                root.classList.add('dark');
+                if (themeIcon) themeIcon.className = 'fa-regular fa-sun icon';
+                if (themeLabel) themeLabel.textContent = 'Light Mode';
+            } else {
+                root.classList.remove('dark');
+                if (themeIcon) themeIcon.className = 'fa-regular fa-moon icon';
+                if (themeLabel) themeLabel.textContent = 'Dark Mode';
+            }
+            localStorage.setItem('theme', mode);
+        };
+
+        const storedTheme = localStorage.getItem('theme');
+        setTheme(storedTheme === 'dark' ? 'dark' : 'light');
+
+        const openUserModal = () => {
+            if (!userModal) return;
+            userModal.classList.remove('hidden');
+            userModal.classList.add('flex');
+        };
+
+        const closeUserModal = () => {
+            if (!userModal) return;
+            userModal.classList.add('hidden');
+            userModal.classList.remove('flex');
+        };
+
+        const openCourseModal = () => {
+            if (!courseModal) return;
+            courseModal.classList.remove('hidden');
+            courseModal.classList.add('flex');
+        };
+
+        const closeCourseModal = () => {
+            if (!courseModal) return;
+            courseModal.classList.add('hidden');
+            courseModal.classList.remove('flex');
+        };
+
+        const openExamModal = () => {
+            if (!examModal) return;
+            examModal.classList.remove('hidden');
+            examModal.classList.add('flex');
+        };
+
+        const closeExamModal = () => {
+            if (!examModal) return;
+            examModal.classList.add('hidden');
+            examModal.classList.remove('flex');
+        };
+
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.contains('dark');
+                setTheme(isDark ? 'light' : 'dark');
+            });
+        }
+
+        if (menuToggle && navbar) {
+            menuToggle.addEventListener('click', () => {
+                navbar.classList.toggle('nav-open');
+            });
+        }
+
+        document.addEventListener('click', (event) => {
+            const openTrigger = event.target.closest('[data-open-user-modal]');
+            if (openTrigger) {
+                event.preventDefault();
+                openUserModal();
+                return;
+            }
+
+            const closeTrigger = event.target.closest('[data-close-user-modal]');
+            if (closeTrigger) {
+                event.preventDefault();
+                closeUserModal();
+                return;
+            }
+
+            const openCourseTrigger = event.target.closest('[data-open-course-modal]');
+            if (openCourseTrigger) {
+                event.preventDefault();
+                openCourseModal();
+                return;
+            }
+
+            const closeCourseTrigger = event.target.closest('[data-close-course-modal]');
+            if (closeCourseTrigger) {
+                event.preventDefault();
+                closeCourseModal();
+                return;
+            }
+
+            const openExamTrigger = event.target.closest('[data-open-exam-modal]');
+            if (openExamTrigger) {
+                event.preventDefault();
+                openExamModal();
+                return;
+            }
+
+            const closeExamTrigger = event.target.closest('[data-close-exam-modal]');
+            if (closeExamTrigger) {
+                event.preventDefault();
+                closeExamModal();
+                return;
+            }
+
+            if (userModal && event.target === userModal) {
+                closeUserModal();
+            }
+
+            if (courseModal && event.target === courseModal) {
+                closeCourseModal();
+            }
+
+            if (examModal && event.target === examModal) {
+                closeExamModal();
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                closeUserModal();
+                closeCourseModal();
+                closeExamModal();
+            }
+        });
+
         // Navigation active state
         const navItems = document.querySelectorAll('.nav-item');
         navItems.forEach(item => {
             item.addEventListener('click', function(e) {
-                if (!this.classList.contains('logout')) {
+                if (this.classList.contains('logout')) {
+                    return;
+                }
+
+                const href = this.getAttribute('href') || '';
+                const isUsersPage = href.indexOf('users.html') !== -1;
+                const isCoursesPage = href.indexOf('courses.html') !== -1;
+                const isExamsPage = href.indexOf('exams.html') !== -1;
+                const isReportsPage = href.indexOf('reports.html') !== -1;
+                const isNotificationsPage = href.indexOf('notifications.html') !== -1;
+                const isDashboard = href.indexOf('admin.html') !== -1 || href.indexOf('#dashboard') !== -1;
+
+                if (isUsersPage || isCoursesPage || isExamsPage || isReportsPage || isNotificationsPage || isDashboard) {
                     e.preventDefault();
-                    navItems.forEach(nav => nav.classList.remove('active'));
-                    this.classList.add('active');
+                }
+
+                navItems.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+
+                if ((isUsersPage || isCoursesPage || isExamsPage || isReportsPage || isNotificationsPage) && mainContent) {
+                    const target = isUsersPage
+                        ? 'users.html'
+                        : (isCoursesPage ? 'courses.html' : (isExamsPage ? 'exams.html' : (isReportsPage ? 'reports.html' : 'notifications.html')));
+                    fetch(target)
+                        .then(response => response.text())
+                        .then(html => {
+                            const doc = new DOMParser().parseFromString(html, 'text/html');
+                            const incoming = doc.querySelector('.main-content');
+                            if (incoming) {
+                                mainContent.innerHTML = incoming.innerHTML;
+                            }
+                        })
+                        .catch(() => {});
+                } else if (isDashboard && mainContent) {
+                    mainContent.innerHTML = dashboardContent;
+                }
+
+                if (navbar) {
+                    navbar.classList.remove('nav-open');
                 }
             });
         });
@@ -411,19 +775,6 @@
             profileToggle.addEventListener('click', function(e) {
                 e.stopPropagation();
                 profileDropdown.classList.toggle('show');
-                // Close notification dropdown if open
-                notificationDropdown.classList.remove('show');
-            });
-        }
-
-        // Notification dropdown toggle
-        const notificationToggle = document.getElementById('notificationToggle');
-        const notificationDropdown = document.getElementById('notificationDropdown');
-        
-        if (notificationToggle && notificationDropdown) {
-            notificationToggle.addEventListener('click', function(e) {
-                e.stopPropagation();
-                notificationDropdown.classList.toggle('show');
                 // Close profile dropdown if open
                 if (profileDropdown) profileDropdown.classList.remove('show');
             });
@@ -434,10 +785,12 @@
             if (profileToggle && profileDropdown && !profileToggle.contains(e.target) && !profileDropdown.contains(e.target)) {
                 profileDropdown.classList.remove('show');
             }
-            if (notificationToggle && notificationDropdown && !notificationToggle.contains(e.target) && !notificationDropdown.contains(e.target)) {
-                notificationDropdown.classList.remove('show');
-            }
         });
     </script>
 </body>
 </html>
+
+
+
+
+

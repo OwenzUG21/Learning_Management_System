@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS Course Catalog Admin</title>
+    <link rel="stylesheet" href="styles/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13a4ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101c22",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#182830"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display transition-colors duration-200">
+    <header class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <h1>CodeAcademy<span class="accent">LMS</span></h1>
+            </div>
+            <nav class="navbar-nav">
+                <a href="admin.html" class="nav-item">
+                    <i class="fa-solid fa-chart-line icon"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="users.html" class="nav-item">
+                    <i class="fa-solid fa-users icon"></i>
+                    <span>Users</span>
+                </a>
+                <a href="courses.html" class="nav-item active">
+                    <i class="fa-solid fa-book-open icon"></i>
+                    <span>Courses</span>
+                </a>
+                <a href="#exams" class="nav-item">
+                    <i class="fa-solid fa-clipboard-list icon"></i>
+                    <span>Exams</span>
+                </a>
+                <a href="#reports" class="nav-item">
+                    <i class="fa-solid fa-chart-pie icon"></i>
+                    <span>Reports</span>
+                </a>
+            </nav>
+            <div class="navbar-right">
+                <div class="notification-dropdown">
+                    <button class="notification-btn" id="notificationToggle">
+                        <i class="fa-regular fa-bell icon"></i>
+                        <span class="notification-text">Notifications</span>
+                        <span class="badge">7</span>
+                    </button>
+                    <div class="dropdown-menu notification-dropdown-menu" id="notificationDropdown">
+                        <div class="dropdown-header">
+                            <h4>Notifications</h4>
+                            <span class="badge-small">7 new</span>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="#announcements" class="dropdown-item">
+                            <i class="fa-solid fa-bullhorn icon"></i>
+                            <div class="dropdown-item-content">
+                                <span class="dropdown-item-title">Announcements</span>
+                                <span class="dropdown-item-desc">3 new announcements</span>
+                            </div>
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="fa-regular fa-bell icon"></i>
+                            <div class="dropdown-item-content">
+                                <span class="dropdown-item-title">System Notifications</span>
+                                <span class="dropdown-item-desc">4 new notifications</span>
+                            </div>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item view-all">
+                            <span>View All Notifications</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="user-profile-dropdown">
+                    <div class="user-profile" id="profileToggle">
+                        <img src="https://via.placeholder.com/40" alt="Profile">
+                        <div class="user-info">
+                            <span class="user-name">Admin User</span>
+                            <span class="user-role">Administrator</span>
+                        </div>
+                        <span class="dropdown-arrow"><i class="fa-solid fa-chevron-down"></i></span>
+                    </div>
+                    <div class="dropdown-menu profile-dropdown" id="profileDropdown">
+                        <a href="#profile" class="dropdown-item">
+                            <i class="fa-regular fa-user icon"></i>
+                            <span>Profile</span>
+                        </a>
+                        <a href="#settings" class="dropdown-item">
+                            <i class="fa-solid fa-gear icon"></i>
+                            <span>Settings</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item logout">
+                            <i class="fa-solid fa-right-from-bracket icon"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <main class="flex-1 flex flex-col h-screen overflow-hidden bg-background-light dark:bg-background-dark">
+            <header class="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-surface-light/80 dark:bg-surface-dark/80 px-6 backdrop-blur-md">
+                <div class="flex items-center gap-4">
+                    <button class="lg:hidden text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                    <div class="flex items-center text-sm text-slate-500 dark:text-slate-400">
+                        <span>Admin</span>
+                        <span class="material-symbols-outlined mx-1 text-xs">chevron_right</span>
+                        <span class="font-semibold text-slate-900 dark:text-white" style="color: #0f172a;">Course Catalog</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button class="flex h-9 w-9 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800 transition-colors">
+                        <span class="material-symbols-outlined">search</span>
+                    </button>
+                    <button class="relative flex h-9 w-9 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800 transition-colors">
+                        <span class="material-symbols-outlined">notifications</span>
+                        <span class="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-surface-dark"></span>
+                    </button>
+                </div>
+            </header>
+            <div class="flex-1 overflow-y-auto p-6 lg:p-10">
+                <div class="mx-auto max-w-7xl">
+                    <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                        <div>
+                            <h1 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white sm:text-4xl" style="color: #0f172a;">Course Catalog</h1>
+                            <p class="mt-2 text-base text-slate-500 dark:text-slate-400" style="color: #64748b;">Manage, organize, and track performance of all available courses.</p>
+                        </div>
+                        <button class="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-primary px-5 text-sm font-bold text-white shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-slate-900 transition-all" style="background: #13a4ec; color: #ffffff;" type="button" data-open-course-modal>
+                            <span class="material-symbols-outlined text-lg" style="color: #ffffff;">add</span>
+                            <span>Create New Course</span>
+                        </button>
+                    </div>
+                    <div class="mb-8 flex flex-wrap items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+                        <button class="flex items-center gap-2 rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-sm dark:bg-white dark:text-slate-900 transition-colors">
+                            <span class="material-symbols-outlined text-lg">grid_view</span>
+                            <span>All Categories</span>
+                        </button>
+                        <button class="flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:bg-surface-dark dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white transition-colors border border-slate-200 dark:border-slate-700">
+                            <span class="material-symbols-outlined text-lg">code</span>
+                            <span>Development</span>
+                        </button>
+                        <button class="flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:bg-surface-dark dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white transition-colors border border-slate-200 dark:border-slate-700">
+                            <span class="material-symbols-outlined text-lg">palette</span>
+                            <span>Design</span>
+                        </button>
+                        <button class="flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:bg-surface-dark dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white transition-colors border border-slate-200 dark:border-slate-700">
+                            <span class="material-symbols-outlined text-lg">campaign</span>
+                            <span>Marketing</span>
+                        </button>
+                        <button class="flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:bg-surface-dark dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white transition-colors border border-slate-200 dark:border-slate-700">
+                            <span class="material-symbols-outlined text-lg">business_center</span>
+                            <span>Business</span>
+                        </button>
+                        <div class="ml-auto flex items-center gap-2">
+                            <div class="relative">
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 material-symbols-outlined text-lg">filter_list</span>
+                                <select class="h-10 cursor-pointer appearance-none rounded-lg border border-slate-200 bg-white py-2 pl-10 pr-8 text-sm font-medium text-slate-600 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-700 dark:bg-surface-dark dark:text-slate-300">
+                                    <option>Most Recent</option>
+                                    <option>Most Popular</option>
+                                    <option>Highest Rated</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                        <div class="group flex flex-col overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300">
+                            <div class="relative aspect-video w-full overflow-hidden bg-slate-200">
+                                <img alt="Python code on screen" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzFGh2dIA_LBQ3MKawfTyG8MpNuqNDG2yxip3lI6l4mBpdQVKrmlpeouz60KDDIkvXO4Zv5qrI0ad_8Ld2BCUOEKhu1OBT00lz2RLonqL351vALU-Wub-RrcUaVnhKaZ4J-l0EI3EA6opcTln0NZHtYvjoWwabB-Y4-s9ddgwTQYijSj1ZL32ljX5rA5LUkXKHT_WddjVx7AUH0_c0ov3Qibr-Do4flwAt5d6u6QGK-vofHz6q5fQSILEPWX9ymgwpt0wZs9oZE3P6">
+                                <div class="absolute right-3 top-3 rounded-md bg-white/90 px-2 py-1 text-xs font-bold uppercase tracking-wider text-slate-900 backdrop-blur-sm dark:bg-black/80 dark:text-white">
+                                    Active
+                                </div>
+                            </div>
+                            <div class="flex flex-1 flex-col p-4">
+                                <div class="mb-2 flex items-center gap-2 text-xs font-medium text-primary">
+                                    <span class="material-symbols-outlined text-sm">code</span>
+                                    <span>Development</span>
+                                </div>
+                                <h3 class="mb-2 text-lg font-bold text-slate-900 dark:text-white leading-tight group-hover:text-primary transition-colors" style="color: #0f172a;">Intro to Python for Data Science</h3>
+                                <div class="mt-auto flex items-center justify-between border-t border-slate-100 pt-3 dark:border-slate-700">
+                                    <div class="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
+                                        <span class="material-symbols-outlined text-base">group</span>
+                                        <span>120 Students</span>
+                                    </div>
+                                    <div class="flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-yellow-400 text-sm fill-1" style="font-variation-settings: 'FILL' 1">star</span>
+                                        <span class="text-xs font-bold text-slate-700 dark:text-slate-200">4.8</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="group flex flex-col overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300">
+                            <div class="relative aspect-video w-full overflow-hidden bg-slate-200">
+                                <img alt="UI Design concept" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAapyTFw9lmHpA_viog84rl8Tq22P60FcOWeSvM4f4yWcJ7CFi5l69MG9YRCuWgQMNaoH_ybz2v-Awdh74_3tbbh69cK-VYTGEYYUNVSFVVN2_qx2D89iRKsaHDyhogbYcw-0Bt9lZzdMRgbcjJ7Blfp8-_bJgeOGQhF4X4P6lN8tlcFlhp7CaLbOFEpBNMILupcTASpgpZ5y3aaM2VPJuKCf9F-pzLDTHfW7-NTiUaQ2X_gROUubYzf9OVybSNSzCYlr70Un3gC693">
+                            </div>
+                            <div class="flex flex-1 flex-col p-4">
+                                <div class="mb-2 flex items-center gap-2 text-xs font-medium text-primary">
+                                    <span class="material-symbols-outlined text-sm">palette</span>
+                                    <span>Design</span>
+                                </div>
+                                <h3 class="mb-2 text-lg font-bold text-slate-900 dark:text-white leading-tight group-hover:text-primary transition-colors" style="color: #0f172a;">UX Design Fundamentals</h3>
+                                <div class="mt-auto flex items-center justify-between border-t border-slate-100 pt-3 dark:border-slate-700">
+                                    <div class="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
+                                        <span class="material-symbols-outlined text-base">group</span>
+                                        <span>85 Students</span>
+                                    </div>
+                                    <div class="flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-yellow-400 text-sm fill-1" style="font-variation-settings: 'FILL' 1">star</span>
+                                        <span class="text-xs font-bold text-slate-700 dark:text-slate-200">4.9</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="group flex flex-col overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300">
+                            <div class="relative aspect-video w-full overflow-hidden bg-slate-200">
+                                <img alt="Marketing analytics" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMMYyn9KXZgI3gVJeTx-ylPe33WIlniPpoV8KYWepGwPwoT_Y53bNwduL-mWWjtp66oSwvzpIv9BVFJH6EgwT-qccZ6WLRj3t2Btd8N4fEgpgM4MwORKcekRTxC6eDcpyaRrGOFym6YbjQsvYOkYh7JitUsZfhJTBLphRP7vGpFjr0pxSmcvrgQP4K3KFoZKpU2MWmLVDIKDsh-LJya--T5VjhCjzbqEcJKTD9z4ve3b-kemDQ_alhaKm5orErqAe0BxZMllwBEEQ1">
+                                <div class="absolute right-3 top-3 rounded-md bg-white/90 px-2 py-1 text-xs font-bold uppercase tracking-wider text-slate-900 backdrop-blur-sm dark:bg-black/80 dark:text-white">
+                                    New
+                                </div>
+                            </div>
+                            <div class="flex flex-1 flex-col p-4">
+                                <div class="mb-2 flex items-center gap-2 text-xs font-medium text-primary">
+                                    <span class="material-symbols-outlined text-sm">campaign</span>
+                                    <span>Marketing</span>
+                                </div>
+                                <h3 class="mb-2 text-lg font-bold text-slate-900 dark:text-white leading-tight group-hover:text-primary transition-colors" style="color: #0f172a;">Digital Marketing 101</h3>
+                                <div class="mt-auto flex items-center justify-between border-t border-slate-100 pt-3 dark:border-slate-700">
+                                    <div class="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
+                                        <span class="material-symbols-outlined text-base">group</span>
+                                        <span>200 Students</span>
+                                    </div>
+                                    <div class="flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-yellow-400 text-sm fill-1" style="font-variation-settings: 'FILL' 1">star</span>
+                                        <span class="text-xs font-bold text-slate-700 dark:text-slate-200">4.5</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="group flex flex-col overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300">
+                            <div class="relative aspect-video w-full overflow-hidden bg-slate-200">
+                                <img alt="Business meeting" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVmWjT23QWiH_lK4K6ROCUPifN3hqlMJaplZTwGJY1GCVkCHNBbK6_fH59yDNddX2WnlYWXidkBSkVlFqblyRLmXnQrpnOlqCSJkfV8cVoe-NbG9iABB61P3i91MdkKHfnmNz3fGIKFVW-VwuTnnIG10U4HlBmC5qpIxoKo2e1rX0THN8XoikA8XEs_L8ipOL5HubG8KCKeAV-48Uttmx1E49naX8BhYgVukRE-VBED1wNdgYigS7rcJcuSK6WT4GQjBjsGzs6rO7X">
+                            </div>
+                            <div class="flex flex-1 flex-col p-4">
+                                <div class="mb-2 flex items-center gap-2 text-xs font-medium text-primary">
+                                    <span class="material-symbols-outlined text-sm">business_center</span>
+                                    <span>Business</span>
+                                </div>
+                                <h3 class="mb-2 text-lg font-bold text-slate-900 dark:text-white leading-tight group-hover:text-primary transition-colors" style="color: #0f172a;">Business Strategy Masterclass</h3>
+                                <div class="mt-auto flex items-center justify-between border-t border-slate-100 pt-3 dark:border-slate-700">
+                                    <div class="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
+                                        <span class="material-symbols-outlined text-base">group</span>
+                                        <span>50 Students</span>
+                                    </div>
+                                    <div class="flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-yellow-400 text-sm fill-1" style="font-variation-settings: 'FILL' 1">star</span>
+                                        <span class="text-xs font-bold text-slate-700 dark:text-slate-200">4.7</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="group flex flex-col overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300">
+                            <div class="relative aspect-video w-full overflow-hidden bg-slate-200">
+                                <img alt="React Logo concept" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCyHs_DOX4LA9_Oz1ZDw9DMRV2Ml99zyX7D_mTiacqbXf3QoC2MyhRtMQl6Ukr4uInIM4sk6XSnWaKqEaRabaq3rYKc7PFaHbPDtvAVA2Nuej-K9i8FSwnQy_jHIbNq_fM96oq_xBxTwx-_NAL_s3QHxUhb0OnQxcUEoP73PuKhNcfFLL1qCd6-G0YruBl1qr1qi5rMm0u5QoEHvmi1apqSiObMectxVllzayTk0hPkPowgk155rQOP6F98C3ay6iQrQNMNpdHmuz3">
+                            </div>
+                            <div class="flex flex-1 flex-col p-4">
+                                <div class="mb-2 flex items-center gap-2 text-xs font-medium text-primary">
+                                    <span class="material-symbols-outlined text-sm">code</span>
+                                    <span>Development</span>
+                                </div>
+                                <h3 class="mb-2 text-lg font-bold text-slate-900 dark:text-white leading-tight group-hover:text-primary transition-colors" style="color: #0f172a;">Advanced React Patterns</h3>
+                                <div class="mt-auto flex items-center justify-between border-t border-slate-100 pt-3 dark:border-slate-700">
+                                    <div class="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
+                                        <span class="material-symbols-outlined text-base">group</span>
+                                        <span>45 Students</span>
+                                    </div>
+                                    <div class="flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-yellow-400 text-sm fill-1" style="font-variation-settings: 'FILL' 1">star</span>
+                                        <span class="text-xs font-bold text-slate-700 dark:text-slate-200">5.0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="group flex flex-col overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300">
+                            <div class="relative aspect-video w-full overflow-hidden bg-slate-200">
+                                <img alt="Graphic Design Tools" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9b2DxHpCS4xxrNeiZhzX108ugppxNb-uEEeMGKSRJHo_J699Y1KQADjh_wztfCPB27wdQ3_hLHBdN9ISRNSJNj9BrFdXJ8oWCw0Nrd9nA_CnnqavRV-kiqhs73ytt_QROoF_YTkUJb3rN08qW91RWl8GVhwEtMvFJ90A4DNgW_jpP6h6Z4-VgTDM7sNrjTY234fZosumu5qvN44l9wRbydAiOciBDjuTAwOgfQxrg3qemVNs-qDsYRkqK8-l3sqlifkdEv3FxzmPH">
+                                <div class="absolute right-3 top-3 rounded-md bg-white/90 px-2 py-1 text-xs font-bold uppercase tracking-wider text-slate-900 backdrop-blur-sm dark:bg-black/80 dark:text-white">
+                                    Popular
+                                </div>
+                            </div>
+                            <div class="flex flex-1 flex-col p-4">
+                                <div class="mb-2 flex items-center gap-2 text-xs font-medium text-primary">
+                                    <span class="material-symbols-outlined text-sm">palette</span>
+                                    <span>Design</span>
+                                </div>
+                                <h3 class="mb-2 text-lg font-bold text-slate-900 dark:text-white leading-tight group-hover:text-primary transition-colors" style="color: #0f172a;">Graphic Design Masterclass</h3>
+                                <div class="mt-auto flex items-center justify-between border-t border-slate-100 pt-3 dark:border-slate-700">
+                                    <div class="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
+                                        <span class="material-symbols-outlined text-base">group</span>
+                                        <span>110 Students</span>
+                                    </div>
+                                    <div class="flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-yellow-400 text-sm fill-1" style="font-variation-settings: 'FILL' 1">star</span>
+                                        <span class="text-xs font-bold text-slate-700 dark:text-slate-200">4.6</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="group flex flex-col overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300 opacity-75">
+                            <div class="relative aspect-video w-full overflow-hidden bg-slate-200">
+                                <img alt="Data Analytics" class="h-full w-full object-cover grayscale transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvEIVS_0zJ46bbDQOviNhx4fS6jV03_Z_iZiFyqt3Ci660m3Nulv3OgRoz08Tgl3X7wVU05BmazhCgoq7X2j9fUwt2RE85c-ZPsw7jWIsRWKCm_yPJF0zn4-ydjllbP0E7fH7yvJudFPURM52TQkGyD8HvdMS_rNtH2cJ8rfTx4igMVXRRXwrBMo1pGx5dkjaz_HlBHYfAse0jXvy6_cfdRoqaFRHytZKSXE6wC3EYmGIXOrB2fcA7oSEMleTb58NVzx2KaparPdE_">
+                                <div class="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[1px]">
+                                    <span class="rounded-full bg-slate-900 px-3 py-1 text-xs font-bold text-white">Draft</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-1 flex-col p-4">
+                                <div class="mb-2 flex items-center gap-2 text-xs font-medium text-primary">
+                                    <span class="material-symbols-outlined text-sm">bar_chart</span>
+                                    <span>Data</span>
+                                </div>
+                                <h3 class="mb-2 text-lg font-bold text-slate-900 dark:text-white leading-tight group-hover:text-primary transition-colors" style="color: #0f172a;">Data Visualization with D3</h3>
+                                <div class="mt-auto flex items-center justify-between border-t border-slate-100 pt-3 dark:border-slate-700">
+                                    <div class="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
+                                        <span class="material-symbols-outlined text-base">group</span>
+                                        <span>0 Students</span>
+                                    </div>
+                                    <div class="flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-slate-300 text-sm fill-1">star</span>
+                                        <span class="text-xs font-bold text-slate-400">--</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="group flex flex-col items-center justify-center overflow-hidden rounded-xl border-2 border-dashed border-slate-300 bg-transparent p-6 hover:border-primary hover:bg-primary/5 dark:border-slate-700 dark:hover:border-primary transition-all duration-300 min-h-[300px]" type="button" data-open-course-modal>
+                            <div class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 text-slate-400 group-hover:bg-primary group-hover:text-white dark:bg-slate-800 dark:text-slate-500 transition-colors">
+                                <span class="material-symbols-outlined text-3xl">add</span>
+                            </div>
+                            <span class="text-sm font-bold text-slate-900 group-hover:text-primary dark:text-white transition-colors">Create New Course</span>
+                            <span class="mt-2 text-center text-xs text-slate-500 dark:text-slate-400">Add a new course to the catalog</span>
+                        </button>
+                    </div>
+                    <div class="mt-12 flex items-center justify-center pb-12">
+                        <nav aria-label="Pagination" class="flex items-center gap-2">
+                            <a class="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-900 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white transition-colors" href="#">
+                                <span class="material-symbols-outlined text-lg">chevron_left</span>
+                            </a>
+                            <a aria-current="page" class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-sm font-bold text-white shadow-sm hover:bg-primary/90 transition-colors" href="#">1</a>
+                            <a class="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white transition-colors" href="#">2</a>
+                            <a class="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white transition-colors" href="#">3</a>
+                            <span class="flex h-10 w-10 items-center justify-center text-slate-400">...</span>
+                            <a class="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white transition-colors" href="#">12</a>
+                            <a class="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-900 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white transition-colors" href="#">
+                                <span class="material-symbols-outlined text-lg">chevron_right</span>
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </main>
+</body>
+</html>

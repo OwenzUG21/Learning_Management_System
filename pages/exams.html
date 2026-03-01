@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS Exam Management</title>
+    <link rel="stylesheet" href="styles/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#13a4ec",
+                        "primary-content": "#ffffff",
+                        "primary-dark": "#0e7ab0",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101c22",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2c35",
+                        "text-main": "#0f172a",
+                        "text-main-dark": "#f1f5f9",
+                        "text-muted": "#64748b",
+                        "text-muted-dark": "#94a3b8",
+                        "border-light": "#e2e8f0",
+                        "border-dark": "#334155"
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                        sans: ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        "2xl": "1rem"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-main dark:text-text-main-dark transition-colors duration-200">
+    <header class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <h1>CodeAcademy<span class="accent">LMS</span></h1>
+            </div>
+            <nav class="navbar-nav">
+                <a href="admin.html" class="nav-item">
+                    <i class="fa-solid fa-chart-line icon"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="users.html" class="nav-item">
+                    <i class="fa-solid fa-users icon"></i>
+                    <span>Users</span>
+                </a>
+                <a href="courses.html" class="nav-item">
+                    <i class="fa-solid fa-book-open icon"></i>
+                    <span>Courses</span>
+                </a>
+                <a href="exams.html" class="nav-item active">
+                    <i class="fa-solid fa-clipboard-list icon"></i>
+                    <span>Exams</span>
+                </a>
+                <a href="#reports" class="nav-item">
+                    <i class="fa-solid fa-chart-pie icon"></i>
+                    <span>Reports</span>
+                </a>
+            </nav>
+            <div class="navbar-right">
+                <div class="notification-dropdown">
+                    <button class="notification-btn" id="notificationToggle">
+                        <i class="fa-regular fa-bell icon"></i>
+                        <span class="notification-text">Notifications</span>
+                        <span class="badge">7</span>
+                    </button>
+                    <div class="dropdown-menu notification-dropdown-menu" id="notificationDropdown">
+                        <div class="dropdown-header">
+                            <h4>Notifications</h4>
+                            <span class="badge-small">7 new</span>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="#announcements" class="dropdown-item">
+                            <i class="fa-solid fa-bullhorn icon"></i>
+                            <div class="dropdown-item-content">
+                                <span class="dropdown-item-title">Announcements</span>
+                                <span class="dropdown-item-desc">3 new announcements</span>
+                            </div>
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="fa-regular fa-bell icon"></i>
+                            <div class="dropdown-item-content">
+                                <span class="dropdown-item-title">System Notifications</span>
+                                <span class="dropdown-item-desc">4 new notifications</span>
+                            </div>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item view-all">
+                            <span>View All Notifications</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="user-profile-dropdown">
+                    <div class="user-profile" id="profileToggle">
+                        <img src="https://via.placeholder.com/40" alt="Profile">
+                        <div class="user-info">
+                            <span class="user-name">Admin User</span>
+                            <span class="user-role">Administrator</span>
+                        </div>
+                        <span class="dropdown-arrow"><i class="fa-solid fa-chevron-down"></i></span>
+                    </div>
+                    <div class="dropdown-menu profile-dropdown" id="profileDropdown">
+                        <a href="#profile" class="dropdown-item">
+                            <i class="fa-regular fa-user icon"></i>
+                            <span>Profile</span>
+                        </a>
+                        <a href="#settings" class="dropdown-item">
+                            <i class="fa-solid fa-gear icon"></i>
+                            <span>Settings</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item logout">
+                            <i class="fa-solid fa-right-from-bracket icon"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <main class="flex-1 px-4 py-8 md:px-8 lg:px-12 xl:px-40">
+            <div class="mx-auto flex max-w-[1200px] flex-col gap-8">
+                <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <h1 class="text-3xl font-black tracking-tight text-text-main dark:text-text-main-dark">Exam Management</h1>
+                        <p class="mt-1 text-text-muted dark:text-text-muted-dark">Oversee schedules, grading, and performance metrics.</p>
+                    </div>
+                      <button class="flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-content shadow-lg shadow-primary/20 hover:bg-primary-dark transition-all active:scale-95" type="button" data-open-exam-modal>
+                          <span class="material-symbols-outlined text-[20px]">add</span>
+                          <span>Create New Exam</span>
+                      </button>
+                </div>
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                    <div class="flex flex-col gap-1 rounded-2xl bg-surface-light dark:bg-surface-dark p-5 shadow-sm border border-border-light dark:border-border-dark">
+                        <div class="flex items-center gap-2 text-text-muted dark:text-text-muted-dark">
+                            <span class="material-symbols-outlined text-[20px]">assignment</span>
+                            <span class="text-sm font-medium">Total Exams</span>
+                        </div>
+                        <p class="text-2xl font-bold text-text-main dark:text-text-main-dark">124</p>
+                    </div>
+                    <div class="flex flex-col gap-1 rounded-2xl bg-surface-light dark:bg-surface-dark p-5 shadow-sm border border-border-light dark:border-border-dark">
+                        <div class="flex items-center gap-2 text-primary">
+                            <span class="material-symbols-outlined text-[20px]">schedule</span>
+                            <span class="text-sm font-medium">Upcoming</span>
+                        </div>
+                        <p class="text-2xl font-bold text-text-main dark:text-text-main-dark">8</p>
+                    </div>
+                    <div class="flex flex-col gap-1 rounded-2xl bg-surface-light dark:bg-surface-dark p-5 shadow-sm border border-border-light dark:border-border-dark">
+                        <div class="flex items-center gap-2 text-amber-500">
+                            <span class="material-symbols-outlined text-[20px]">history_edu</span>
+                            <span class="text-sm font-medium">Needs Grading</span>
+                        </div>
+                        <p class="text-2xl font-bold text-text-main dark:text-text-main-dark">12</p>
+                    </div>
+                    <div class="flex flex-col gap-1 rounded-2xl bg-surface-light dark:bg-surface-dark p-5 shadow-sm border border-border-light dark:border-border-dark">
+                        <div class="flex items-center gap-2 text-emerald-500">
+                            <span class="material-symbols-outlined text-[20px]">analytics</span>
+                            <span class="text-sm font-medium">Avg. Performance</span>
+                        </div>
+                        <p class="text-2xl font-bold text-text-main dark:text-text-main-dark">78%</p>
+                    </div>
+                </div>
+                <div class="flex flex-col overflow-hidden rounded-2xl border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark shadow-sm">
+                    <div class="flex flex-col gap-4 border-b border-border-light dark:border-border-dark p-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div class="flex gap-2 overflow-x-auto pb-2 sm:pb-0 no-scrollbar">
+                            <button class="whitespace-nowrap rounded-lg bg-primary/10 px-4 py-2 text-sm font-semibold text-primary transition-colors">All Exams</button>
+                            <button class="whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium text-text-muted hover:bg-background-light dark:text-text-muted-dark dark:hover:bg-background-dark transition-colors">Upcoming</button>
+                            <button class="whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium text-text-muted hover:bg-background-light dark:text-text-muted-dark dark:hover:bg-background-dark transition-colors">Completed</button>
+                            <button class="whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium text-text-muted hover:bg-background-light dark:text-text-muted-dark dark:hover:bg-background-dark transition-colors">Grading Pending</button>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button class="flex items-center gap-2 rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark px-3 py-2 text-sm font-medium text-text-muted dark:text-text-muted-dark hover:bg-background-light dark:hover:bg-background-dark transition-colors">
+                                <span class="material-symbols-outlined text-[18px]">filter_list</span>
+                                <span>Filter</span>
+                            </button>
+                            <button class="flex items-center gap-2 rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark px-3 py-2 text-sm font-medium text-text-muted dark:text-text-muted-dark hover:bg-background-light dark:hover:bg-background-dark transition-colors">
+                                <span class="material-symbols-outlined text-[18px]">sort</span>
+                                <span>Sort</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-background-light dark:bg-background-dark">
+                                <tr>
+                                    <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-text-muted dark:text-text-muted-dark w-1/4">Exam Title</th>
+                                    <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-text-muted dark:text-text-muted-dark w-1/4">Associated Course</th>
+                                    <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-text-muted dark:text-text-muted-dark">Date</th>
+                                    <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-text-muted dark:text-text-muted-dark">Avg. Score</th>
+                                    <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-text-muted dark:text-text-muted-dark">Status</th>
+                                    <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-text-muted dark:text-text-muted-dark text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-border-light dark:divide-border-dark">
+                                <tr class="group hover:bg-background-light/50 dark:hover:bg-background-dark/50 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="h-10 w-10 shrink-0 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
+                                                <span class="material-symbols-outlined">quiz</span>
+                                            </div>
+                                            <div>
+                                                <div class="font-semibold text-text-main dark:text-text-main-dark">Midterm Assessment</div>
+                                                <div class="text-xs text-text-muted dark:text-text-muted-dark">ID: EX-2023-001</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-text-main dark:text-text-main-dark">Intro to Computer Science</div>
+                                        <div class="text-xs text-text-muted dark:text-text-muted-dark">CS101 - Fall 2023</div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-text-main dark:text-text-main-dark">Oct 15, 2023</div>
+                                        <div class="text-xs text-text-muted dark:text-text-muted-dark">10:00 AM</div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="inline-flex items-center rounded-md bg-emerald-50 dark:bg-emerald-900/20 px-2 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-400 ring-1 ring-inset ring-emerald-600/20">85%</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-2">
+                                            <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+                                            <span class="text-sm text-text-main dark:text-text-main-dark">Completed</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-sm font-semibold text-primary hover:text-primary-dark transition-colors mr-3">View Results</button>
+                                        <button class="text-text-muted hover:text-text-main dark:text-text-muted-dark dark:hover:text-white transition-colors">
+                                            <span class="material-symbols-outlined text-[20px]">more_vert</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="group hover:bg-background-light/50 dark:hover:bg-background-dark/50 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="h-10 w-10 shrink-0 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
+                                                <span class="material-symbols-outlined">code</span>
+                                            </div>
+                                            <div>
+                                                <div class="font-semibold text-text-main dark:text-text-main-dark">Final Exam</div>
+                                                <div class="text-xs text-text-muted dark:text-text-muted-dark">ID: EX-2023-045</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-text-main dark:text-text-main-dark">Data Structures &amp; Algo</div>
+                                        <div class="text-xs text-text-muted dark:text-text-muted-dark">CS201 - Winter 2023</div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-text-main dark:text-text-main-dark">Dec 10, 2023</div>
+                                        <div class="text-xs text-text-muted dark:text-text-muted-dark">09:00 AM</div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="text-sm text-text-muted dark:text-text-muted-dark">-</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-2">
+                                            <span class="h-2 w-2 rounded-full bg-primary"></span>
+                                            <span class="text-sm text-text-main dark:text-text-main-dark">Upcoming</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-sm font-semibold text-text-muted hover:text-text-main dark:text-text-muted-dark dark:hover:text-white transition-colors mr-3">Edit Exam</button>
+                                        <button class="text-text-muted hover:text-text-main dark:text-text-muted-dark dark:hover:text-white transition-colors">
+                                            <span class="material-symbols-outlined text-[20px]">more_vert</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="group hover:bg-background-light/50 dark:hover:bg-background-dark/50 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="h-10 w-10 shrink-0 rounded-lg bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-orange-600 dark:text-orange-400">
+                                                <span class="material-symbols-outlined">javascript</span>
+                                            </div>
+                                            <div>
+                                                <div class="font-semibold text-text-main dark:text-text-main-dark">Quiz 3: React Basics</div>
+                                                <div class="text-xs text-text-muted dark:text-text-muted-dark">ID: EX-2023-012</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-text-main dark:text-text-main-dark">Frontend Development</div>
+                                        <div class="text-xs text-text-muted dark:text-text-muted-dark">FE300 - Fall 2023</div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-text-main dark:text-text-main-dark">Nov 01, 2023</div>
+                                        <div class="text-xs text-text-muted dark:text-text-muted-dark">02:00 PM</div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="inline-flex items-center rounded-md bg-emerald-50 dark:bg-emerald-900/20 px-2 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-400 ring-1 ring-inset ring-emerald-600/20">92%</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-2">
+                                            <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+                                            <span class="text-sm text-text-main dark:text-text-main-dark">Graded</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-sm font-semibold text-primary hover:text-primary-dark transition-colors mr-3">View Results</button>
+                                        <button class="text-text-muted hover:text-text-main dark:text-text-muted-dark dark:hover:text-white transition-colors">
+                                            <span class="material-symbols-outlined text-[20px]">more_vert</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="group hover:bg-background-light/50 dark:hover:bg-background-dark/50 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="h-10 w-10 shrink-0 rounded-lg bg-cyan-100 dark:bg-cyan-900/30 flex items-center justify-center text-cyan-600 dark:text-cyan-400">
+                                                <span class="material-symbols-outlined">database</span>
+                                            </div>
+                                            <div>
+                                                <div class="font-semibold text-text-main dark:text-text-main-dark">Weekly Test 5</div>
+                                                <div class="text-xs text-text-muted dark:text-text-muted-dark">ID: EX-2023-015</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-text-main dark:text-text-main-dark">Database Management</div>
+                                        <div class="text-xs text-text-muted dark:text-text-muted-dark">DB400 - Fall 2023</div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-text-main dark:text-text-main-dark">Nov 05, 2023</div>
+                                        <div class="text-xs text-text-muted dark:text-text-muted-dark">11:00 AM</div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="inline-flex items-center rounded-md bg-yellow-50 dark:bg-yellow-900/20 px-2 py-1 text-xs font-medium text-yellow-800 dark:text-yellow-400 ring-1 ring-inset ring-yellow-600/20">78%</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-2">
+                                            <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+                                            <span class="text-sm text-text-main dark:text-text-main-dark">Graded</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-sm font-semibold text-primary hover:text-primary-dark transition-colors mr-3">View Results</button>
+                                        <button class="text-text-muted hover:text-text-main dark:text-text-muted-dark dark:hover:text-white transition-colors">
+                                            <span class="material-symbols-outlined text-[20px]">more_vert</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="group hover:bg-background-light/50 dark:hover:bg-background-dark/50 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="h-10 w-10 shrink-0 rounded-lg bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-600 dark:text-red-400">
+                                                <span class="material-symbols-outlined">lock</span>
+                                            </div>
+                                            <div>
+                                                <div class="font-semibold text-text-main dark:text-text-main-dark">Pop Quiz</div>
+                                                <div class="text-xs text-text-muted dark:text-text-muted-dark">ID: EX-2023-099</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-text-main dark:text-text-main-dark">Network Security</div>
+                                        <div class="text-xs text-text-muted dark:text-text-muted-dark">NS501 - Fall 2023</div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-text-main dark:text-text-main-dark">Nov 12, 2023</div>
+                                        <div class="text-xs text-text-muted dark:text-text-muted-dark">01:00 PM</div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="text-sm text-text-muted dark:text-text-muted-dark">-</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-2">
+                                            <span class="h-2 w-2 rounded-full bg-primary"></span>
+                                            <span class="text-sm text-text-main dark:text-text-main-dark">Scheduled</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button class="text-sm font-semibold text-text-muted hover:text-text-main dark:text-text-muted-dark dark:hover:text-white transition-colors mr-3">Edit Exam</button>
+                                        <button class="text-text-muted hover:text-text-main dark:text-text-muted-dark dark:hover:text-white transition-colors">
+                                            <span class="material-symbols-outlined text-[20px]">more_vert</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="flex items-center justify-between border-t border-border-light dark:border-border-dark px-4 py-3 sm:px-6">
+                        <div class="flex flex-1 justify-between sm:hidden">
+                            <a class="relative inline-flex items-center rounded-md border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark px-4 py-2 text-sm font-medium text-text-main dark:text-text-main-dark hover:bg-background-light dark:hover:bg-background-dark" href="#">Previous</a>
+                            <a class="relative ml-3 inline-flex items-center rounded-md border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark px-4 py-2 text-sm font-medium text-text-main dark:text-text-main-dark hover:bg-background-light dark:hover:bg-background-dark" href="#">Next</a>
+                        </div>
+                        <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                            <div>
+                                <p class="text-sm text-text-muted dark:text-text-muted-dark">
+                                    Showing <span class="font-medium text-text-main dark:text-text-main-dark">1</span> to <span class="font-medium text-text-main dark:text-text-main-dark">5</span> of <span class="font-medium text-text-main dark:text-text-main-dark">124</span> results
+                                </p>
+                            </div>
+                            <div>
+                                <nav aria-label="Pagination" class="isolate inline-flex -space-x-px rounded-md shadow-sm">
+                                    <a class="relative inline-flex items-center rounded-l-md px-2 py-2 text-text-muted hover:bg-background-light focus:z-20 focus:outline-offset-0 dark:text-text-muted-dark dark:hover:bg-background-dark" href="#">
+                                        <span class="sr-only">Previous</span>
+                                        <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+                                    </a>
+                                    <a aria-current="page" class="relative z-10 inline-flex items-center bg-primary px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary" href="#">1</a>
+                                    <a class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-text-main hover:bg-background-light focus:z-20 focus:outline-offset-0 dark:text-text-main-dark dark:hover:bg-background-dark" href="#">2</a>
+                                    <a class="relative hidden items-center px-4 py-2 text-sm font-semibold text-text-main hover:bg-background-light focus:z-20 focus:outline-offset-0 md:inline-flex dark:text-text-main-dark dark:hover:bg-background-dark" href="#">3</a>
+                                    <span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-text-muted dark:text-text-muted-dark">...</span>
+                                    <a class="relative hidden items-center px-4 py-2 text-sm font-semibold text-text-main hover:bg-background-light focus:z-20 focus:outline-offset-0 md:inline-flex dark:text-text-main-dark dark:hover:bg-background-dark" href="#">10</a>
+                                    <a class="relative inline-flex items-center rounded-r-md px-2 py-2 text-text-muted hover:bg-background-light focus:z-20 focus:outline-offset-0 dark:text-text-muted-dark dark:hover:bg-background-dark" href="#">
+                                        <span class="sr-only">Next</span>
+                                        <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+                                    </a>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </main>
+</body>
+</html>
