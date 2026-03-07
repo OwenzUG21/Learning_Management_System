@@ -3,205 +3,663 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notifications - LMS</title>
+    <title>Notifications - CodeAcademy LMS</title>
     <link rel="stylesheet" href="styles/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script>
+        window.tailwind = window.tailwind || {};
+        window.tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13a4ec",
+                        "primary-dark": "#0b7fb8",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101c22",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#182830",
+                        "text-primary-light": "#111618",
+                        "text-primary-dark": "#e2e8f0",
+                        "text-secondary-light": "#617c89",
+                        "text-secondary-dark": "#94a3b8",
+                        "border-light": "#e2e8f0",
+                        "border-dark": "#2d3748"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    }
+                }
+            }
+        };
+    </script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+        .notification-card {
+            transition: all 0.3s ease;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+        }
+        .notification-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: #13a4ec;
+        }
+        .dark .notification-card {
+            background: #1e293b;
+            border-color: #475569;
+        }
+        .dark .notification-card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        .compose-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        .stats-grid {
+            background: linear-gradient(135deg, #13a4ec 0%, #0ea5e9 100%);
+            color: white;
+        }
+        .priority-high {
+            border-left: 4px solid #ef4444;
+        }
+        .priority-medium {
+            border-left: 4px solid #f59e0b;
+        }
+        .priority-low {
+            border-left: 4px solid #10b981;
+        }
+        .notification-type-system {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+        .notification-type-announcement {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+        .notification-type-reminder {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+        .notification-type-alert {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+        .recipient-chip {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        .recipient-chip::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        .recipient-chip:hover::before {
+            left: 100%;
+        }
+        .recipient-chip:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.6);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        .recipient-chip.active {
+            background: white;
+            color: #667eea;
+            border-color: white;
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+        }
+        .recipient-chip.active:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.5);
+        }
+        .header-gradient {
+            background: linear-gradient(135deg, rgba(19, 164, 236, 0.05) 0%, rgba(59, 130, 246, 0.05) 50%, rgba(99, 102, 241, 0.05) 100%);
+        }
+        .dark .header-gradient {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.8) 50%, rgba(51, 65, 85, 0.8) 100%);
+        }
+        
+        /* Enhanced form styling */
+        .compose-card form {
+            position: relative;
+        }
+        .compose-card label {
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        .compose-card input:focus,
+        .compose-card textarea:focus {
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1), inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .compose-card .recipient-chip i {
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+        }
+    </style>
 </head>
-<body>
-    <main class="main-content">
-        <div class="flex-1 p-8">
-            <header class="mb-8">
-                <h1 class="text-3xl font-black tracking-tight">Send Notification</h1>
-                <p class="text-slate-500 dark:text-slate-400 mt-2">Compose and broadcast messages to platform users.</p>
-            </header>
-            <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
-                <div class="xl:col-span-2 space-y-6">
-                    <section class="bg-background-light dark:bg-background-dark rounded-xl border border-slate-300 dark:border-slate-700 p-6 shadow-sm">
-                        <form class="space-y-6">
-                            <div>
-                                <label class="block text-sm font-bold mb-3">Recipient Selection</label>
-                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                                    <label class="relative flex items-center justify-center rounded-lg border border-slate-300 dark:border-slate-700 p-3 cursor-pointer hover:border-primary/50 transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/5 group">
-                                        <input checked class="sr-only" name="recipients" type="radio">
-                                        <span class="text-sm font-medium text-slate-600 dark:text-slate-400 group-has-[:checked]:text-primary">All Users</span>
-                                    </label>
-                                    <label class="relative flex items-center justify-center rounded-lg border border-slate-300 dark:border-slate-700 p-3 cursor-pointer hover:border-primary/50 transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/5 group">
-                                        <input class="sr-only" name="recipients" type="radio">
-                                        <span class="text-sm font-medium text-slate-600 dark:text-slate-400 group-has-[:checked]:text-primary">All Tutors</span>
-                                    </label>
-                                    <label class="relative flex items-center justify-center rounded-lg border border-slate-300 dark:border-slate-700 p-3 cursor-pointer hover:border-primary/50 transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/5 group">
-                                        <input class="sr-only" name="recipients" type="radio">
-                                        <span class="text-sm font-medium text-slate-600 dark:text-slate-400 group-has-[:checked]:text-primary">All Students</span>
-                                    </label>
-                                    <label class="relative flex items-center justify-center rounded-lg border border-slate-300 dark:border-slate-700 p-3 cursor-pointer hover:border-primary/50 transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/5 group">
-                                        <input class="sr-only" name="recipients" type="radio">
-                                        <span class="text-sm font-medium text-slate-600 dark:text-slate-400 group-has-[:checked]:text-primary">Custom Group</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="flex items-center justify-between p-4 rounded-lg bg-background-light dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700">
-                                <div>
-                                    <p class="font-bold text-sm">Notification Type</p>
-                                    <p class="text-xs text-slate-500 dark:text-slate-400">Toggle between Direct Message or System-wide alert</p>
-                                </div>
-                                <div class="flex items-center gap-3">
-                                    <span class="text-xs font-medium text-slate-500">System</span>
-                                    <label class="relative flex h-[28px] w-[52px] cursor-pointer items-center rounded-full bg-slate-300 dark:bg-slate-700 p-1 transition-colors has-[:checked]:bg-primary">
-                                        <input checked class="sr-only peer" type="checkbox">
-                                        <div class="h-5 w-5 rounded-full bg-white shadow-sm transition-transform peer-checked:translate-x-6"></div>
-                                    </label>
-                                    <span class="text-xs font-medium text-primary">Direct</span>
-                                </div>
-                            </div>
-                            <div class="space-y-4">
-                                <div>
-                                    <label class="block text-sm font-bold mb-2">Subject</label>
-                                    <input class="w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white focus:border-primary focus:ring-primary text-sm p-3" placeholder="Enter message subject..." type="text">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-bold mb-2">Message</label>
-                                    <textarea class="w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white focus:border-primary focus:ring-primary text-sm p-3 resize-none" placeholder="Write your notification message here..." rows="6"></textarea>
-                                </div>
-                            </div>
-                            <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-800">
-                                <button class="px-5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-sm font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" type="button">Discard</button>
-                                <button class="px-6 py-2.5 rounded-lg bg-blue-600 text-white text-sm font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20 flex items-center gap-2" type="submit">
-                                    <span class="material-symbols-outlined text-[18px]">send</span>
-                                    Send Notification
-                                </button>
-                            </div>
-                        </form>
-                    </section>
-                </div>
-                <div class="space-y-6">
-                    <div class="notification-reach-card rounded-xl p-6 text-white shadow-xl">
-                        <h3 class="font-bold text-lg mb-4">Notification Reach</h3>
-                        <div class="space-y-4">
-                            <div class="flex items-center justify-between">
-                                <span class="text-sm opacity-80">Total Target Users</span>
-                                <span class="font-bold">12,480</span>
-                            </div>
-                            <div class="w-full bg-white/20 rounded-full h-2 overflow-hidden">
-                                <div class="bg-white h-full" style="width: 75%"></div>
-                            </div>
-                            <p class="text-xs opacity-80">This message will reach 100% of your active student base across all regions.</p>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+    <!-- Main Navigation Bar -->
+    <header class="navbar">
+        <div class="navbar-container">
+            <button type="button" class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="navbar-brand">
+                <h1>CodeAcademy<span class="accent">LMS</span></h1>
+            </div>
+            <nav class="navbar-nav">
+                <a href="#dashboard" class="nav-item">
+                    <i class="fa-solid fa-chart-line icon"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="users.html" class="nav-item">
+                    <i class="fa-solid fa-users icon"></i>
+                    <span>Users</span>
+                </a>
+                <a href="courses.html" class="nav-item">
+                    <i class="fa-solid fa-book-open icon"></i>
+                    <span>Courses</span>
+                </a>
+                <a href="exams.html" class="nav-item">
+                    <i class="fa-solid fa-clipboard-list icon"></i>
+                    <span>Exams</span>
+                </a>
+                <a href="reports.html" class="nav-item">
+                    <i class="fa-solid fa-chart-pie icon"></i>
+                    <span>Reports</span>
+                </a>
+                <a href="notifications.html" class="nav-item active">
+                    <i class="fa-regular fa-bell icon"></i>
+                    <span>Notifications</span>
+                </a>
+                <button type="button" class="nav-item theme-toggle" id="themeToggle">
+                    <i class="fa-regular fa-moon icon" id="themeIcon"></i>
+                    <span id="themeLabel">Light Mode (Disabled)</span>
+                </button>
+            </nav>
+            <div class="navbar-right">
+                <div class="user-profile-dropdown">
+                    <div class="user-profile" id="profileToggle">
+                        <img src="https://via.placeholder.com/40" alt="Profile">
+                        <div class="user-info">
+                            <span class="user-name">Admin User</span>
+                            <span class="user-role">Administrator</span>
                         </div>
+                        <span class="dropdown-arrow"><i class="fa-solid fa-chevron-down"></i></span>
                     </div>
-                    <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-300 dark:border-slate-800 p-6">
-                        <h3 class="font-bold text-slate-900 dark:text-white mb-4">Best Practices</h3>
-                        <ul class="space-y-3">
-                            <li class="flex gap-3 text-sm text-slate-600 dark:text-slate-400">
-                                <span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
-                                Keep subjects under 50 characters.
-                            </li>
-                            <li class="flex gap-3 text-sm text-slate-600 dark:text-slate-400">
-                                <span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
-                                Use clear calls to action (CTAs).
-                            </li>
-                            <li class="flex gap-3 text-sm text-slate-600 dark:text-slate-400">
-                                <span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
-                                Avoid sending more than 2 per week.
-                            </li>
-                        </ul>
+                    <div class="dropdown-menu profile-dropdown" id="profileDropdown">
+                        <a href="profile.html" class="dropdown-item">
+                            <i class="fa-regular fa-user icon"></i>
+                            <span>Profile</span>
+                        </a>
+                        <a href="#settings" class="dropdown-item">
+                            <i class="fa-solid fa-gear icon"></i>
+                            <span>Settings</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item logout">
+                            <i class="fa-solid fa-right-from-bracket icon"></i>
+                            <span>Logout</span>
+                        </a>
                     </div>
                 </div>
             </div>
-            <section class="mt-12 bg-background-light dark:bg-background-dark rounded-xl">
-                <div class="flex items-center justify-between mb-6">
-                    <div>
-                        <h2 class="text-xl font-bold">Recent Notifications</h2>
-                        <p class="text-sm text-slate-500">History of communications sent in the last 30 days.</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-title">
+                <h2>Notification Center</h2>
+                <p>Compose, send, and manage all platform communications</p>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+            <!-- Header Section -->
+            <div class="header-gradient py-8 rounded-2xl mb-8 border border-slate-200 dark:border-slate-700">
+                <div class="text-center">
+                    <h1 class="text-4xl font-black text-slate-900 dark:text-white mb-4">
+                        Notification <span class="text-primary">Center</span>
+                    </h1>
+                    <p class="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
+                        Compose, send, and manage all platform communications from one centralized dashboard.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Stats Overview -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="stats-grid p-6 rounded-2xl text-center text-white">
+                    <div class="text-3xl font-bold mb-2">2,847</div>
+                    <div class="text-sm opacity-90">Total Recipients</div>
+                </div>
+                <div class="bg-gradient-to-br from-emerald-500 to-teal-600 p-6 rounded-2xl text-center text-white">
+                    <div class="text-3xl font-bold mb-2">156</div>
+                    <div class="text-sm opacity-90">Sent Today</div>
+                </div>
+                <div class="bg-gradient-to-br from-orange-500 to-red-500 p-6 rounded-2xl text-center text-white">
+                    <div class="text-3xl font-bold mb-2">98.5%</div>
+                    <div class="text-sm opacity-90">Delivery Rate</div>
+                </div>
+                <div class="bg-gradient-to-br from-purple-500 to-pink-500 p-6 rounded-2xl text-center text-white">
+                    <div class="text-3xl font-bold mb-2">12</div>
+                    <div class="text-sm opacity-90">Pending</div>
+                </div>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Compose Notification -->
+                <div class="lg:col-span-2">
+                    <div class="compose-card rounded-2xl p-8 mb-8 relative overflow-hidden">
+                        <!-- Decorative background pattern -->
+                        <div class="absolute inset-0 opacity-10">
+                            <div class="absolute top-0 left-0 w-32 h-32 bg-white rounded-full -translate-x-16 -translate-y-16"></div>
+                            <div class="absolute bottom-0 right-0 w-24 h-24 bg-white rounded-full translate-x-12 translate-y-12"></div>
+                        </div>
+                        
+                        <div class="relative z-10">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center border border-white/30 backdrop-blur-sm">
+                                    <i class="fas fa-paper-plane text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h2 class="text-2xl font-bold">Compose Notification</h2>
+                                    <p class="opacity-90">Send messages to your platform users</p>
+                                </div>
+                            </div>
+
+                        <form class="space-y-6">
+                            <!-- Recipient Selection -->
+                            <div class="bg-white/5 p-4 rounded-xl border border-white/20 backdrop-blur-sm">
+                                <label class="block text-sm font-bold mb-3 text-white">Select Recipients</label>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                    <button type="button" class="recipient-chip active px-4 py-3 rounded-lg font-medium transition-all text-center">
+                                        <i class="fas fa-users mb-1 block"></i>
+                                        All Users
+                                    </button>
+                                    <button type="button" class="recipient-chip px-4 py-3 rounded-lg font-medium transition-all text-center">
+                                        <i class="fas fa-graduation-cap mb-1 block"></i>
+                                        Students
+                                    </button>
+                                    <button type="button" class="recipient-chip px-4 py-3 rounded-lg font-medium transition-all text-center">
+                                        <i class="fas fa-chalkboard-teacher mb-1 block"></i>
+                                        Instructors
+                                    </button>
+                                    <button type="button" class="recipient-chip px-4 py-3 rounded-lg font-medium transition-all text-center">
+                                        <i class="fas fa-user-cog mb-1 block"></i>
+                                        Admins
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Subject -->
+                            <div>
+                                <label class="block text-sm font-bold mb-2 text-white">Subject</label>
+                                <input type="text" placeholder="Enter notification subject..." 
+                                       class="w-full px-4 py-3 rounded-lg bg-white/10 border-2 border-white/40 text-white placeholder-white/70 focus:border-white/80 focus:bg-white/20 focus:outline-none transition-all duration-300 hover:border-white/60 hover:bg-white/15 backdrop-blur-sm shadow-inner">
+                            </div>
+
+                            <!-- Message -->
+                            <div>
+                                <label class="block text-sm font-bold mb-2 text-white">Message</label>
+                                <textarea rows="6" placeholder="Write your notification message here..." 
+                                          class="w-full px-4 py-3 rounded-lg bg-white/10 border-2 border-white/40 text-white placeholder-white/70 focus:border-white/80 focus:bg-white/20 focus:outline-none resize-none transition-all duration-300 hover:border-white/60 hover:bg-white/15 backdrop-blur-sm shadow-inner"></textarea>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="flex gap-4 pt-4">
+                                <button type="button" class="flex-1 px-6 py-3 rounded-lg bg-white/10 border-2 border-white/40 text-white font-semibold hover:bg-white/25 hover:border-white/70 transition-all duration-300 transform hover:scale-105 hover:shadow-lg backdrop-blur-sm">
+                                    Save Draft
+                                </button>
+                                <button type="submit" class="flex-1 px-6 py-3 rounded-lg bg-white text-purple-600 font-bold hover:bg-white/95 transition-all duration-300 flex items-center justify-center gap-2 border-2 border-white hover:border-white/90 transform hover:scale-105 shadow-lg hover:shadow-2xl">
+                                    <i class="fas fa-paper-plane"></i>
+                                    Send Now
+                                </button>
+                            </div>
+                        </form>
+                        </div>
                     </div>
-                    <button class="text-sm font-bold text-primary hover:underline" type="button">View All History</button>
                 </div>
-                <div class="bg-background-light dark:bg-background-dark rounded-xl border border-slate-300 dark:border-slate-800 overflow-hidden shadow-sm">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="border-b border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50">
-                                <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Subject &amp; Preview</th>
-                                <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Recipients</th>
-                                <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Sent Date</th>
-                                <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
-                                <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
-                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                                <td class="px-6 py-4">
-                                    <div class="font-medium text-sm">System Maintenance Schedule</div>
-                                    <div class="text-xs text-slate-500 truncate max-w-xs">Please be advised that the LMS will be offline for...</div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 uppercase">All Users</span>
-                                </td>
-                                <td class="px-6 py-4 text-sm text-slate-500">Oct 24, 2023 • 09:15 AM</td>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center gap-1.5 text-green-500 font-medium text-xs">
-                                        <span class="h-2 w-2 rounded-full bg-green-500"></span>
-                                        Delivered
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 text-right">
-                                    <button class="p-1 hover:text-primary transition-colors" type="button">
-                                        <span class="material-symbols-outlined text-[20px]">visibility</span>
-                                    </button>
-                                    <button class="p-1 hover:text-primary transition-colors" type="button">
-                                        <span class="material-symbols-outlined text-[20px]">more_vert</span>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                                <td class="px-6 py-4">
-                                    <div class="font-medium text-sm">Final Exam Reminder</div>
-                                    <div class="text-xs text-slate-500 truncate max-w-xs">Don't forget that the Python Basics final is due...</div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 uppercase">All Students</span>
-                                </td>
-                                <td class="px-6 py-4 text-sm text-slate-500">Oct 22, 2023 • 02:30 PM</td>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center gap-1.5 text-green-500 font-medium text-xs">
-                                        <span class="h-2 w-2 rounded-full bg-green-500"></span>
-                                        Delivered
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 text-right">
-                                    <button class="p-1 hover:text-primary transition-colors" type="button">
-                                        <span class="material-symbols-outlined text-[20px]">visibility</span>
-                                    </button>
-                                    <button class="p-1 hover:text-primary transition-colors" type="button">
-                                        <span class="material-symbols-outlined text-[20px]">more_vert</span>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                                <td class="px-6 py-4">
-                                    <div class="font-medium text-sm">New Grading Guidelines 2024</div>
-                                    <div class="text-xs text-slate-500 truncate max-w-xs">Attached are the updated rubrics for next semester...</div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 uppercase">All Tutors</span>
-                                </td>
-                                <td class="px-6 py-4 text-sm text-slate-500">Oct 19, 2023 • 11:00 AM</td>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center gap-1.5 text-slate-400 font-medium text-xs">
-                                        <span class="h-2 w-2 rounded-full bg-slate-400"></span>
-                                        Archived
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 text-right">
-                                    <button class="p-1 hover:text-primary transition-colors" type="button">
-                                        <span class="material-symbols-outlined text-[20px]">visibility</span>
-                                    </button>
-                                    <button class="p-1 hover:text-primary transition-colors" type="button">
-                                        <span class="material-symbols-outlined text-[20px]">more_vert</span>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+                <!-- Sidebar -->
+                <div class="space-y-6">
+                    <!-- Quick Stats -->
+                    <div class="notification-card rounded-2xl p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                        <h3 class="text-xl font-bold mb-4 text-slate-900 dark:text-white">Quick Stats</h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-600 dark:text-slate-300">Active Users</span>
+                                <span class="font-bold text-primary">2,847</span>
+                            </div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+                                <div class="bg-primary h-2 rounded-full" style="width: 85%"></div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-600 dark:text-slate-300">Open Rate</span>
+                                <span class="font-bold text-green-500">94.2%</span>
+                            </div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 94%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Best Practices -->
+                    <div class="notification-card rounded-2xl p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                        <h3 class="text-xl font-bold mb-4 text-slate-900 dark:text-white">Best Practices</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                <p class="text-sm text-slate-600 dark:text-slate-300">Keep subjects under 50 characters for better engagement</p>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                <p class="text-sm text-slate-600 dark:text-slate-300">Use clear and actionable language</p>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                <p class="text-sm text-slate-600 dark:text-slate-300">Avoid sending more than 2 notifications per week</p>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                <p class="text-sm text-slate-600 dark:text-slate-300">Test with a small group first</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </section>
+            </div>
+
+            <!-- Recent Notifications -->
+            <div class="mt-12">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <h2 class="text-3xl font-bold text-slate-900 dark:text-white">Recent Notifications</h2>
+                        <p class="text-slate-600 dark:text-slate-300">History of sent communications</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6">
+                    <!-- Notification Item 1 -->
+                    <div class="notification-card priority-high rounded-2xl p-6 border-l-4 border-l-red-500 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                        <div class="flex items-start justify-between">
+                            <div class="flex items-start gap-4">
+                                <div class="notification-type-alert w-12 h-12 rounded-xl flex items-center justify-center text-white">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">System Maintenance Alert</h3>
+                                        <span class="px-2 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300">High Priority</span>
+                                    </div>
+                                    <p class="text-slate-600 dark:text-slate-300 mb-3">Scheduled maintenance will occur tonight from 2:00 AM to 4:00 AM EST.</p>
+                                    <div class="flex items-center gap-4 text-sm text-slate-500">
+                                        <span><i class="fas fa-users mr-1"></i>All Users (2,847)</span>
+                                        <span><i class="fas fa-clock mr-1"></i>2 hours ago</span>
+                                        <span><i class="fas fa-eye mr-1"></i>2,234 opened</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300">Delivered</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notification Item 2 -->
+                    <div class="notification-card priority-medium rounded-2xl p-6 border-l-4 border-l-yellow-500 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                        <div class="flex items-start justify-between">
+                            <div class="flex items-start gap-4">
+                                <div class="notification-type-reminder w-12 h-12 rounded-xl flex items-center justify-center text-white">
+                                    <i class="fas fa-bell"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">Assignment Deadline Reminder</h3>
+                                        <span class="px-2 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300">Medium Priority</span>
+                                    </div>
+                                    <p class="text-slate-600 dark:text-slate-300 mb-3">Python Fundamentals final project is due tomorrow at 11:59 PM.</p>
+                                    <div class="flex items-center gap-4 text-sm text-slate-500">
+                                        <span><i class="fas fa-graduation-cap mr-1"></i>Students (1,234)</span>
+                                        <span><i class="fas fa-clock mr-1"></i>5 hours ago</span>
+                                        <span><i class="fas fa-eye mr-1"></i>987 opened</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300">Delivered</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notification Item 3 -->
+                    <div class="notification-card priority-low rounded-2xl p-6 border-l-4 border-l-green-500 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                        <div class="flex items-start justify-between">
+                            <div class="flex items-start gap-4">
+                                <div class="notification-type-announcement w-12 h-12 rounded-xl flex items-center justify-center text-white">
+                                    <i class="fas fa-bullhorn"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">New Course Available: Advanced React</h3>
+                                        <span class="px-2 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300">Low Priority</span>
+                                    </div>
+                                    <p class="text-slate-600 dark:text-slate-300 mb-3">Advanced React course is now available for enrollment!</p>
+                                    <div class="flex items-center gap-4 text-sm text-slate-500">
+                                        <span><i class="fas fa-users mr-1"></i>All Users (2,847)</span>
+                                        <span><i class="fas fa-clock mr-1"></i>1 day ago</span>
+                                        <span><i class="fas fa-eye mr-1"></i>1,456 opened</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300">Delivered</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
+
+    <script>
+        // Store the notifications content for navigation
+        const mainContent = document.getElementById('mainContent');
+        const notificationsContent = mainContent ? mainContent.innerHTML : '';
+
+        // Theme toggle functionality
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                const themeIcon = document.getElementById('themeIcon');
+                const themeLabel = document.getElementById('themeLabel');
+                if (themeIcon) themeIcon.className = 'fa-solid fa-sun icon';
+                if (themeLabel) themeLabel.textContent = 'Light Mode';
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                const themeIcon = document.getElementById('themeIcon');
+                const themeLabel = document.getElementById('themeLabel');
+                if (themeIcon) themeIcon.className = 'fa-regular fa-moon icon';
+                if (themeLabel) themeLabel.textContent = 'Dark Mode';
+            }
+        }
+
+        // Initialize theme - force dark mode
+        setTheme('dark');
+
+        // Theme toggle event
+        const themeToggle = document.getElementById('themeToggle');
+        const menuToggle = document.getElementById('menuToggle');
+        const navbar = document.querySelector('.navbar');
+
+        // Theme toggle event - disabled for now
+        if (themeToggle) {
+            themeToggle.style.opacity = '0.5';
+            themeToggle.style.cursor = 'not-allowed';
+            themeToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Light mode disabled - staying in dark mode
+            });
+        }
+
+        if (menuToggle && navbar) {
+            menuToggle.addEventListener('click', () => {
+                navbar.classList.toggle('nav-open');
+            });
+        }
+
+        // Navigation handling
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                if (this.classList.contains('logout') || this.classList.contains('theme-toggle')) {
+                    return;
+                }
+
+                const href = this.getAttribute('href') || '';
+                const isUsersPage = href.indexOf('users.html') !== -1;
+                const isCoursesPage = href.indexOf('courses.html') !== -1;
+                const isExamsPage = href.indexOf('exams.html') !== -1;
+                const isReportsPage = href.indexOf('reports.html') !== -1;
+                const isNotificationsPage = href.indexOf('notifications.html') !== -1;
+                const isDashboard = href.indexOf('#dashboard') !== -1;
+
+                if (isUsersPage || isExamsPage || isReportsPage || isCoursesPage || isDashboard) {
+                    e.preventDefault();
+                }
+
+                navItems.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+
+                if ((isUsersPage || isExamsPage || isReportsPage || isCoursesPage) && mainContent) {
+                    const target = isUsersPage
+                        ? 'users.html'
+                        : (isExamsPage ? 'exams.html' : (isReportsPage ? 'reports.html' : 'courses.html'));
+                    
+                    if (target === 'courses.html') {
+                        window.location.href = 'courses.html';
+                        return;
+                    }
+                    
+                    fetch(target)
+                        .then(response => response.text())
+                        .then(html => {
+                            const doc = new DOMParser().parseFromString(html, 'text/html');
+                            const incoming = doc.querySelector('.main-content');
+                            if (incoming) {
+                                mainContent.innerHTML = incoming.innerHTML;
+                            }
+                        })
+                        .catch(() => {});
+                } else if (isDashboard) {
+                    window.location.href = 'admin.html';
+                }
+
+                if (navbar) {
+                    navbar.classList.remove('nav-open');
+                }
+            });
+        });
+
+        // Profile dropdown toggle
+        const profileToggle = document.getElementById('profileToggle');
+        const profileDropdown = document.getElementById('profileDropdown');
+        
+        if (profileToggle && profileDropdown) {
+            profileToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                profileDropdown.classList.toggle('show');
+            });
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (profileToggle && profileDropdown && !profileToggle.contains(e.target) && !profileDropdown.contains(e.target)) {
+                profileDropdown.classList.remove('show');
+            }
+        });
+
+        // Recipient selection
+        document.querySelectorAll('.recipient-chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                document.querySelectorAll('.recipient-chip').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Notification form functionality
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const subject = document.querySelector('input[type="text"]').value;
+            const message = document.querySelector('textarea').value;
+            const activeRecipient = document.querySelector('.recipient-chip.active').textContent.trim();
+            
+            if (!subject || !message) {
+                alert('Please fill in both subject and message fields.');
+                return;
+            }
+            
+            alert(`Notification sent successfully!\n\nTo: ${activeRecipient}\nSubject: ${subject}\nMessage: ${message.substring(0, 50)}...`);
+        });
+
+        // Save Draft functionality
+        document.querySelector('button[type="button"]').addEventListener('click', function() {
+            const subject = document.querySelector('input[type="text"]').value;
+            const message = document.querySelector('textarea').value;
+            
+            if (!subject && !message) {
+                alert('Please enter some content before saving draft.');
+                return;
+            }
+            
+            alert('Draft saved successfully!\n\nYou can continue editing later.');
+        });
+    </script>
 </body>
 </html>

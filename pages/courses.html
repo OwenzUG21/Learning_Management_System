@@ -3,27 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LMS Course Catalog Admin</title>
+    <title>Course Catalog - CodeAcademy LMS</title>
     <link rel="stylesheet" href="styles/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script>
-        tailwind.config = {
+        window.tailwind = window.tailwind || {};
+        window.tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
                         "primary": "#13a4ec",
+                        "primary-dark": "#0b7fb8",
                         "background-light": "#f6f7f8",
                         "background-dark": "#101c22",
                         "surface-light": "#ffffff",
-                        "surface-dark": "#182830"
+                        "surface-dark": "#182830",
+                        "text-primary-light": "#111618",
+                        "text-primary-dark": "#e2e8f0",
+                        "text-secondary-light": "#617c89",
+                        "text-secondary-dark": "#94a3b8",
+                        "border-light": "#e2e8f0",
+                        "border-dark": "#2d3748"
                     },
                     fontFamily: {
-                        "display": ["Inter", "sans-serif"],
-                        "body": ["Inter", "sans-serif"]
+                        "display": ["Inter", "sans-serif"]
                     },
                     borderRadius: {
                         "DEFAULT": "0.25rem",
@@ -33,17 +39,151 @@
                     }
                 }
             }
-        }
+        };
     </script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+        .course-card {
+            transition: all 0.3s ease;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+        }
+        .course-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: #13a4ec;
+        }
+        .dark .course-card {
+            background: #1e293b;
+            border-color: #475569;
+        }
+        .dark .course-card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        .category-badge {
+            background: linear-gradient(135deg, #13a4ec, #0ea5e9);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .instructor-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #13a4ec;
+        }
+        .rating-stars {
+            color: #fbbf24;
+        }
+        .search-bar {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        .search-bar:focus {
+            border-color: #13a4ec;
+            box-shadow: 0 0 0 3px rgba(19, 164, 236, 0.1);
+        }
+        .dark .search-bar {
+            background: #1e293b;
+            border-color: #475569;
+            color: #f1f5f9;
+        }
+        .filter-chip {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            color: #475569;
+        }
+        .filter-chip:hover, .filter-chip.active {
+            background: #13a4ec;
+            color: white;
+            border-color: #13a4ec;
+        }
+        .dark .filter-chip {
+            background: #334155;
+            border-color: #475569;
+            color: #cbd5e1;
+        }
+        .stats-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .header-gradient {
+            background: linear-gradient(135deg, rgba(19, 164, 236, 0.05) 0%, rgba(59, 130, 246, 0.05) 50%, rgba(99, 102, 241, 0.05) 100%);
+        }
+        .dark .header-gradient {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.8) 50%, rgba(51, 65, 85, 0.8) 100%);
+        }
+        
+        /* Modal styling */
+        .modal-overlay {
+            backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.6);
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .modal-content {
+            animation: slideUp 0.3s ease-out;
+            max-height: 90vh;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+    </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display transition-colors duration-200">
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+    <!-- Main Navigation Bar -->
     <header class="navbar">
         <div class="navbar-container">
+            <button type="button" class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
             <div class="navbar-brand">
                 <h1>CodeAcademy<span class="accent">LMS</span></h1>
             </div>
             <nav class="navbar-nav">
-                <a href="admin.html" class="nav-item">
+                <a href="#dashboard" class="nav-item">
                     <i class="fa-solid fa-chart-line icon"></i>
                     <span>Dashboard</span>
                 </a>
@@ -55,48 +195,24 @@
                     <i class="fa-solid fa-book-open icon"></i>
                     <span>Courses</span>
                 </a>
-                <a href="#exams" class="nav-item">
+                <a href="exams.html" class="nav-item">
                     <i class="fa-solid fa-clipboard-list icon"></i>
                     <span>Exams</span>
                 </a>
-                <a href="#reports" class="nav-item">
+                <a href="reports.html" class="nav-item">
                     <i class="fa-solid fa-chart-pie icon"></i>
                     <span>Reports</span>
                 </a>
+                <a href="notifications.html" class="nav-item">
+                    <i class="fa-regular fa-bell icon"></i>
+                    <span>Notifications</span>
+                </a>
+                <button type="button" class="nav-item theme-toggle" id="themeToggle">
+                    <i class="fa-regular fa-moon icon" id="themeIcon"></i>
+                    <span id="themeLabel">Light Mode (Disabled)</span>
+                </button>
             </nav>
             <div class="navbar-right">
-                <div class="notification-dropdown">
-                    <button class="notification-btn" id="notificationToggle">
-                        <i class="fa-regular fa-bell icon"></i>
-                        <span class="notification-text">Notifications</span>
-                        <span class="badge">7</span>
-                    </button>
-                    <div class="dropdown-menu notification-dropdown-menu" id="notificationDropdown">
-                        <div class="dropdown-header">
-                            <h4>Notifications</h4>
-                            <span class="badge-small">7 new</span>
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <a href="#announcements" class="dropdown-item">
-                            <i class="fa-solid fa-bullhorn icon"></i>
-                            <div class="dropdown-item-content">
-                                <span class="dropdown-item-title">Announcements</span>
-                                <span class="dropdown-item-desc">3 new announcements</span>
-                            </div>
-                        </a>
-                        <a href="#" class="dropdown-item">
-                            <i class="fa-regular fa-bell icon"></i>
-                            <div class="dropdown-item-content">
-                                <span class="dropdown-item-title">System Notifications</span>
-                                <span class="dropdown-item-desc">4 new notifications</span>
-                            </div>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item view-all">
-                            <span>View All Notifications</span>
-                        </a>
-                    </div>
-                </div>
                 <div class="user-profile-dropdown">
                     <div class="user-profile" id="profileToggle">
                         <img src="https://via.placeholder.com/40" alt="Profile">
@@ -107,7 +223,7 @@
                         <span class="dropdown-arrow"><i class="fa-solid fa-chevron-down"></i></span>
                     </div>
                     <div class="dropdown-menu profile-dropdown" id="profileDropdown">
-                        <a href="#profile" class="dropdown-item">
+                        <a href="profile.html" class="dropdown-item">
                             <i class="fa-regular fa-user icon"></i>
                             <span>Profile</span>
                         </a>
@@ -126,266 +242,907 @@
         </div>
     </header>
 
-    <main class="main-content">
-        <main class="flex-1 flex flex-col h-screen overflow-hidden bg-background-light dark:bg-background-dark">
-            <header class="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-surface-light/80 dark:bg-surface-dark/80 px-6 backdrop-blur-md">
-                <div class="flex items-center gap-4">
-                    <button class="lg:hidden text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">
-                        <span class="material-symbols-outlined">menu</span>
-                    </button>
-                    <div class="flex items-center text-sm text-slate-500 dark:text-slate-400">
-                        <span>Admin</span>
-                        <span class="material-symbols-outlined mx-1 text-xs">chevron_right</span>
-                        <span class="font-semibold text-slate-900 dark:text-white" style="color: #0f172a;">Course Catalog</span>
-                    </div>
-                </div>
-                <div class="flex items-center gap-4">
-                    <button class="flex h-9 w-9 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800 transition-colors">
-                        <span class="material-symbols-outlined">search</span>
-                    </button>
-                    <button class="relative flex h-9 w-9 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800 transition-colors">
-                        <span class="material-symbols-outlined">notifications</span>
-                        <span class="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-surface-dark"></span>
-                    </button>
-                </div>
-            </header>
-            <div class="flex-1 overflow-y-auto p-6 lg:p-10">
-                <div class="mx-auto max-w-7xl">
-                    <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-                        <div>
-                            <h1 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white sm:text-4xl" style="color: #0f172a;">Course Catalog</h1>
-                            <p class="mt-2 text-base text-slate-500 dark:text-slate-400" style="color: #64748b;">Manage, organize, and track performance of all available courses.</p>
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-title">
+                <h2>Course Catalog</h2>
+                <p>Manage, organize, and track performance of all available courses</p>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+            <!-- Header Section -->
+            <div class="header-gradient py-8 rounded-2xl mb-8 border border-slate-200 dark:border-slate-700">
+                <div class="text-center">
+                    <h1 class="text-4xl font-black text-slate-900 dark:text-white mb-4">
+                        Course <span class="text-primary">Catalog</span>
+                    </h1>
+                    <p class="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto mb-6">
+                        Discover, manage, and track the performance of all available courses in our comprehensive learning platform.
+                    </p>
+                    <!-- Search and Filters -->
+                    <div class="max-w-4xl mx-auto">
+                        <div class="flex flex-col md:flex-row gap-4 mb-6">
+                            <div class="flex-1 relative">
+                                <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                                <input type="text" placeholder="Search courses, instructors, or topics..." 
+                                       class="search-bar w-full pl-12 pr-4 py-3 rounded-xl text-base outline-none text-slate-900 dark:text-slate-100">
+                            </div>
+                            <button id="createCourseBtn" class="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2 border-2 border-primary hover:border-primary/90 shadow-lg hover:shadow-xl" data-open-course-modal>
+                                <i class="fas fa-plus"></i>
+                                Create Course
+                            </button>
                         </div>
-                        <button class="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-primary px-5 text-sm font-bold text-white shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-slate-900 transition-all" style="background: #13a4ec; color: #ffffff;" type="button" data-open-course-modal>
-                            <span class="material-symbols-outlined text-lg" style="color: #ffffff;">add</span>
-                            <span>Create New Course</span>
-                        </button>
-                    </div>
-                    <div class="mb-8 flex flex-wrap items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
-                        <button class="flex items-center gap-2 rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-sm dark:bg-white dark:text-slate-900 transition-colors">
-                            <span class="material-symbols-outlined text-lg">grid_view</span>
-                            <span>All Categories</span>
-                        </button>
-                        <button class="flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:bg-surface-dark dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white transition-colors border border-slate-200 dark:border-slate-700">
-                            <span class="material-symbols-outlined text-lg">code</span>
-                            <span>Development</span>
-                        </button>
-                        <button class="flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:bg-surface-dark dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white transition-colors border border-slate-200 dark:border-slate-700">
-                            <span class="material-symbols-outlined text-lg">palette</span>
-                            <span>Design</span>
-                        </button>
-                        <button class="flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:bg-surface-dark dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white transition-colors border border-slate-200 dark:border-slate-700">
-                            <span class="material-symbols-outlined text-lg">campaign</span>
-                            <span>Marketing</span>
-                        </button>
-                        <button class="flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:bg-surface-dark dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white transition-colors border border-slate-200 dark:border-slate-700">
-                            <span class="material-symbols-outlined text-lg">business_center</span>
-                            <span>Business</span>
-                        </button>
-                        <div class="ml-auto flex items-center gap-2">
-                            <div class="relative">
-                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 material-symbols-outlined text-lg">filter_list</span>
-                                <select class="h-10 cursor-pointer appearance-none rounded-lg border border-slate-200 bg-white py-2 pl-10 pr-8 text-sm font-medium text-slate-600 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-700 dark:bg-surface-dark dark:text-slate-300">
-                                    <option>Most Recent</option>
-                                    <option>Most Popular</option>
-                                    <option>Highest Rated</option>
-                                </select>
-                            </div>
+                        
+                        <!-- Filter Chips -->
+                        <div class="flex flex-wrap gap-3 justify-center">
+                            <button class="filter-chip active px-4 py-2 rounded-full font-medium transition-all">All Courses</button>
+                            <button class="filter-chip px-4 py-2 rounded-full font-medium transition-all">Development</button>
+                            <button class="filter-chip px-4 py-2 rounded-full font-medium transition-all">Design</button>
+                            <button class="filter-chip px-4 py-2 rounded-full font-medium transition-all">Marketing</button>
+                            <button class="filter-chip px-4 py-2 rounded-full font-medium transition-all">Business</button>
+                            <button class="filter-chip px-4 py-2 rounded-full font-medium transition-all">Data Science</button>
                         </div>
-                    </div>
-                    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                        <div class="group flex flex-col overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300">
-                            <div class="relative aspect-video w-full overflow-hidden bg-slate-200">
-                                <img alt="Python code on screen" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzFGh2dIA_LBQ3MKawfTyG8MpNuqNDG2yxip3lI6l4mBpdQVKrmlpeouz60KDDIkvXO4Zv5qrI0ad_8Ld2BCUOEKhu1OBT00lz2RLonqL351vALU-Wub-RrcUaVnhKaZ4J-l0EI3EA6opcTln0NZHtYvjoWwabB-Y4-s9ddgwTQYijSj1ZL32ljX5rA5LUkXKHT_WddjVx7AUH0_c0ov3Qibr-Do4flwAt5d6u6QGK-vofHz6q5fQSILEPWX9ymgwpt0wZs9oZE3P6">
-                                <div class="absolute right-3 top-3 rounded-md bg-white/90 px-2 py-1 text-xs font-bold uppercase tracking-wider text-slate-900 backdrop-blur-sm dark:bg-black/80 dark:text-white">
-                                    Active
-                                </div>
-                            </div>
-                            <div class="flex flex-1 flex-col p-4">
-                                <div class="mb-2 flex items-center gap-2 text-xs font-medium text-primary">
-                                    <span class="material-symbols-outlined text-sm">code</span>
-                                    <span>Development</span>
-                                </div>
-                                <h3 class="mb-2 text-lg font-bold text-slate-900 dark:text-white leading-tight group-hover:text-primary transition-colors" style="color: #0f172a;">Intro to Python for Data Science</h3>
-                                <div class="mt-auto flex items-center justify-between border-t border-slate-100 pt-3 dark:border-slate-700">
-                                    <div class="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
-                                        <span class="material-symbols-outlined text-base">group</span>
-                                        <span>120 Students</span>
-                                    </div>
-                                    <div class="flex items-center gap-1">
-                                        <span class="material-symbols-outlined text-yellow-400 text-sm fill-1" style="font-variation-settings: 'FILL' 1">star</span>
-                                        <span class="text-xs font-bold text-slate-700 dark:text-slate-200">4.8</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="group flex flex-col overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300">
-                            <div class="relative aspect-video w-full overflow-hidden bg-slate-200">
-                                <img alt="UI Design concept" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAapyTFw9lmHpA_viog84rl8Tq22P60FcOWeSvM4f4yWcJ7CFi5l69MG9YRCuWgQMNaoH_ybz2v-Awdh74_3tbbh69cK-VYTGEYYUNVSFVVN2_qx2D89iRKsaHDyhogbYcw-0Bt9lZzdMRgbcjJ7Blfp8-_bJgeOGQhF4X4P6lN8tlcFlhp7CaLbOFEpBNMILupcTASpgpZ5y3aaM2VPJuKCf9F-pzLDTHfW7-NTiUaQ2X_gROUubYzf9OVybSNSzCYlr70Un3gC693">
-                            </div>
-                            <div class="flex flex-1 flex-col p-4">
-                                <div class="mb-2 flex items-center gap-2 text-xs font-medium text-primary">
-                                    <span class="material-symbols-outlined text-sm">palette</span>
-                                    <span>Design</span>
-                                </div>
-                                <h3 class="mb-2 text-lg font-bold text-slate-900 dark:text-white leading-tight group-hover:text-primary transition-colors" style="color: #0f172a;">UX Design Fundamentals</h3>
-                                <div class="mt-auto flex items-center justify-between border-t border-slate-100 pt-3 dark:border-slate-700">
-                                    <div class="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
-                                        <span class="material-symbols-outlined text-base">group</span>
-                                        <span>85 Students</span>
-                                    </div>
-                                    <div class="flex items-center gap-1">
-                                        <span class="material-symbols-outlined text-yellow-400 text-sm fill-1" style="font-variation-settings: 'FILL' 1">star</span>
-                                        <span class="text-xs font-bold text-slate-700 dark:text-slate-200">4.9</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="group flex flex-col overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300">
-                            <div class="relative aspect-video w-full overflow-hidden bg-slate-200">
-                                <img alt="Marketing analytics" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMMYyn9KXZgI3gVJeTx-ylPe33WIlniPpoV8KYWepGwPwoT_Y53bNwduL-mWWjtp66oSwvzpIv9BVFJH6EgwT-qccZ6WLRj3t2Btd8N4fEgpgM4MwORKcekRTxC6eDcpyaRrGOFym6YbjQsvYOkYh7JitUsZfhJTBLphRP7vGpFjr0pxSmcvrgQP4K3KFoZKpU2MWmLVDIKDsh-LJya--T5VjhCjzbqEcJKTD9z4ve3b-kemDQ_alhaKm5orErqAe0BxZMllwBEEQ1">
-                                <div class="absolute right-3 top-3 rounded-md bg-white/90 px-2 py-1 text-xs font-bold uppercase tracking-wider text-slate-900 backdrop-blur-sm dark:bg-black/80 dark:text-white">
-                                    New
-                                </div>
-                            </div>
-                            <div class="flex flex-1 flex-col p-4">
-                                <div class="mb-2 flex items-center gap-2 text-xs font-medium text-primary">
-                                    <span class="material-symbols-outlined text-sm">campaign</span>
-                                    <span>Marketing</span>
-                                </div>
-                                <h3 class="mb-2 text-lg font-bold text-slate-900 dark:text-white leading-tight group-hover:text-primary transition-colors" style="color: #0f172a;">Digital Marketing 101</h3>
-                                <div class="mt-auto flex items-center justify-between border-t border-slate-100 pt-3 dark:border-slate-700">
-                                    <div class="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
-                                        <span class="material-symbols-outlined text-base">group</span>
-                                        <span>200 Students</span>
-                                    </div>
-                                    <div class="flex items-center gap-1">
-                                        <span class="material-symbols-outlined text-yellow-400 text-sm fill-1" style="font-variation-settings: 'FILL' 1">star</span>
-                                        <span class="text-xs font-bold text-slate-700 dark:text-slate-200">4.5</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="group flex flex-col overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300">
-                            <div class="relative aspect-video w-full overflow-hidden bg-slate-200">
-                                <img alt="Business meeting" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVmWjT23QWiH_lK4K6ROCUPifN3hqlMJaplZTwGJY1GCVkCHNBbK6_fH59yDNddX2WnlYWXidkBSkVlFqblyRLmXnQrpnOlqCSJkfV8cVoe-NbG9iABB61P3i91MdkKHfnmNz3fGIKFVW-VwuTnnIG10U4HlBmC5qpIxoKo2e1rX0THN8XoikA8XEs_L8ipOL5HubG8KCKeAV-48Uttmx1E49naX8BhYgVukRE-VBED1wNdgYigS7rcJcuSK6WT4GQjBjsGzs6rO7X">
-                            </div>
-                            <div class="flex flex-1 flex-col p-4">
-                                <div class="mb-2 flex items-center gap-2 text-xs font-medium text-primary">
-                                    <span class="material-symbols-outlined text-sm">business_center</span>
-                                    <span>Business</span>
-                                </div>
-                                <h3 class="mb-2 text-lg font-bold text-slate-900 dark:text-white leading-tight group-hover:text-primary transition-colors" style="color: #0f172a;">Business Strategy Masterclass</h3>
-                                <div class="mt-auto flex items-center justify-between border-t border-slate-100 pt-3 dark:border-slate-700">
-                                    <div class="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
-                                        <span class="material-symbols-outlined text-base">group</span>
-                                        <span>50 Students</span>
-                                    </div>
-                                    <div class="flex items-center gap-1">
-                                        <span class="material-symbols-outlined text-yellow-400 text-sm fill-1" style="font-variation-settings: 'FILL' 1">star</span>
-                                        <span class="text-xs font-bold text-slate-700 dark:text-slate-200">4.7</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="group flex flex-col overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300">
-                            <div class="relative aspect-video w-full overflow-hidden bg-slate-200">
-                                <img alt="React Logo concept" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCyHs_DOX4LA9_Oz1ZDw9DMRV2Ml99zyX7D_mTiacqbXf3QoC2MyhRtMQl6Ukr4uInIM4sk6XSnWaKqEaRabaq3rYKc7PFaHbPDtvAVA2Nuej-K9i8FSwnQy_jHIbNq_fM96oq_xBxTwx-_NAL_s3QHxUhb0OnQxcUEoP73PuKhNcfFLL1qCd6-G0YruBl1qr1qi5rMm0u5QoEHvmi1apqSiObMectxVllzayTk0hPkPowgk155rQOP6F98C3ay6iQrQNMNpdHmuz3">
-                            </div>
-                            <div class="flex flex-1 flex-col p-4">
-                                <div class="mb-2 flex items-center gap-2 text-xs font-medium text-primary">
-                                    <span class="material-symbols-outlined text-sm">code</span>
-                                    <span>Development</span>
-                                </div>
-                                <h3 class="mb-2 text-lg font-bold text-slate-900 dark:text-white leading-tight group-hover:text-primary transition-colors" style="color: #0f172a;">Advanced React Patterns</h3>
-                                <div class="mt-auto flex items-center justify-between border-t border-slate-100 pt-3 dark:border-slate-700">
-                                    <div class="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
-                                        <span class="material-symbols-outlined text-base">group</span>
-                                        <span>45 Students</span>
-                                    </div>
-                                    <div class="flex items-center gap-1">
-                                        <span class="material-symbols-outlined text-yellow-400 text-sm fill-1" style="font-variation-settings: 'FILL' 1">star</span>
-                                        <span class="text-xs font-bold text-slate-700 dark:text-slate-200">5.0</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="group flex flex-col overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300">
-                            <div class="relative aspect-video w-full overflow-hidden bg-slate-200">
-                                <img alt="Graphic Design Tools" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9b2DxHpCS4xxrNeiZhzX108ugppxNb-uEEeMGKSRJHo_J699Y1KQADjh_wztfCPB27wdQ3_hLHBdN9ISRNSJNj9BrFdXJ8oWCw0Nrd9nA_CnnqavRV-kiqhs73ytt_QROoF_YTkUJb3rN08qW91RWl8GVhwEtMvFJ90A4DNgW_jpP6h6Z4-VgTDM7sNrjTY234fZosumu5qvN44l9wRbydAiOciBDjuTAwOgfQxrg3qemVNs-qDsYRkqK8-l3sqlifkdEv3FxzmPH">
-                                <div class="absolute right-3 top-3 rounded-md bg-white/90 px-2 py-1 text-xs font-bold uppercase tracking-wider text-slate-900 backdrop-blur-sm dark:bg-black/80 dark:text-white">
-                                    Popular
-                                </div>
-                            </div>
-                            <div class="flex flex-1 flex-col p-4">
-                                <div class="mb-2 flex items-center gap-2 text-xs font-medium text-primary">
-                                    <span class="material-symbols-outlined text-sm">palette</span>
-                                    <span>Design</span>
-                                </div>
-                                <h3 class="mb-2 text-lg font-bold text-slate-900 dark:text-white leading-tight group-hover:text-primary transition-colors" style="color: #0f172a;">Graphic Design Masterclass</h3>
-                                <div class="mt-auto flex items-center justify-between border-t border-slate-100 pt-3 dark:border-slate-700">
-                                    <div class="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
-                                        <span class="material-symbols-outlined text-base">group</span>
-                                        <span>110 Students</span>
-                                    </div>
-                                    <div class="flex items-center gap-1">
-                                        <span class="material-symbols-outlined text-yellow-400 text-sm fill-1" style="font-variation-settings: 'FILL' 1">star</span>
-                                        <span class="text-xs font-bold text-slate-700 dark:text-slate-200">4.6</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="group flex flex-col overflow-hidden rounded-xl bg-surface-light dark:bg-surface-dark shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300 opacity-75">
-                            <div class="relative aspect-video w-full overflow-hidden bg-slate-200">
-                                <img alt="Data Analytics" class="h-full w-full object-cover grayscale transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvEIVS_0zJ46bbDQOviNhx4fS6jV03_Z_iZiFyqt3Ci660m3Nulv3OgRoz08Tgl3X7wVU05BmazhCgoq7X2j9fUwt2RE85c-ZPsw7jWIsRWKCm_yPJF0zn4-ydjllbP0E7fH7yvJudFPURM52TQkGyD8HvdMS_rNtH2cJ8rfTx4igMVXRRXwrBMo1pGx5dkjaz_HlBHYfAse0jXvy6_cfdRoqaFRHytZKSXE6wC3EYmGIXOrB2fcA7oSEMleTb58NVzx2KaparPdE_">
-                                <div class="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[1px]">
-                                    <span class="rounded-full bg-slate-900 px-3 py-1 text-xs font-bold text-white">Draft</span>
-                                </div>
-                            </div>
-                            <div class="flex flex-1 flex-col p-4">
-                                <div class="mb-2 flex items-center gap-2 text-xs font-medium text-primary">
-                                    <span class="material-symbols-outlined text-sm">bar_chart</span>
-                                    <span>Data</span>
-                                </div>
-                                <h3 class="mb-2 text-lg font-bold text-slate-900 dark:text-white leading-tight group-hover:text-primary transition-colors" style="color: #0f172a;">Data Visualization with D3</h3>
-                                <div class="mt-auto flex items-center justify-between border-t border-slate-100 pt-3 dark:border-slate-700">
-                                    <div class="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
-                                        <span class="material-symbols-outlined text-base">group</span>
-                                        <span>0 Students</span>
-                                    </div>
-                                    <div class="flex items-center gap-1">
-                                        <span class="material-symbols-outlined text-slate-300 text-sm fill-1">star</span>
-                                        <span class="text-xs font-bold text-slate-400">--</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="group flex flex-col items-center justify-center overflow-hidden rounded-xl border-2 border-dashed border-slate-300 bg-transparent p-6 hover:border-primary hover:bg-primary/5 dark:border-slate-700 dark:hover:border-primary transition-all duration-300 min-h-[300px]" type="button" data-open-course-modal>
-                            <div class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 text-slate-400 group-hover:bg-primary group-hover:text-white dark:bg-slate-800 dark:text-slate-500 transition-colors">
-                                <span class="material-symbols-outlined text-3xl">add</span>
-                            </div>
-                            <span class="text-sm font-bold text-slate-900 group-hover:text-primary dark:text-white transition-colors">Create New Course</span>
-                            <span class="mt-2 text-center text-xs text-slate-500 dark:text-slate-400">Add a new course to the catalog</span>
-                        </button>
-                    </div>
-                    <div class="mt-12 flex items-center justify-center pb-12">
-                        <nav aria-label="Pagination" class="flex items-center gap-2">
-                            <a class="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-900 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white transition-colors" href="#">
-                                <span class="material-symbols-outlined text-lg">chevron_left</span>
-                            </a>
-                            <a aria-current="page" class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-sm font-bold text-white shadow-sm hover:bg-primary/90 transition-colors" href="#">1</a>
-                            <a class="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white transition-colors" href="#">2</a>
-                            <a class="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white transition-colors" href="#">3</a>
-                            <span class="flex h-10 w-10 items-center justify-center text-slate-400">...</span>
-                            <a class="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white transition-colors" href="#">12</a>
-                            <a class="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-900 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white transition-colors" href="#">
-                                <span class="material-symbols-outlined text-lg">chevron_right</span>
-                            </a>
-                        </nav>
                     </div>
                 </div>
             </div>
-        </main>
+
+            <!-- Stats Overview -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="stats-card p-6 rounded-2xl text-center text-white">
+                    <div class="text-3xl font-bold mb-2">124</div>
+                    <div class="text-sm opacity-90">Total Courses</div>
+                </div>
+                <div class="bg-gradient-to-br from-emerald-500 to-teal-600 p-6 rounded-2xl text-center text-white">
+                    <div class="text-3xl font-bold mb-2">38</div>
+                    <div class="text-sm opacity-90">Active Instructors</div>
+                </div>
+                <div class="bg-gradient-to-br from-orange-500 to-red-500 p-6 rounded-2xl text-center text-white">
+                    <div class="text-3xl font-bold mb-2">2,847</div>
+                    <div class="text-sm opacity-90">Total Students</div>
+                </div>
+                <div class="bg-gradient-to-br from-purple-500 to-pink-500 p-6 rounded-2xl text-center text-white">
+                    <div class="text-3xl font-bold mb-2">4.8</div>
+                    <div class="text-sm opacity-90">Avg Rating</div>
+                </div>
+            </div>
+
+            <!-- Course Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Course Card 1 -->
+                <div class="course-card rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=250&fit=crop" 
+                             alt="Python Course" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="category-badge">Development</span>
+                        </div>
+                        <div class="absolute top-4 right-4 bg-white/90 dark:bg-slate-800/90 px-2 py-1 rounded-lg">
+                            <span class="text-xs font-semibold text-green-600">Active</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-slate-900 dark:text-white">Python for Data Science</h3>
+                        <p class="text-slate-600 dark:text-slate-300 text-sm mb-4">Master Python programming and data analysis with hands-on projects.</p>
+                        
+                        <div class="flex items-center gap-3 mb-4">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face" 
+                                 alt="Instructor" class="instructor-avatar">
+                            <div>
+                                <div class="text-sm font-semibold text-slate-900 dark:text-white">Dr. Sarah Johnson</div>
+                                <div class="text-xs text-slate-500">Data Scientist</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-1">
+                                <div class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="text-sm font-semibold ml-1 text-slate-700 dark:text-slate-300">4.9</span>
+                            </div>
+                            <div class="text-sm text-slate-500">
+                                <i class="fas fa-users mr-1"></i>
+                                234 students
+                            </div>
+                        </div>
+                        
+                        <div class="pt-4 border-t border-slate-200 dark:border-slate-600">
+                            <div class="flex justify-between items-center">
+                                <span class="text-2xl font-bold text-primary">$89</span>
+                                <button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-semibold transition-all">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course Card 2 -->
+                <div class="course-card rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1561736778-92e52a7769ef?w=400&h=250&fit=crop" 
+                             alt="UX Design Course" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="category-badge" style="background: linear-gradient(135deg, #f59e0b, #d97706);">Design</span>
+                        </div>
+                        <div class="absolute top-4 right-4 bg-white/90 dark:bg-slate-800/90 px-2 py-1 rounded-lg">
+                            <span class="text-xs font-semibold text-blue-600">New</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-slate-900 dark:text-white">UX Design Fundamentals</h3>
+                        <p class="text-slate-600 dark:text-slate-300 text-sm mb-4">Learn user experience design principles and create amazing interfaces.</p>
+                        
+                        <div class="flex items-center gap-3 mb-4">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=32&h=32&fit=crop&crop=face" 
+                                 alt="Instructor" class="instructor-avatar">
+                            <div>
+                                <div class="text-sm font-semibold text-slate-900 dark:text-white">Emily Chen</div>
+                                <div class="text-xs text-slate-500">UX Designer</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-1">
+                                <div class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="text-sm font-semibold ml-1 text-slate-700 dark:text-slate-300">4.8</span>
+                            </div>
+                            <div class="text-sm text-slate-500">
+                                <i class="fas fa-users mr-1"></i>
+                                156 students
+                            </div>
+                        </div>
+                        
+                        <div class="pt-4 border-t border-slate-200 dark:border-slate-600">
+                            <div class="flex justify-between items-center">
+                                <span class="text-2xl font-bold text-primary">$129</span>
+                                <button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-semibold transition-all">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course Card 3 -->
+                <div class="course-card rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop" 
+                             alt="Digital Marketing Course" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="category-badge" style="background: linear-gradient(135deg, #10b981, #059669);">Marketing</span>
+                        </div>
+                        <div class="absolute top-4 right-4 bg-white/90 dark:bg-slate-800/90 px-2 py-1 rounded-lg">
+                            <span class="text-xs font-semibold text-purple-600">Popular</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-slate-900 dark:text-white">Digital Marketing Mastery</h3>
+                        <p class="text-slate-600 dark:text-slate-300 text-sm mb-4">Complete guide to digital marketing strategies and tools.</p>
+                        
+                        <div class="flex items-center gap-3 mb-4">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face" 
+                                 alt="Instructor" class="instructor-avatar">
+                            <div>
+                                <div class="text-sm font-semibold text-slate-900 dark:text-white">Michael Rodriguez</div>
+                                <div class="text-xs text-slate-500">Marketing Expert</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-1">
+                                <div class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <span class="text-sm font-semibold ml-1 text-slate-700 dark:text-slate-300">4.7</span>
+                            </div>
+                            <div class="text-sm text-slate-500">
+                                <i class="fas fa-users mr-1"></i>
+                                389 students
+                            </div>
+                        </div>
+                        
+                        <div class="pt-4 border-t border-slate-200 dark:border-slate-600">
+                            <div class="flex justify-between items-center">
+                                <span class="text-2xl font-bold text-primary">$99</span>
+                                <button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-semibold transition-all">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course Card 4 -->
+                <div class="course-card rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop" 
+                             alt="Data Analytics Course" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="category-badge" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">Data Science</span>
+                        </div>
+                        <div class="absolute top-4 right-4 bg-white/90 dark:bg-slate-800/90 px-2 py-1 rounded-lg">
+                            <span class="text-xs font-semibold text-green-600">Active</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-slate-900 dark:text-white">Data Analytics Bootcamp</h3>
+                        <p class="text-slate-600 dark:text-slate-300 text-sm mb-4">Transform raw data into actionable business insights.</p>
+                        
+                        <div class="flex items-center gap-3 mb-4">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=32&h=32&fit=crop&crop=face" 
+                                 alt="Instructor" class="instructor-avatar">
+                            <div>
+                                <div class="text-sm font-semibold text-slate-900 dark:text-white">Dr. Lisa Wang</div>
+                                <div class="text-xs text-slate-500">Data Analyst</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-1">
+                                <div class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="text-sm font-semibold ml-1 text-slate-700 dark:text-slate-300">5.0</span>
+                            </div>
+                            <div class="text-sm text-slate-500">
+                                <i class="fas fa-users mr-1"></i>
+                                178 students
+                            </div>
+                        </div>
+                        
+                        <div class="pt-4 border-t border-slate-200 dark:border-slate-600">
+                            <div class="flex justify-between items-center">
+                                <span class="text-2xl font-bold text-primary">$149</span>
+                                <button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-semibold transition-all">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course Card 5 -->
+                <div class="course-card rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?w=400&h=250&fit=crop" 
+                             alt="React Course" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="category-badge">Development</span>
+                        </div>
+                        <div class="absolute top-4 right-4 bg-white/90 dark:bg-slate-800/90 px-2 py-1 rounded-lg">
+                            <span class="text-xs font-semibold text-green-600">Active</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-slate-900 dark:text-white">Advanced React Patterns</h3>
+                        <p class="text-slate-600 dark:text-slate-300 text-sm mb-4">Master advanced React concepts and build scalable applications.</p>
+                        
+                        <div class="flex items-center gap-3 mb-4">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=32&h=32&fit=crop&crop=face" 
+                                 alt="Instructor" class="instructor-avatar">
+                            <div>
+                                <div class="text-sm font-semibold text-slate-900 dark:text-white">Alex Thompson</div>
+                                <div class="text-xs text-slate-500">React Expert</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-1">
+                                <div class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="text-sm font-semibold ml-1 text-slate-700 dark:text-slate-300">4.9</span>
+                            </div>
+                            <div class="text-sm text-slate-500">
+                                <i class="fas fa-users mr-1"></i>
+                                92 students
+                            </div>
+                        </div>
+                        
+                        <div class="pt-4 border-t border-slate-200 dark:border-slate-600">
+                            <div class="flex justify-between items-center">
+                                <span class="text-2xl font-bold text-primary">$179</span>
+                                <button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-semibold transition-all">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course Card 6 -->
+                <div class="course-card rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?w=400&h=250&fit=crop" 
+                             alt="Business Strategy Course" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="category-badge" style="background: linear-gradient(135deg, #ef4444, #dc2626);">Business</span>
+                        </div>
+                        <div class="absolute top-4 right-4 bg-white/90 dark:bg-slate-800/90 px-2 py-1 rounded-lg">
+                            <span class="text-xs font-semibold text-orange-600">Featured</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-slate-900 dark:text-white">Business Strategy Essentials</h3>
+                        <p class="text-slate-600 dark:text-slate-300 text-sm mb-4">Learn strategic thinking and business planning fundamentals.</p>
+                        
+                        <div class="flex items-center gap-3 mb-4">
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=32&h=32&fit=crop&crop=face" 
+                                 alt="Instructor" class="instructor-avatar">
+                            <div>
+                                <div class="text-sm font-semibold text-slate-900 dark:text-white">Prof. David Kim</div>
+                                <div class="text-xs text-slate-500">Business Consultant</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-1">
+                                <div class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <span class="text-sm font-semibold ml-1 text-slate-700 dark:text-slate-300">4.6</span>
+                            </div>
+                            <div class="text-sm text-slate-500">
+                                <i class="fas fa-users mr-1"></i>
+                                267 students
+                            </div>
+                        </div>
+                        
+                        <div class="pt-4 border-t border-slate-200 dark:border-slate-600">
+                            <div class="flex justify-between items-center">
+                                <span class="text-2xl font-bold text-primary">$119</span>
+                                <button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-semibold transition-all">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course Card 7 -->
+                <div class="course-card rounded-2xl overflow-hidden shadow-sm opacity-75 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=250&fit=crop" 
+                             alt="Machine Learning Course" class="w-full h-48 object-cover grayscale">
+                        <div class="absolute top-4 left-4">
+                            <span class="category-badge" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">Data Science</span>
+                        </div>
+                        <div class="absolute top-4 right-4 bg-white/90 dark:bg-slate-800/90 px-2 py-1 rounded-lg">
+                            <span class="text-xs font-semibold text-gray-600">Draft</span>
+                        </div>
+                        <div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+                            <span class="bg-white/90 dark:bg-slate-800/90 px-4 py-2 rounded-lg font-semibold text-sm">Coming Soon</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-slate-900 dark:text-white">Machine Learning Fundamentals</h3>
+                        <p class="text-slate-600 dark:text-slate-300 text-sm mb-4">Introduction to ML algorithms and practical applications.</p>
+                        
+                        <div class="flex items-center gap-3 mb-4">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face" 
+                                 alt="Instructor" class="instructor-avatar grayscale">
+                            <div>
+                                <div class="text-sm font-semibold text-slate-900 dark:text-white">Dr. Sarah Johnson</div>
+                                <div class="text-xs text-slate-500">ML Engineer</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-1">
+                                <div class="text-slate-400">
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <span class="text-sm font-semibold ml-1 text-slate-400">N/A</span>
+                            </div>
+                            <div class="text-sm text-slate-500">
+                                <i class="fas fa-users mr-1"></i>
+                                0 students
+                            </div>
+                        </div>
+                        
+                        <div class="pt-4 border-t border-slate-200 dark:border-slate-600">
+                            <div class="flex justify-between items-center">
+                                <span class="text-2xl font-bold text-slate-400">TBD</span>
+                                <button class="bg-slate-300 text-slate-500 px-4 py-2 rounded-lg font-semibold cursor-not-allowed">
+                                    Coming Soon
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course Card 8 -->
+                <div class="course-card rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=400&h=250&fit=crop" 
+                             alt="Graphic Design Course" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="category-badge" style="background: linear-gradient(135deg, #f59e0b, #d97706);">Design</span>
+                        </div>
+                        <div class="absolute top-4 right-4 bg-white/90 dark:bg-slate-800/90 px-2 py-1 rounded-lg">
+                            <span class="text-xs font-semibold text-green-600">Active</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-slate-900 dark:text-white">Graphic Design Masterclass</h3>
+                        <p class="text-slate-600 dark:text-slate-300 text-sm mb-4">Create stunning visual designs using industry-standard tools.</p>
+                        
+                        <div class="flex items-center gap-3 mb-4">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=32&h=32&fit=crop&crop=face" 
+                                 alt="Instructor" class="instructor-avatar">
+                            <div>
+                                <div class="text-sm font-semibold text-slate-900 dark:text-white">Emily Chen</div>
+                                <div class="text-xs text-slate-500">Graphic Designer</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-1">
+                                <div class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="text-sm font-semibold ml-1 text-slate-700 dark:text-slate-300">4.8</span>
+                            </div>
+                            <div class="text-sm text-slate-500">
+                                <i class="fas fa-users mr-1"></i>
+                                145 students
+                            </div>
+                        </div>
+                        
+                        <div class="pt-4 border-t border-slate-200 dark:border-slate-600">
+                            <div class="flex justify-between items-center">
+                                <span class="text-2xl font-bold text-primary">$109</span>
+                                <button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-semibold transition-all">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Load More Button -->
+            <div class="text-center mt-8">
+                <button class="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 px-8 py-3 rounded-xl font-semibold transition-all duration-300">
+                    Load More Courses
+                </button>
+            </div>
+        </div>
     </main>
+
+    <!-- Course Creation Modal -->
+    <div id="courseModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-overlay">
+        <div class="bg-surface-light dark:bg-surface-dark w-full max-w-2xl rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden modal-content">
+            <!-- Header -->
+            <div class="px-8 py-6 border-b border-slate-200 dark:border-slate-800 bg-gradient-to-r from-primary/5 to-primary/10">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                            <i class="fa-solid fa-graduation-cap text-primary text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Create New Course</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Build an engaging learning experience</p>
+                        </div>
+                    </div>
+                    <button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg" type="button" data-close-course-modal>
+                        <i class="fa-solid fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Form Content -->
+            <form class="p-8 flex flex-col gap-6 modal-form-content max-h-[70vh] overflow-y-auto">
+                <!-- Course Title -->
+                <div class="flex flex-col gap-2">
+                    <label class="form-label text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2" for="course-title">
+                        <i class="fa-solid fa-book text-primary"></i>
+                        Course Title
+                    </label>
+                    <input class="form-input w-full px-4 py-3 rounded-lg text-sm" id="course-title" placeholder="e.g. Advanced React Development Masterclass" type="text">
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Choose a clear, descriptive title that attracts students</p>
+                </div>
+
+                <!-- Course Subtitle -->
+                <div class="flex flex-col gap-2">
+                    <label class="form-label text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2" for="course-subtitle">
+                        <i class="fa-solid fa-heading text-primary"></i>
+                        Course Subtitle
+                    </label>
+                    <input class="form-input w-full px-4 py-3 rounded-lg text-sm" id="course-subtitle" placeholder="e.g. Build modern web applications with hooks, context, and advanced patterns" type="text">
+                </div>
+
+                <!-- Category and Level -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="flex flex-col gap-2">
+                        <label class="form-label text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2" for="course-category">
+                            <i class="fa-solid fa-tags text-primary"></i>
+                            Category
+                        </label>
+                        <select class="form-select w-full px-4 py-3 rounded-lg text-sm" id="course-category">
+                            <option value="">Select Category</option>
+                            <option value="development">💻 Development</option>
+                            <option value="design">🎨 Design</option>
+                            <option value="marketing">📈 Marketing</option>
+                            <option value="business">💼 Business</option>
+                            <option value="data-science">📊 Data Science</option>
+                            <option value="photography">📸 Photography</option>
+                            <option value="music">🎵 Music</option>
+                            <option value="language">🌍 Language</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="form-label text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2" for="course-level">
+                            <i class="fa-solid fa-signal text-primary"></i>
+                            Difficulty Level
+                        </label>
+                        <select class="form-select w-full px-4 py-3 rounded-lg text-sm" id="course-level">
+                            <option value="">Select Level</option>
+                            <option value="beginner">🟢 Beginner</option>
+                            <option value="intermediate">🟡 Intermediate</option>
+                            <option value="advanced">🔴 Advanced</option>
+                            <option value="expert">⚫ Expert</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Instructor and Duration -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="flex flex-col gap-2">
+                        <label class="form-label text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2" for="course-instructor">
+                            <i class="fa-solid fa-chalkboard-user text-primary"></i>
+                            Lead Instructor
+                        </label>
+                        <input class="form-input w-full px-4 py-3 rounded-lg text-sm" id="course-instructor" placeholder="e.g. Dr. Sarah Johnson" type="text">
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="form-label text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2" for="course-duration">
+                            <i class="fa-solid fa-clock text-primary"></i>
+                            Duration (Hours)
+                        </label>
+                        <input class="form-input w-full px-4 py-3 rounded-lg text-sm" id="course-duration" placeholder="e.g. 40" type="number" min="1" max="500">
+                    </div>
+                </div>
+
+                <!-- Price and Language -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="flex flex-col gap-2">
+                        <label class="form-label text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2" for="course-price">
+                            <i class="fa-solid fa-dollar-sign text-primary"></i>
+                            Course Price
+                        </label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">$</span>
+                            <input class="form-input w-full pl-8 pr-4 py-3 rounded-lg text-sm" id="course-price" placeholder="99.00" type="number" min="0" step="0.01">
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="form-label text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2" for="course-language">
+                            <i class="fa-solid fa-language text-primary"></i>
+                            Language
+                        </label>
+                        <select class="form-select w-full px-4 py-3 rounded-lg text-sm" id="course-language">
+                            <option value="english">🇺🇸 English</option>
+                            <option value="spanish">🇪🇸 Spanish</option>
+                            <option value="french">🇫🇷 French</option>
+                            <option value="german">🇩🇪 German</option>
+                            <option value="chinese">🇨🇳 Chinese</option>
+                            <option value="japanese">🇯🇵 Japanese</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Course Description -->
+                <div class="flex flex-col gap-2">
+                    <label class="form-label text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2" for="course-description">
+                        <i class="fa-solid fa-align-left text-primary"></i>
+                        Course Description
+                    </label>
+                    <textarea class="form-textarea w-full px-4 py-3 rounded-lg text-sm resize-vertical" id="course-description" placeholder="Provide a comprehensive description of what students will learn, the skills they'll gain, and how this course will benefit their career..." rows="4"></textarea>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Minimum 100 characters recommended</p>
+                </div>
+
+                <!-- Learning Objectives -->
+                <div class="flex flex-col gap-2">
+                    <label class="form-label text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2" for="course-objectives">
+                        <i class="fa-solid fa-bullseye text-primary"></i>
+                        Learning Objectives
+                    </label>
+                    <textarea class="form-textarea w-full px-4 py-3 rounded-lg text-sm resize-vertical" id="course-objectives" placeholder="• Master advanced React concepts and patterns&#10;• Build scalable web applications&#10;• Implement state management solutions&#10;• Deploy production-ready applications" rows="4"></textarea>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">List key skills and knowledge students will gain</p>
+                </div>
+
+                <!-- Prerequisites -->
+                <div class="flex flex-col gap-2">
+                    <label class="form-label text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2" for="course-prerequisites">
+                        <i class="fa-solid fa-list-check text-primary"></i>
+                        Prerequisites (Optional)
+                    </label>
+                    <input class="form-input w-full px-4 py-3 rounded-lg text-sm" id="course-prerequisites" placeholder="e.g. Basic JavaScript knowledge, HTML/CSS fundamentals" type="text">
+                </div>
+
+                <!-- Course Thumbnail -->
+                <div class="flex flex-col gap-2">
+                    <label class="form-label text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2" for="course-thumbnail">
+                        <i class="fa-solid fa-image text-primary"></i>
+                        Course Thumbnail
+                    </label>
+                    <input class="w-full px-4 py-3 rounded-lg text-sm file:mr-4 file:rounded-md file:border-0 file:bg-primary/10 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-primary hover:file:bg-primary/20 transition-all" id="course-thumbnail" type="file" accept="image/*">
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Recommended: 1280x720px, JPG or PNG, max 5MB</p>
+                </div>
+            </form>
+
+            <!-- Footer -->
+            <div class="px-8 py-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-200 dark:border-slate-800 flex justify-between items-center">
+                <div class="text-sm text-slate-500 dark:text-slate-400">
+                    <i class="fa-solid fa-info-circle mr-1"></i>
+                    Course will be saved as draft
+                </div>
+                <div class="flex gap-3">
+                    <button class="btn-secondary px-6 py-3 text-sm font-medium transition-colors" type="button" data-close-course-modal>
+                        Cancel
+                    </button>
+                    <button class="btn-primary px-6 py-3 text-sm font-bold transition-colors shadow-sm flex items-center gap-2" type="button" id="createCourseSubmit">
+                        <i class="fa-solid fa-plus"></i>
+                        Create Course
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Store the courses content for navigation
+        const mainContent = document.getElementById('mainContent');
+        const coursesContent = mainContent ? mainContent.innerHTML : '';
+
+        // Theme toggle functionality
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                const themeIcon = document.getElementById('themeIcon');
+                const themeLabel = document.getElementById('themeLabel');
+                if (themeIcon) themeIcon.className = 'fa-solid fa-sun icon';
+                if (themeLabel) themeLabel.textContent = 'Light Mode';
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                const themeIcon = document.getElementById('themeIcon');
+                const themeLabel = document.getElementById('themeLabel');
+                if (themeIcon) themeIcon.className = 'fa-regular fa-moon icon';
+                if (themeLabel) themeLabel.textContent = 'Dark Mode';
+            }
+        }
+
+        // Initialize theme - force dark mode
+        setTheme('dark');
+
+        // Theme toggle event - disabled for now
+        if (themeToggle) {
+            themeToggle.style.opacity = '0.5';
+            themeToggle.style.cursor = 'not-allowed';
+            themeToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Light mode disabled - staying in dark mode
+            });
+        }
+
+        const menuToggle = document.getElementById('menuToggle');
+        const navbar = document.querySelector('.navbar');
+
+        if (menuToggle && navbar) {
+            menuToggle.addEventListener('click', () => {
+                navbar.classList.toggle('nav-open');
+            });
+        }
+
+        // Navigation handling
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                if (this.classList.contains('logout') || this.classList.contains('theme-toggle')) {
+                    return;
+                }
+
+                const href = this.getAttribute('href') || '';
+                const isUsersPage = href.indexOf('users.html') !== -1;
+                const isCoursesPage = href.indexOf('courses.html') !== -1;
+                const isExamsPage = href.indexOf('exams.html') !== -1;
+                const isReportsPage = href.indexOf('reports.html') !== -1;
+                const isNotificationsPage = href.indexOf('notifications.html') !== -1;
+                const isDashboard = href.indexOf('#dashboard') !== -1;
+
+                if (isUsersPage || isExamsPage || isReportsPage || isNotificationsPage || isDashboard) {
+                    e.preventDefault();
+                }
+
+                navItems.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+
+                if ((isUsersPage || isExamsPage || isReportsPage || isNotificationsPage) && mainContent) {
+                    const target = isUsersPage
+                        ? 'users.html'
+                        : (isExamsPage ? 'exams.html' : (isReportsPage ? 'reports.html' : 'notifications.html'));
+                    
+                    if (target === 'notifications.html') {
+                        window.location.href = 'notifications.html';
+                        return;
+                    }
+                    
+                    fetch(target)
+                        .then(response => response.text())
+                        .then(html => {
+                            const doc = new DOMParser().parseFromString(html, 'text/html');
+                            const incoming = doc.querySelector('.main-content');
+                            if (incoming) {
+                                mainContent.innerHTML = incoming.innerHTML;
+                            }
+                        })
+                        .catch(() => {});
+                } else if (isDashboard) {
+                    window.location.href = 'admin.html';
+                }
+
+                if (navbar) {
+                    navbar.classList.remove('nav-open');
+                }
+            });
+        });
+
+        // Profile dropdown toggle
+        const profileToggle = document.getElementById('profileToggle');
+        const profileDropdown = document.getElementById('profileDropdown');
+        
+        if (profileToggle && profileDropdown) {
+            profileToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                profileDropdown.classList.toggle('show');
+            });
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (profileToggle && profileDropdown && !profileToggle.contains(e.target) && !profileDropdown.contains(e.target)) {
+                profileDropdown.classList.remove('show');
+            }
+        });
+
+        // Filter functionality
+        document.querySelectorAll('.filter-chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Create Course button functionality - replaced with modal
+        const courseModal = document.getElementById('courseModal');
+        
+        const openCourseModal = () => {
+            if (!courseModal) return;
+            courseModal.classList.remove('hidden');
+            courseModal.classList.add('flex');
+        };
+
+        const closeCourseModal = () => {
+            if (!courseModal) return;
+            courseModal.classList.add('hidden');
+            courseModal.classList.remove('flex');
+        };
+
+        // Course form submission
+        document.getElementById('createCourseSubmit').addEventListener('click', function() {
+            const title = document.getElementById('course-title').value;
+            const subtitle = document.getElementById('course-subtitle').value;
+            const category = document.getElementById('course-category').value;
+            const level = document.getElementById('course-level').value;
+            const instructor = document.getElementById('course-instructor').value;
+            const duration = document.getElementById('course-duration').value;
+            const price = document.getElementById('course-price').value;
+            const language = document.getElementById('course-language').value;
+            const description = document.getElementById('course-description').value;
+            
+            if (!title || !category || !level || !instructor || !description) {
+                alert('Please fill in all required fields (Title, Category, Level, Instructor, and Description).');
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = this;
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Course...';
+            submitBtn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                alert(`Course Created Successfully!\n\nTitle: ${title}\nCategory: ${category}\nLevel: ${level}\nInstructor: ${instructor}\nPrice: $${price || 'Free'}\nDuration: ${duration || 'TBD'} hours\n\nThe course has been saved as a draft and can be published after adding content.`);
+                
+                // Reset form and close modal
+                document.querySelector('#courseModal form').reset();
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                closeCourseModal();
+            }, 1500);
+        });
+
+        // Search functionality
+        document.querySelector('.search-bar').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            console.log('Searching for:', searchTerm);
+        });
+
+        // Modal event handlers
+        document.addEventListener('click', function(event) {
+            // Open course modal
+            const openCourseTrigger = event.target.closest('[data-open-course-modal]');
+            if (openCourseTrigger) {
+                event.preventDefault();
+                openCourseModal();
+                return;
+            }
+
+            // Close course modal
+            const closeCourseTrigger = event.target.closest('[data-close-course-modal]');
+            if (closeCourseTrigger) {
+                event.preventDefault();
+                closeCourseModal();
+                return;
+            }
+        });
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
+            if (courseModal && event.target === courseModal) {
+                closeCourseModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeCourseModal();
+            }
+        });
+    </script>
 </body>
 </html>
